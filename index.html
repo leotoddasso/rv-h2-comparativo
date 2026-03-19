@@ -185,17 +185,34 @@ async function saveAll(manual){
     if(!manual)setTimeout(()=>{el.style.opacity='0';},2500);}
 }
 async function loadAll(){
-  try{
-    const row=await supaGet();
-    if(row&&row.data&&row.data.employees&&row.data.employees.length>0){
-      const d=row.data;
-      if(d.fin)S.fin=d.fin;if(d.ating)S.ating=d.ating;
-      if(d.ant)S.ant=d.ant;if(d.atu)S.atu=d.atu;
-      if(d.employees)S.employees=d.employees;
-      const el=document.getElementById('smsg');
-      if(el&&row.updated_at){el.textContent='✓ Recuperado: '+new Date(row.updated_at).toLocaleString('pt-BR');
-        el.style.color='#4ade80';el.style.opacity='1';setTimeout(()=>{el.style.opacity='0';},4000);}
-      return true;}}catch(e){console.warn(e);}return false;
+try{
+// Busca employees e multCfg do rv-h2 principal (id='main')
+const rMain=await fetch(SU+'/rest/v1/rv_state?id=eq.main&select=data',
+  {headers:{'apikey':SK,'Authorization':'Bearer '+SK}});
+const rowsMain=await rMain.json();
+if(rowsMain&&rowsMain.length&&rowsMain[0].data){
+  const dm=rowsMain[0].data;
+  if(dm.employees&&dm.employees.length>0)S.employees=dm.employees;
+  if(dm.multCfg)S.atu.mult=dm.multCfg;
+  if(dm.cfg){
+    const buList=Object.keys(dm.cfg);
+    buList.forEach(bu=>{
+      if(!S.atu.mult[bu])S.atu.mult[bu]={};
+    });
+  }
+}
+// Busca config própria do comparativo (ating, ant, fin)
+const row=await supaGet();
+if(row&&row.data){
+const d=row.data;
+if(d.fin)S.fin=d.fin;if(d.ating)S.ating=d.ating;
+if(d.ant)S.ant=d.ant;if(d.atu&&d.atu.piso)S.atu.piso=d.atu.piso;
+if(d.atu&&d.atu.teto)S.atu.teto=d.atu.teto;
+const el=document.getElementById('smsg');
+if(el){el.textContent='✓ Dados carregados';
+el.style.color='#4ade80';el.style.opacity='1';setTimeout(()=>{el.style.opacity='0';},4000);}
+}
+return true;}catch(e){console.warn('loadAll err:',e);}return false;
 }
 setInterval(()=>saveAll(false),60000);
 
