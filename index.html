@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><title>RV H2 — Comparativo de Modelos</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<html lang="pt-BR"><head><meta charset="UTF-8"><title>RV H2 — Comparativo</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',-apple-system,sans-serif;background:#f5f5f0;color:#1a1a1a;font-size:13px}
+body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background:#f5f5f0;color:#1a1a1a;font-size:13px}
 input,select,button{font-family:inherit;font-size:inherit}
-.app{display:flex;flex-direction:column;min-height:100vh}
 .hdr{background:#1a1a1a;color:#f5f5f0;padding:13px 24px;display:flex;align-items:center}
 .hdr h1{font-size:13px;font-weight:700}
 .tabs{background:#fff;border-bottom:1px solid #e5e5e0;padding:0 20px;display:flex;overflow-x:auto}
@@ -21,7 +19,7 @@ input,select,button{font-family:inherit;font-size:inherit}
 .ch{padding:11px 16px;border-bottom:1px solid #f0f0eb;display:flex;align-items:center;justify-content:space-between}
 .ct{font-size:12px;font-weight:600}.cb{padding:14px 16px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .kpi{background:#fff;border-radius:8px;border:1px solid #e5e5e0;padding:13px 14px}
@@ -38,9 +36,6 @@ input[type=text],input[type=number],select{border:1px solid #e5e5e0;border-radiu
 input[type=number]{text-align:right}
 input:focus,select:focus{outline:none;border-color:#7C3AED}
 input[type=checkbox]{width:auto;cursor:pointer}
-.btn{padding:6px 13px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;display:inline-flex;align-items:center;gap:4px}
-.btn-dk{background:#1a1a1a;color:#fff}.btn-ot{background:#fff;border:1px solid #e5e5e0;color:#444}
-.btn-sm{padding:4px 9px;font-size:11px}
 .sec{font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px}
 .tip{font-size:11px;color:#aaa;font-style:italic}
 .twrap{overflow-x:auto}.ptitle{font-size:15px;font-weight:700;letter-spacing:-.3px}
@@ -48,40 +43,30 @@ input[type=checkbox]{width:auto;cursor:pointer}
 .gap2{gap:8px}.gap3{gap:12px}
 .mt2{margin-top:8px}.mt3{margin-top:12px}.mb2{margin-bottom:8px}.mb3{margin-bottom:12px}.mb4{margin-bottom:18px}
 .cbox{position:relative;height:280px}
-.badge-ant{background:#ede9fe;color:#6D28D9;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
-.badge-atu{background:#dcfce7;color:#166534;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
-.hi{background:#faf5ff}
-.save-bar{margin-left:auto;display:flex;align-items:center;gap:10px}
-.save-msg{font-size:11px;color:#4ade80;opacity:0;transition:opacity .4s;white-space:nowrap}
+.smsg{font-size:11px;color:#4ade80;opacity:0;transition:opacity .4s;white-space:nowrap}
+.pill-f{background:#ede9fe;color:#6D28D9;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.pill-m{background:#f3f4f6;color:#6b7280;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.hi{background:#faf5ff!important}
 </style></head>
-<body><div class="app">
-<div class="hdr">
-  <div><h1>Comparativo de Modelos RV — Grupo H2 · 2026</h1></div>
-  <div class="save-bar">
-    <button class="btn btn-dk" onclick="(async()=>{await saveAll(true);})()" style="font-size:11px;padding:5px 12px;background:#4ade80;color:#1a1a1a">● Salvar</button>
-    <span class="save-msg" id="smsg"></span>
+<body><div class="hdr">
+  <h1>Comparativo de Modelos RV — Grupo H2 · 2026</h1>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+    <button onclick="saveAll(true)" style="padding:5px 12px;border-radius:6px;border:none;background:#4ade80;color:#1a1a1a;font-size:11px;font-weight:700;cursor:pointer">● Salvar</button>
+    <span class="smsg" id="smsg"></span>
     <span style="font-size:11px;opacity:.4" id="hinfo"></span>
   </div>
 </div>
 <div class="tabs" id="tabs"></div>
 <div class="pg" id="pg"></div>
-</div>
 <script>
 Chart.register(ChartDataLabels);
-const SUPA_URL='https://yalkxizeieqiuqekwzlr.supabase.co';
-const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhbGt4aXplaWVxaXVxZWt3emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NjY0MjIsImV4cCI6MjA4OTM0MjQyMn0.klPiWay1tme0v3DbsU6_mpWkwrYv_7hjeqYN3_26waw';
+const SU='https://yalkxizeieqiuqekwzlr.supabase.co';
+const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhbGt4aXplaWVxaXVxZWt3emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NjY0MjIsImV4cCI6MjA4OTM0MjQyMn0.klPiWay1tme0v3DbsU6_mpWkwrYv_7hjeqYN3_26waw';
 
-const BUS=['H2Bet','Live','SeuBet','Poker Online'];
-const CARGOS=['C-level','Head','Gerente','Especialista','Principal','Tech Lead','Coord','Baseline'];
-const CARGO_CLR={'C-level':'#059669','Head':'#2563EB','Gerente':'#EA580C','Especialista':'#EA580C','Principal':'#EA580C','Tech Lead':'#EA580C','Coord':'#9CA3AF','Baseline':'#6b7280'};
-const COR={'C-level':0,'Head':1,'Gerente':2,'Especialista':3,'Principal':4,'Tech Lead':5,'Coord':6,'Baseline':7};
-const TABS=[
-  {id:'cfg',lb:'⚙️ Configuração'},
-  {id:'ant',lb:'📋 Modelo Anterior',cl:'ant'},
-  {id:'atu',lb:'🟢 Modelo Atual',cl:'atu'},
-  {id:'cmp',lb:'⚖️ Comparação',cl:'cmp'},
-  {id:'sen',lb:'📈 Sensibilidade'},
-];
+const CG=['C-level','Head','Gerente','Especialista','Principal','Tech Lead','Coord','Baseline'];
+const COR_CG={'C-level':0,'Head':1,'Gerente':2,'Especialista':3,'Principal':4,'Tech Lead':5,'Coord':6,'Baseline':7};
+const CC={'C-level':'#059669','Head':'#2563EB','Gerente':'#EA580C','Especialista':'#EA580C','Principal':'#EA580C','Tech Lead':'#EA580C','Coord':'#9CA3AF','Baseline':'#6b7280'};
+const TABS=[{id:'cfg',l:'⚙️ Config'},{id:'ant',l:'📋 Modelo Anterior',c:'ant'},{id:'atu',l:'🟢 Modelo Atual',c:'atu'},{id:'cmp',l:'⚖️ Comparação',c:'cmp'},{id:'sen',l:'📈 Sensibilidade'}];
 const SENS=[50,60,70,80,90,100,110,120,130];
 
 const R=n=>'R$ '+Math.round(n).toLocaleString('pt-BR');
@@ -93,29 +78,23 @@ const gc='rgba(0,0,0,.05)';
 
 let S={
   tab:'cfg',
-  // Financeiros globais
   fin:{rec:962805000,lb:106000000},
-  // Atingimento — um por modelo para fins de comparação
   ating:{ant:100,atu:100},
-  // Modelo Anterior
   ant:{
-    gatilho:100, // % mínimo para liberar baseline
-    piso:80, teto:120,
-    // por cargo: baseline (mult de sal), variavel (mult de sal se elegível), elegivel_v
+    gatilho:100,piso:80,teto:120,
     params:{
-      'C-level':    {bl:4, v:8,  el:true},
-      'Head':       {bl:2, v:4,  el:true},
-      'Gerente':    {bl:1, v:2,  el:true},
-      'Especialista':{bl:1,v:2,  el:true},
-      'Principal':  {bl:1, v:1,  el:true},
-      'Tech Lead':  {bl:1, v:2,  el:true},
-      'Coord':      {bl:1, v:1,  el:false},
-      'Baseline':   {bl:1, v:0,  el:false},
+      'C-level':    {bl:4,v:8, el:true},
+      'Head':       {bl:2,v:4, el:true},
+      'Gerente':    {bl:1,v:2, el:true},
+      'Especialista':{bl:1,v:2,el:true},
+      'Principal':  {bl:1,v:1, el:true},
+      'Tech Lead':  {bl:1,v:2, el:true},
+      'Coord':      {bl:1,v:1, el:false},
+      'Baseline':   {bl:1,v:0, el:false}
     }
   },
-  // Modelo Atual — multiplicador por cargo (Fim/Meio), piso/teto por BU
   atu:{
-    piso:100, teto:120,
+    piso:100,teto:120,
     mult:{
       'C-level':    {F:8,M:8},
       'Head':       {F:5,M:4},
@@ -124,7 +103,7 @@ let S={
       'Principal':  {F:2,M:2},
       'Tech Lead':  {F:2,M:2},
       'Coord':      {F:2,M:1},
-      'Baseline':   {F:1,M:1},
+      'Baseline':   {F:1,M:1}
     }
   },
   employees:[
@@ -143,36 +122,36 @@ let S={
     {id:13,n:'Henrique Yamagutt dos Anjos',bu:'H2Bet',cg:'Head',ta:'Fim',sal:22000},
     {id:14,n:'Felipe Camara Mendina',bu:'H2Bet',cg:'Head',ta:'Fim',sal:22000},
     {id:15,n:'Vilmar Alves Toledo Junior',bu:'H2Bet',cg:'Head',ta:'Fim',sal:22000},
-    {id:16,n:'Rayssa Brazão',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:15000},
+    {id:16,n:'Rayssa Brazao',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:15000},
     {id:17,n:'Ana Paula Sanchez',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:13000},
     {id:18,n:'Diogo Breda',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:13000},
-    {id:19,n:'Luã Figueiredo',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:13000},
+    {id:19,n:'Lua Figueiredo',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:13000},
     {id:20,n:'Marcel Queiroz',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:13000},
-    {id:21,n:'Flávio Benedetti',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:13000},
+    {id:21,n:'Flavio Benedetti',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:13000},
     {id:22,n:'Adriano Mendes',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:10000},
     {id:23,n:'Ana Barros',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:10000},
     {id:24,n:'Danilo Lacerda',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:10000},
-    {id:25,n:'Estevão Moreno',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:10000},
+    {id:25,n:'Estevao Moreno',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:10000},
     {id:26,n:'Gabriel Delfino',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:10000},
     {id:27,n:'Rafael Santana',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:10000},
     {id:28,n:'Kadu Herrera',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
     {id:29,n:'Fernando Castellon',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
     {id:30,n:'Rafaela Perticarrari',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
     {id:31,n:'Raphael Burger',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
-    {id:32,n:'Rodrigo Gonçalves',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
+    {id:32,n:'Rodrigo Goncalves',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
     {id:33,n:'Diego Macedo',bu:'H2Bet',cg:'Especialista',ta:'Fim',sal:13000},
-    {id:34,n:'Diego Marino Malacarne',bu:'H2Bet',cg:'Especialista',ta:'Fim',sal:13000},
-    {id:35,n:'Isabela Rabello Martins Gallina',bu:'H2Bet',cg:'Especialista',ta:'Fim',sal:10000},
+    {id:34,n:'Diego Malacarne',bu:'H2Bet',cg:'Especialista',ta:'Fim',sal:13000},
+    {id:35,n:'Isabela Rabello',bu:'H2Bet',cg:'Especialista',ta:'Fim',sal:10000},
     {id:36,n:'Douglas de Siqueira Silva',bu:'H2Bet',cg:'Principal',ta:'Meio',sal:10000},
-    {id:37,n:'Felipe Ruiz Cavalcanti de Carvalho',bu:'H2Bet',cg:'Principal',ta:'Meio',sal:10000},
+    {id:37,n:'Felipe Ruiz',bu:'H2Bet',cg:'Principal',ta:'Meio',sal:10000},
     {id:38,n:'Renata Bassi',bu:'H2Bet',cg:'Principal',ta:'Meio',sal:9000},
-    {id:39,n:'Rodrigo dos Santos Cruz',bu:'H2Bet',cg:'Tech Lead',ta:'Meio',sal:10000},
+    {id:39,n:'Rodrigo Cruz',bu:'H2Bet',cg:'Tech Lead',ta:'Meio',sal:10000},
     {id:40,n:'Augusto Rabelo',bu:'H2Bet',cg:'Tech Lead',ta:'Fim',sal:9000},
     {id:41,n:'Daniel Nakagawa',bu:'H2Bet',cg:'Tech Lead',ta:'Meio',sal:9000},
-    {id:42,n:'Eric Magalhães',bu:'H2Bet',cg:'Tech Lead',ta:'Fim',sal:9000},
+    {id:42,n:'Eric Magalhaes',bu:'H2Bet',cg:'Tech Lead',ta:'Fim',sal:9000},
     {id:43,n:'Felipe Raimo',bu:'H2Bet',cg:'Tech Lead',ta:'Meio',sal:9000},
     {id:44,n:'Tamires Nascimento',bu:'H2Bet',cg:'Coord',ta:'Fim',sal:10000},
-    {id:45,n:'João Marcelo',bu:'Live',cg:'C-level',ta:'Fim',sal:45000},
+    {id:45,n:'Joao Marcelo',bu:'Live',cg:'C-level',ta:'Fim',sal:45000},
     {id:46,n:'Robinson Quiroga',bu:'Live',cg:'Head',ta:'Fim',sal:20000},
     {id:47,n:'Pedro Soares de Meirelles',bu:'Live',cg:'Head',ta:'Meio',sal:20000},
     {id:48,n:'Aldo Dias',bu:'Live',cg:'Gerente',ta:'Fim',sal:18000},
@@ -190,32 +169,32 @@ let S={
     {id:60,n:'Rafael Parreira Soares',bu:'SeuBet',cg:'Gerente',ta:'Meio',sal:13000},
     {id:61,n:'Silvio Cardoso',bu:'SeuBet',cg:'Gerente',ta:'Fim',sal:9000},
     {id:62,n:'Bruno Kawauti',bu:'Poker Online',cg:'Head',ta:'Fim',sal:20000},
-    {id:63,n:'Carolina Mendes Bueno Selmi',bu:'Poker Online',cg:'Coord',ta:'Meio',sal:9000},
+    {id:63,n:'Carolina Mendes',bu:'Poker Online',cg:'Coord',ta:'Meio',sal:9000},
     {id:64,n:'George Matoso',bu:'Poker Online',cg:'Coord',ta:'Meio',sal:7000},
-    {id:65,n:'Wagner Almeida',bu:'Poker Online',cg:'Tech Lead',ta:'Fim',sal:9000},
+    {id:65,n:'Wagner Almeida',bu:'Poker Online',cg:'Tech Lead',ta:'Fim',sal:9000}
   ]
 };
 
-// ——— SUPABASE ———
-async function supaSet(payload){
-  const r=await fetch(SUPA_URL+'/rest/v1/rv_comp',{method:'POST',
-    headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},
-    body:JSON.stringify({id:'main',data:JSON.parse(payload),updated_at:new Date().toISOString()})});
-  if(!r.ok)throw new Error(await r.text());
+// Supabase
+async function supaSet(d){
+  const r=await fetch(SU+'/rest/v1/rv_comp',{method:'POST',
+    headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},
+    body:JSON.stringify({id:'main',data:d,updated_at:new Date().toISOString()})});
+  if(!r.ok) throw new Error(await r.text());
 }
 async function supaGet(){
-  const r=await fetch(SUPA_URL+'/rest/v1/rv_comp?id=eq.main&select=data,updated_at',
-    {headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}});
+  const r=await fetch(SU+'/rest/v1/rv_comp?id=eq.main&select=data,updated_at',
+    {headers:{'apikey':SK,'Authorization':'Bearer '+SK}});
   const rows=await r.json();return rows&&rows.length?rows[0]:null;
 }
-function payload(){return JSON.stringify({v:1,ts:new Date().toISOString(),fin:S.fin,ating:S.ating,ant:S.ant,atu:S.atu,employees:S.employees});}
+function snap(){return {v:1,ts:new Date().toISOString(),fin:S.fin,ating:S.ating,ant:S.ant,atu:S.atu,employees:S.employees};}
 async function saveAll(manual){
-  if(!S.employees||S.employees.length===0)return;
+  if(!S.employees||!S.employees.length)return;
   let ok=false;
-  try{await supaSet(payload());ok=true;}catch(e){}
+  try{await supaSet(snap());ok=true;}catch(e){console.warn(e);}
   const el=document.getElementById('smsg');
   if(el){
-    el.textContent=ok?'✓ Salvo às '+new Date().toLocaleTimeString('pt-BR'):'⚠ Erro ao salvar';
+    el.textContent=ok?'✓ Salvo '+new Date().toLocaleTimeString('pt-BR'):'⚠ Erro';
     el.style.color=ok?'#4ade80':'#f87171';
     el.style.opacity='1';
     if(!manual)setTimeout(()=>{el.style.opacity='0';},2500);
@@ -237,110 +216,49 @@ async function loadAll(){
       }
       return true;
     }
-  }catch(e){}return false;
+  }catch(e){console.warn(e);}
+  return false;
 }
 setInterval(()=>saveAll(false),60000);
 
-// ——— CALCS ———
+// Calcs
+function cgLbl(cg){return '<span style="color:'+CC[cg]+';font-weight:600">'+cg+'</span>';}
+function fatorProp(at,piso,teto){
+  if(at<piso)return 0;
+  if(teto===piso)return 1;
+  return Math.min((at-piso)/(teto-piso),1);
+}
 function bonAnt(e,at){
-  const p=S.ant,par=p.params[e.cg]||{bl:1,v:0,el:false};
-  let bl=0,vr=0;
-  if(at>=p.gatilho)bl=e.sal*par.bl;
-  if(par.el&&at>=p.piso){
-    const fator=p.teto===p.piso?1:Math.min((at-p.piso)/(p.teto-p.piso),1);
-    vr=e.sal*par.v*fator;
-  }
+  const par=S.ant.params[e.cg]||{bl:1,v:0,el:false};
+  const bl=at>=S.ant.gatilho?e.sal*par.bl:0;
+  const vr=par.el?e.sal*par.v*fatorProp(at,S.ant.piso,S.ant.teto):0;
   return{bl,vr,tot:bl+vr};
 }
 function bonAtu(e,at){
-  const p=S.atu,m=p.mult[e.cg]||{F:2,M:1},mult=e.ta==='Fim'?m.F:m.M;
-  if(at<p.piso)return 0;
-  const fator=p.teto===p.piso?1:Math.min((at-p.piso)/(p.teto-p.piso),1);
-  return e.sal*mult*fator;
+  const m=S.atu.mult[e.cg]||{F:2,M:1};
+  return e.sal*(e.ta==='Fim'?m.F:m.M)*fatorProp(at,S.atu.piso,S.atu.teto);
 }
-function poolAnt(at){return S.employees.reduce((s,e)=>{const b=bonAnt(e,at??S.ating.ant);return s+b.tot;},0);}
-function blAnt(at){return S.employees.reduce((s,e)=>s+bonAnt(e,at??S.ating.ant).bl,0);}
-function vrAnt(at){return S.employees.reduce((s,e)=>s+bonAnt(e,at??S.ating.ant).vr,0);}
-function poolAtu(at){return S.employees.reduce((s,e)=>s+bonAtu(e,at??S.ating.atu),0);}
-function recReal(at){return S.fin.rec*(at/100);}
-function lbReal(at){return S.fin.lb*(at/100);}
-function cgTag(cg){const c=CARGO_CLR[cg]||'#999';return'<span style="color:'+c+';font-weight:600">'+cg+'</span>';}
+function poolAnt(at){return S.employees.reduce((s,e)=>s+bonAnt(e,at).tot,0);}
+function blAnt(at){return S.employees.reduce((s,e)=>s+bonAnt(e,at).bl,0);}
+function vrAnt(at){return S.employees.reduce((s,e)=>s+bonAnt(e,at).vr,0);}
+function poolAtu(at){return S.employees.reduce((s,e)=>s+bonAtu(e,at),0);}
+function recR(at){return S.fin.rec*at/100;}
+function lbR(at){return S.fin.lb*at/100;}
 
-// ——— CHARTS ———
+// Chart engine
 const _ch={};
 function mkChart(id,cfg){try{if(_ch[id]){_ch[id].destroy();delete _ch[id];}const el=document.getElementById(id);if(!el)return;_ch[id]=new Chart(el,cfg);}catch(e){}}
-function dlLabel(v){return Rk(v);}
 
 function drawAll(){
-  if(S.tab==='ant')drawAnt();
-  else if(S.tab==='atu')drawAtu();
-  else if(S.tab==='cmp')drawCmp();
-  else if(S.tab==='sen')drawSen();
+  const t=S.tab;
+  if(t==='ant')drawAnt();
+  else if(t==='atu')drawAtu();
+  else if(t==='cmp')drawCmp();
+  else if(t==='sen')drawSen();
 }
 
-function drawAnt(){
-  const at=S.ating.ant,cgs=CARGOS.filter(cg=>S.employees.some(e=>e.cg===cg));
-  // Waterfall: BL + VR por cargo
-  const labels=[...cgs,'TOTAL'];
-  const blData=[],vrData=[];let cumBL=0,cumVR=0;
-  cgs.forEach(cg=>{
-    const es=S.employees.filter(e=>e.cg===cg);
-    const bl=es.reduce((s,e)=>s+bonAnt(e,at).bl,0);
-    const vr=es.reduce((s,e)=>s+bonAnt(e,at).vr,0);
-    blData.push([cumBL,cumBL+bl]);vrData.push([cumVR+bl,cumVR+bl+vr]);
-    cumBL+=bl;cumVR+=bl+vr;
-  });
-  blData.push([0,cumBL]);vrData.push([cumBL,cumBL+cumVR-cumBL]);
-  mkChart('ch-ant-wf',{type:'bar',data:{labels,datasets:[
-    {label:'Baseline',data:blData,backgroundColor:'#7C3AED',borderRadius:3},
-    {label:'Variável',data:vrData,backgroundColor:'#A78BFA',borderRadius:3}
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{family:'Inter',size:11},boxWidth:10}},
-    datalabels:{color:'#fff',font:{size:9,weight:'700'},anchor:'center',align:'center',
-      formatter:(v)=>Array.isArray(v)&&(v[1]-v[0])>50000?Rk(v[1]-v[0]):'',
-      display:ctx=>{const v=ctx.dataset.data[ctx.dataIndex];return Array.isArray(v)&&(v[1]-v[0])>100000;}
-    },tooltip:{callbacks:{label:i=>' '+Rk(Array.isArray(i.raw)?i.raw[1]-i.raw[0]:i.raw)}}},
-    scales:{x:{grid:{color:gc},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
-}
-
-function drawAtu(){
-  const at=S.ating.atu,cgs=CARGOS.filter(cg=>S.employees.some(e=>e.cg===cg));
-  const labels=[...cgs,'TOTAL'];const fd=[];let cum=0;
-  cgs.forEach(cg=>{const es=S.employees.filter(e=>e.cg===cg);const p=es.reduce((s,e)=>s+bonAtu(e,at),0);fd.push([cum,cum+p]);cum+=p;});
-  fd.push([0,cum]);
-  const bgs=[...cgs.map(cg=>CARGO_CLR[cg]||'#059669'),'#1a1a1a'];
-  mkChart('ch-atu-wf',{type:'bar',data:{labels,datasets:[{data:fd,backgroundColor:bgs,borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
-      datalabels:{color:'#fff',font:{size:9,weight:'700'},anchor:'center',align:'center',
-        formatter:(v)=>Array.isArray(v)&&(v[1]-v[0])>50000?Rk(v[1]-v[0]):'',
-        display:ctx=>{const v=ctx.dataset.data[ctx.dataIndex];return Array.isArray(v)&&(v[1]-v[0])>80000;}
-      },tooltip:{callbacks:{label:i=>' '+Rk(Array.isArray(i.raw)?i.raw[1]-i.raw[0]:i.raw)}}},
-      scales:{x:{grid:{color:gc},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
-}
-
-function drawCmp(){
-  const aa=S.ating.ant,au=S.ating.atu;
-  const pa=poolAnt(aa),pu=poolAtu(au),bla=blAnt(aa),vra=vrAnt(aa);
-  // Donut comparação
-  mkChart('ch-cmp-donut',{type:'doughnut',data:{labels:['Modelo Anterior','Modelo Atual'],
-    datasets:[{data:[pa,pu],backgroundColor:['#7C3AED','#059669'],borderWidth:2,borderColor:'#fff'}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
-      plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}},
-        datalabels:{color:'#fff',font:{size:11,weight:'700'},formatter:v=>P1(v/(pa+pu)),display:ctx=>ctx.dataset.data[ctx.dataIndex]/(pa+pu)>.08},
-        tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}}}});
-  // Composição anterior: BL vs VR
-  mkChart('ch-cmp-comp',{type:'doughnut',data:{labels:['Baseline (Ant.)','Variável (Ant.)'],
-    datasets:[{data:[bla,vra],backgroundColor:['#7C3AED','#A78BFA'],borderWidth:2,borderColor:'#fff'}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
-      plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}},
-        datalabels:{color:'#fff',font:{size:11,weight:'700'},formatter:v=>P1(v/(bla+vra)),display:ctx=>ctx.dataset.data[ctx.dataIndex]/(bla+vra)>.08},
-        tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}}}});
-}
-
-function drawSen(){
-  const dsAnt={label:'Modelo Anterior (total)',data:SENS.map(s=>poolAnt(s)),borderColor:'#7C3AED',backgroundColor:'#7C3AED20',fill:false,tension:.3,pointRadius:4,borderWidth:2};
-  const dsBL={label:'Baseline (Ant.)',data:SENS.map(s=>blAnt(s)),borderColor:'#A78BFA',backgroundColor:'transparent',fill:false,tension:.3,pointRadius:3,borderWidth:2,borderDash:[4,4]};
-  const dsAtu={label:'Modelo Atual',data:SENS.map(s=>poolAtu(s)),borderColor:'#059669',backgroundColor:'#05966920',fill:false,tension:.3,pointRadius:4,borderWidth:2};
-  mkChart('ch-sen',{type:'line',data:{labels:SENS.map(s=>s+'%'),datasets:[dsAnt,dsBL,dsAtu]},
+function mkLine(id,labels,datasets){
+  mkChart(id,{type:'line',data:{labels,datasets},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{labels:{font:{size:11},boxWidth:10}},
         datalabels:{display:false},
@@ -348,244 +266,295 @@ function drawSen(){
       scales:{x:{grid:{color:gc},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
 }
 
-// ——— TABS ———
+function drawAnt(){
+  const at=S.ating.ant;
+  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
+  const bls=cgsAct.map(cg=>S.employees.filter(e=>e.cg===cg).reduce((s,e)=>s+bonAnt(e,at).bl,0));
+  const vrs=cgsAct.map(cg=>S.employees.filter(e=>e.cg===cg).reduce((s,e)=>s+bonAnt(e,at).vr,0));
+  mkChart('ch-ant',{type:'bar',data:{labels:cgsAct,datasets:[
+    {label:'Baseline',data:bls,backgroundColor:'#7C3AED',borderRadius:3},
+    {label:'Variavel',data:vrs,backgroundColor:'#A78BFA',borderRadius:3}
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{font:{size:11},boxWidth:10}},
+      datalabels:{color:'#fff',anchor:'end',align:'top',font:{size:9,weight:'700'},
+        formatter:v=>v>10000?Rk(v):'',display:ctx=>ctx.dataset.data[ctx.dataIndex]>10000},
+      tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}},
+    scales:{x:{grid:{color:gc},stacked:true,ticks:{font:{size:10}}},
+            y:{grid:{color:gc},stacked:true,ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
+}
+function drawAtu(){
+  const at=S.ating.atu;
+  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
+  const vals=cgsAct.map(cg=>S.employees.filter(e=>e.cg===cg).reduce((s,e)=>s+bonAtu(e,at),0));
+  mkChart('ch-atu',{type:'bar',data:{labels:cgsAct,datasets:[
+    {data:vals,backgroundColor:cgsAct.map(cg=>CC[cg]),borderRadius:3}
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      datalabels:{color:'#fff',anchor:'end',align:'top',font:{size:9,weight:'700'},
+        formatter:v=>v>10000?Rk(v):'',display:ctx=>ctx.dataset.data[ctx.dataIndex]>10000},
+      tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}},
+    scales:{x:{grid:{color:gc},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
+}
+function drawCmp(){
+  const aa=S.ating.ant,au=S.ating.atu;
+  const pa=poolAnt(aa),pu=poolAtu(au);
+  mkChart('ch-cmp',{type:'bar',data:{labels:['Modelo Anterior','Modelo Atual'],datasets:[
+    {data:[pa,pu],backgroundColor:['#7C3AED','#059669'],borderRadius:5,barThickness:60}
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      datalabels:{color:'#fff',anchor:'center',align:'center',font:{size:12,weight:'700'},formatter:v=>Rk(v)},
+      tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'600'}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
+}
+function drawSen(){
+  const ds=[
+    {label:'Anterior Total',data:SENS.map(s=>poolAnt(s)),borderColor:'#7C3AED',backgroundColor:'#7C3AED15',fill:false,tension:.3,pointRadius:3,borderWidth:2},
+    {label:'Anterior Baseline',data:SENS.map(s=>blAnt(s)),borderColor:'#A78BFA',fill:false,tension:.3,pointRadius:2,borderWidth:2,borderDash:[4,4]},
+    {label:'Atual',data:SENS.map(s=>poolAtu(s)),borderColor:'#059669',backgroundColor:'#05966915',fill:false,tension:.3,pointRadius:3,borderWidth:2}
+  ];
+  mkLine('ch-sen',SENS.map(s=>s+'%'),ds);
+}
+
+// UI helpers
+function kpi(lbl,val,sub,color){
+  return '<div class="kpi"><div class="kl">'+lbl+'</div><div class="kv"'+(color?' style="color:'+color+'"':'')+'>'+val+'</div>'+(sub?'<div class="ks">'+sub+'</div>':'')+'</div>';
+}
+function pill(ta){return '<span class="pill-'+(ta==='Fim'?'f':'m')+'">'+ta+'</span>';}
+
+// Tabs
 function tCfg(){
-  return '<div class="ptitle mb3">Configuração Geral</div>'+
-  '<div class="g2 mb4">'+
-  '<div class="card"><div class="ch"><span class="ct">Financeiro</span></div><div class="cb">'+
-  '<div class="sec">Receita / Budget Total</div>'+
-  '<input type="number" value="'+S.fin.rec+'" class="mb3" onchange="S.fin.rec=+this.value;render()">'+
-  '<div class="sec">Lucro Bruto Total</div>'+
-  '<input type="number" value="'+S.fin.lb+'" onchange="S.fin.lb=+this.value;render()">'+
-  '</div></div>'+
-  '<div class="card"><div class="ch"><span class="ct">Atingimento para Comparação</span></div><div class="cb">'+
-  '<div class="sec">Atingimento — Modelo Anterior (%)</div>'+
-  '<div class="flex fac gap2 mb3"><input type="number" value="'+S.ating.ant+'" style="max-width:100px" onchange="S.ating.ant=+this.value;render()"><span class="tip">%</span></div>'+
-  '<div class="sec">Atingimento — Modelo Atual (%)</div>'+
-  '<div class="flex fac gap2"><input type="number" value="'+S.ating.atu+'" style="max-width:100px" onchange="S.ating.atu=+this.value;render()"><span class="tip">%</span></div>'+
-  '</div></div>'+
-  '</div>'+
-  '<div class="g2 mb4">'+
-  '<div class="card"><div class="ch"><span class="ct">Modelo Anterior — Parâmetros</span></div><div class="cb">'+
-  '<div class="sec">Gatilho Baseline (%)</div>'+
-  '<div class="flex fac gap2 mb3"><input type="number" value="'+S.ant.gatilho+'" style="max-width:80px" onchange="S.ant.gatilho=+this.value;render()"><span class="tip">% mínimo para liberar baseline</span></div>'+
-  '<div class="sec">Piso / Teto — Variável</div>'+
-  '<div class="flex fac gap3 mb3">'+
-  '<div class="flex fac gap2"><span class="tip">Piso</span><input type="number" value="'+S.ant.piso+'" style="width:65px" onchange="S.ant.piso=+this.value;render()"><span class="tip">%</span></div>'+
-  '<div class="flex fac gap2"><span class="tip">Teto</span><input type="number" value="'+S.ant.teto+'" style="width:65px" onchange="S.ant.teto=+this.value;render()"><span class="tip">%</span></div>'+
-  '</div>'+
-  '<div class="sec">Por Cargo: Baseline × Sal. / Variável × Sal. / Elegível ao Variável</div>'+
-  '<table class="tbl"><thead><tr><th>Cargo</th><th class="num">Baseline ×</th><th class="num">Variável ×</th><th style="text-align:center">Elegível Var.</th></tr></thead><tbody>'+
-  CARGOS.map(cg=>{const p=S.ant.params[cg]||{bl:1,v:0,el:false};return'<tr><td>'+cgTag(cg)+'</td>'+
-    '<td class="num"><input type="number" value="'+p.bl+'" step=".5" min="0" style="width:70px" onchange="if(!S.ant.params[''+cg+''])S.ant.params[''+cg+'']={bl:1,v:0,el:false};S.ant.params[''+cg+''].bl=+this.value;render()"></td>'+
-    '<td class="num"><input type="number" value="'+p.v+'" step=".5" min="0" style="width:70px" onchange="S.ant.params[''+cg+''].v=+this.value;render()"></td>'+
-    '<td style="text-align:center"><input type="checkbox" '+(p.el?'checked':'')+' onchange="S.ant.params[''+cg+''].el=this.checked;render()"></td></tr>';}).join('')+
-  '</tbody></table></div></div>'+
-  '<div class="card"><div class="ch"><span class="ct">Modelo Atual — Parâmetros</span></div><div class="cb">'+
-  '<div class="sec">Piso / Teto</div>'+
-  '<div class="flex fac gap3 mb3">'+
-  '<div class="flex fac gap2"><span class="tip">Piso</span><input type="number" value="'+S.atu.piso+'" style="width:65px" onchange="S.atu.piso=+this.value;render()"><span class="tip">%</span></div>'+
-  '<div class="flex fac gap2"><span class="tip">Teto</span><input type="number" value="'+S.atu.teto+'" style="width:65px" onchange="S.atu.teto=+this.value;render()"><span class="tip">%</span></div>'+
-  '</div>'+
-  '<div class="sec">Multiplicador por Cargo (Fim / Meio)</div>'+
-  '<table class="tbl"><thead><tr><th>Cargo</th><th style="text-align:center">⚡ Fim</th><th style="text-align:center">⚙️ Meio</th></tr></thead><tbody>'+
-  CARGOS.map(cg=>{const m=S.atu.mult[cg]||{F:2,M:1};return'<tr><td>'+cgTag(cg)+'</td>'+
-    '<td style="text-align:center"><input type="number" value="'+m.F+'" step=".5" min="0" style="width:65px;text-align:center" onchange="if(!S.atu.mult[''+cg+''])S.atu.mult[''+cg+'']={F:2,M:1};S.atu.mult[''+cg+''].F=+this.value;render()"></td>'+
-    '<td style="text-align:center"><input type="number" value="'+m.M+'" step=".5" min="0" style="width:65px;text-align:center" onchange="S.atu.mult[''+cg+''].M=+this.value;render()"></td></tr>';}).join('')+
-  '</tbody></table></div></div>'+
-  '</div>'+
-  '<div class="card"><div class="ch"><span class="ct">Elegíveis ('+S.employees.length+' pessoas)</span></div><div class="cb twrap">'+
-  '<table class="tbl"><thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th>Tipo</th><th class="num">Salário</th></tr></thead><tbody>'+
-  S.employees.map(e=>'<tr><td style="font-weight:500">'+e.n+'</td><td>'+e.bu+'</td><td>'+cgTag(e.cg)+'</td>'+
-    '<td><span style="font-size:11px;padding:2px 7px;border-radius:10px;background:'+(e.ta==='Fim'?'#ede9fe':'#f3f4f6')+';color:'+(e.ta==='Fim'?'#6D28D9':'#6b7280')+'">'+e.ta+'</span></td>'+
-    '<td class="num"><input type="number" value="'+e.sal+'" data-id="'+e.id+'" data-f="sal" class="ei" style="width:100px"></td></tr>').join('')+
-  '</tbody></table></div></div>';
+  let h='<div class="ptitle mb3">Configuracao Geral</div><div class="g2 mb4">';
+  // Financeiro
+  h+='<div class="card"><div class="ch"><span class="ct">Financeiro e Atingimento</span></div><div class="cb">';
+  h+='<div class="sec">Receita / Budget Total</div>';
+  h+='<input type="number" class="cfg-inp mb3" data-path="fin.rec" value="'+S.fin.rec+'"><br>';
+  h+='<div class="sec">Lucro Bruto Total</div>';
+  h+='<input type="number" class="cfg-inp mb3" data-path="fin.lb" value="'+S.fin.lb+'"><br>';
+  h+='<div class="sec">Atingimento Modelo Anterior (%)</div>';
+  h+='<input type="number" class="cfg-inp mb3" data-path="ating.ant" value="'+S.ating.ant+'" style="max-width:100px"><br>';
+  h+='<div class="sec">Atingimento Modelo Atual (%)</div>';
+  h+='<input type="number" class="cfg-inp" data-path="ating.atu" value="'+S.ating.atu+'" style="max-width:100px">';
+  h+='</div></div>';
+  // Anterior params
+  h+='<div class="card"><div class="ch"><span class="ct">Modelo Anterior</span></div><div class="cb">';
+  h+='<div class="sec">Gatilho Baseline (%)</div>';
+  h+='<input type="number" class="cfg-inp mb3" data-path="ant.gatilho" value="'+S.ant.gatilho+'" style="max-width:100px"><br>';
+  h+='<div class="sec">Piso Variavel (%)</div>';
+  h+='<input type="number" class="cfg-inp mb2" data-path="ant.piso" value="'+S.ant.piso+'" style="max-width:80px"><br>';
+  h+='<div class="sec">Teto Variavel (%)</div>';
+  h+='<input type="number" class="cfg-inp mb3" data-path="ant.teto" value="'+S.ant.teto+'" style="max-width:80px"><br>';
+  h+='<div class="sec">Parametros por Cargo</div>';
+  h+='<table class="tbl"><thead><tr><th>Cargo</th><th class="num">BL x Sal</th><th class="num">Var x Sal</th><th style="text-align:center">Elegivel Var</th></tr></thead><tbody>';
+  CG.forEach(cg=>{
+    const p=S.ant.params[cg]||{bl:1,v:0,el:false};
+    h+='<tr><td>'+cgLbl(cg)+'</td>';
+    h+='<td class="num"><input type="number" class="cfg-inp" data-path="ant.params.'+cg+'.bl" value="'+p.bl+'" step="0.5" min="0" style="width:70px"></td>';
+    h+='<td class="num"><input type="number" class="cfg-inp" data-path="ant.params.'+cg+'.v" value="'+p.v+'" step="0.5" min="0" style="width:70px"></td>';
+    h+='<td style="text-align:center"><input type="checkbox" class="cfg-chk" data-path="ant.params.'+cg+'.el"'+(p.el?' checked':'')+'></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table></div></div></div>';
+  // Atual params
+  h+='<div class="card"><div class="ch"><span class="ct">Modelo Atual</span></div><div class="cb">';
+  h+='<div class="sec">Piso (%)</div>';
+  h+='<input type="number" class="cfg-inp mb2" data-path="atu.piso" value="'+S.atu.piso+'" style="max-width:80px"><br>';
+  h+='<div class="sec">Teto (%)</div>';
+  h+='<input type="number" class="cfg-inp mb3" data-path="atu.teto" value="'+S.atu.teto+'" style="max-width:80px"><br>';
+  h+='<div class="sec">Multiplicadores por Cargo</div>';
+  h+='<table class="tbl"><thead><tr><th>Cargo</th><th style="text-align:center">Fim</th><th style="text-align:center">Meio</th></tr></thead><tbody>';
+  CG.forEach(cg=>{
+    const m=S.atu.mult[cg]||{F:2,M:1};
+    h+='<tr><td>'+cgLbl(cg)+'</td>';
+    h+='<td style="text-align:center"><input type="number" class="cfg-inp" data-path="atu.mult.'+cg+'.F" value="'+m.F+'" step="0.5" min="0" style="width:65px;text-align:center"></td>';
+    h+='<td style="text-align:center"><input type="number" class="cfg-inp" data-path="atu.mult.'+cg+'.M" value="'+m.M+'" step="0.5" min="0" style="width:65px;text-align:center"></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table></div></div>';
+  // Salarios
+  h+='<div class="card"><div class="ch"><span class="ct">Salarios dos Elegiveis</span></div><div class="cb twrap">';
+  h+='<table class="tbl"><thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th>Tipo</th><th class="num">Salario</th></tr></thead><tbody>';
+  S.employees.forEach(e=>{
+    h+='<tr><td style="font-weight:500">'+e.n+'</td><td>'+e.bu+'</td><td>'+cgLbl(e.cg)+'</td><td>'+pill(e.ta)+'</td>';
+    h+='<td class="num"><input type="number" class="sal-inp" data-id="'+e.id+'" value="'+e.sal+'" style="width:100px"></td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  return h;
 }
 
 function tAnt(){
-  const at=S.ating.ant,rec=recReal(at),lb=lbReal(at);
+  const at=S.ating.ant,rr=recR(at),lr=lbR(at);
   const pa=poolAnt(at),bla=blAnt(at),vra=vrAnt(at),n=S.employees.length;
-  const cgs=CARGOS.filter(cg=>S.employees.some(e=>e.cg===cg));
-  return'<div class="flex fac fjb mb3"><div><div class="ptitle">Modelo Anterior</div>'+
-  '<div class="tip mt2">Gatilho baseline: '+S.ant.gatilho+'% · Piso/Teto variável: '+S.ant.piso+'%–'+S.ant.teto+'% · Atingimento atual: <strong style="color:#7C3AED">'+Pp(at)+'%</strong></div></div></div>'+
-  '<div class="g5 mb4">'+
-  kpiCard('Pool Total',Rk(pa),P2(pa/rec)+' da receita')+''+
-  kpiCard('Baseline',Rk(bla),P1(bla/pa)+' do pool','#7C3AED')+''+
-  kpiCard('Variável',Rk(vra),P1(vra/pa)+' do pool','#A78BFA')+''+
-  kpiCard('Rec. Realizada',Rk(rec),'Budget: '+Rk(S.fin.rec))+''+
-  kpiCard('Pool / LB Real.',P2(pa/lb),'LB: '+Rk(lb),'#059669')+''+
-  '</div>'+
-  '<div class="card mb4"><div class="ch"><span class="ct">Cascata — Baseline e Variável por Cargo</span></div>'+
-  '<div class="cb"><div class="cbox"><canvas id="ch-ant-wf"></canvas></div></div></div>'+
-  '<div class="card mb4"><div class="ch"><span class="ct">Por Cargo — Detalhamento</span></div><div class="cb twrap">'+
-  '<table class="tbl"><thead><tr><th>Cargo</th><th class="num">N</th><th class="num">Baseline</th><th class="num">Variável</th><th class="num">Total</th><th class="num">% Pool</th><th class="num">% Rec. Real</th><th class="num">% LB Real</th></tr></thead><tbody>'+
-  cgs.map(cg=>{const es=S.employees.filter(e=>e.cg===cg);
+  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
+  let h='<div class="ptitle mb3">Modelo Anterior — Atingimento: '+Pp(at)+'%</div>';
+  h+='<div class="g5 mb4">';
+  h+=kpi('Pool Total',Rk(pa),P2(pa/rr)+' da rec. real');
+  h+=kpi('Baseline',Rk(bla),P1(bla/pa)+' do pool','#7C3AED');
+  h+=kpi('Variavel',Rk(vra),P1(vra/pa)+' do pool','#A78BFA');
+  h+=kpi('Pool / LB Real',P2(pa/lr),'LB real: '+Rk(lr),'#059669');
+  h+=kpi('Bonus Medio',n?R(pa/n):'—',n+' elegiveis');
+  h+='</div>';
+  h+='<div class="card mb4"><div class="ch"><span class="ct">Baseline + Variavel por Cargo (empilhado)</span></div><div class="cb"><div class="cbox"><canvas id="ch-ant"></canvas></div></div></div>';
+  h+='<div class="card mb4"><div class="ch"><span class="ct">Por Cargo — Detalhamento</span></div><div class="cb twrap"><table class="tbl">';
+  h+='<thead><tr><th>Cargo</th><th class="num">N</th><th class="num">Baseline</th><th class="num">Variavel</th><th class="num">Total</th><th class="num">% Pool</th><th class="num">% Rec Real</th><th class="num">% LB Real</th></tr></thead><tbody>';
+  cgsAct.forEach(cg=>{
+    const es=S.employees.filter(e=>e.cg===cg);
     const bl=es.reduce((s,e)=>s+bonAnt(e,at).bl,0);
     const vr=es.reduce((s,e)=>s+bonAnt(e,at).vr,0);
     const tot=bl+vr;
-    return'<tr><td>'+cgTag(cg)+'</td><td class="num">'+es.length+'</td>'+
-      '<td class="num">'+R(bl)+'</td><td class="num">'+R(vr)+'</td>'+
-      '<td class="num" style="font-weight:700">'+R(tot)+'</td>'+
-      '<td class="num">'+P1(tot/pa)+'</td>'+
-      '<td class="num">'+P2(tot/rec)+'</td>'+
-      '<td class="num" style="font-weight:600;color:'+(tot/lb>.15?'#DC2626':tot/lb>.07?'#D97706':'#059669')+'">'+P2(tot/lb)+'</td></tr>';}).join('')+
-  '<tr class="tr-tot"><td>TOTAL</td><td class="num">'+n+'</td><td class="num">'+R(bla)+'</td><td class="num">'+R(vra)+'</td>'+
-  '<td class="num">'+R(pa)+'</td><td class="num">100%</td><td class="num">'+P2(pa/rec)+'</td>'+
-  '<td class="num" style="font-weight:700">'+P2(pa/lb)+'</td></tr>'+
-  '</tbody></table></div></div>'+
-  '<div class="card"><div class="ch"><span class="ct">Por Pessoa</span></div><div class="cb twrap">'+
-  '<table class="tbl"><thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th class="num">Salário</th><th class="num">Baseline</th><th class="num">Variável</th><th class="num">Total</th></tr></thead><tbody>'+
-  [...S.employees].sort((a,b)=>(COR[a.cg]??9)-(COR[b.cg]??9)).map(e=>{
+    const c=tot/lr>.15?'#DC2626':tot/lr>.07?'#D97706':'#059669';
+    h+='<tr><td>'+cgLbl(cg)+'</td><td class="num">'+es.length+'</td><td class="num">'+R(bl)+'</td><td class="num">'+R(vr)+'</td>';
+    h+='<td class="num" style="font-weight:700">'+R(tot)+'</td><td class="num">'+P1(tot/pa)+'</td><td class="num">'+P2(tot/rr)+'</td>';
+    h+='<td class="num" style="font-weight:600;color:'+c+'">'+P2(tot/lr)+'</td></tr>';
+  });
+  h+='<tr class="tr-tot"><td>TOTAL</td><td class="num">'+n+'</td><td class="num">'+R(bla)+'</td><td class="num">'+R(vra)+'</td><td class="num">'+R(pa)+'</td><td class="num">100%</td><td class="num">'+P2(pa/rr)+'</td><td class="num" style="font-weight:700">'+P2(pa/lr)+'</td></tr>';
+  h+='</tbody></table></div></div>';
+  h+='<div class="card"><div class="ch"><span class="ct">Por Pessoa</span></div><div class="cb twrap"><table class="tbl">';
+  h+='<thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th class="num">Salario</th><th class="num">Baseline</th><th class="num">Variavel</th><th class="num">Total</th></tr></thead><tbody>';
+  [...S.employees].sort((a,b)=>(COR_CG[a.cg]||9)-(COR_CG[b.cg]||9)).forEach(e=>{
     const b=bonAnt(e,at);
-    return'<tr><td style="font-weight:500">'+e.n+'</td><td>'+e.bu+'</td><td>'+cgTag(e.cg)+'</td>'+
-      '<td class="num">'+R(e.sal)+'</td><td class="num">'+R(b.bl)+'</td>'+
-      '<td class="num">'+R(b.vr)+'</td><td class="num" style="font-weight:700;color:#7C3AED">'+R(b.tot)+'</td></tr>';}).join('')+
-  '</tbody></table></div></div>';
+    h+='<tr><td style="font-weight:500">'+e.n+'</td><td>'+e.bu+'</td><td>'+cgLbl(e.cg)+'</td>';
+    h+='<td class="num">'+R(e.sal)+'</td><td class="num">'+R(b.bl)+'</td><td class="num">'+R(b.vr)+'</td>';
+    h+='<td class="num" style="font-weight:700;color:#7C3AED">'+R(b.tot)+'</td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  return h;
 }
 
 function tAtu(){
-  const at=S.ating.atu,rec=recReal(at),lb=lbReal(at);
+  const at=S.ating.atu,rr=recR(at),lr=lbR(at);
   const pu=poolAtu(at),n=S.employees.length;
-  const cgs=CARGOS.filter(cg=>S.employees.some(e=>e.cg===cg));
-  return'<div class="flex fac fjb mb3"><div><div class="ptitle">Modelo Atual</div>'+
-  '<div class="tip mt2">Piso/Teto: '+S.atu.piso+'%–'+S.atu.teto+'% · Atingimento atual: <strong style="color:#059669">'+Pp(at)+'%</strong></div></div></div>'+
-  '<div class="g5 mb4">'+
-  kpiCard('Pool Total',Rk(pu),P2(pu/rec)+' da receita','#059669')+''+
-  kpiCard('Pool / LB Real.',P2(pu/lb),'LB: '+Rk(lb),'#059669')+''+
-  kpiCard('Rec. Realizada',Rk(rec),'Budget: '+Rk(S.fin.rec))+''+
-  kpiCard('Bônus Médio',n?R(pu/n):'—',n+' elegíveis')+''+
-  kpiCard('Pool / Receita',P2(pu/rec),'vs '+P2(pu/S.fin.rec)+' budget')+''+
-  '</div>'+
-  '<div class="card mb4"><div class="ch"><span class="ct">Cascata — Pool por Cargo</span></div>'+
-  '<div class="cb"><div class="cbox"><canvas id="ch-atu-wf"></canvas></div></div></div>'+
-  '<div class="card mb4"><div class="ch"><span class="ct">Por Cargo</span></div><div class="cb twrap">'+
-  '<table class="tbl"><thead><tr><th>Cargo</th><th class="num">N</th><th class="num">Pool</th><th class="num">% Pool</th><th class="num">% Rec. Real</th><th class="num">% LB Real</th></tr></thead><tbody>'+
-  cgs.map(cg=>{const es=S.employees.filter(e=>e.cg===cg);
+  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
+  let h='<div class="ptitle mb3">Modelo Atual — Atingimento: '+Pp(at)+'%</div>';
+  h+='<div class="g5 mb4">';
+  h+=kpi('Pool Total',Rk(pu),P2(pu/rr)+' da rec. real','#059669');
+  h+=kpi('Pool / LB Real',P2(pu/lr),'LB real: '+Rk(lr),'#059669');
+  h+=kpi('Rec Realizada',Rk(rr),'Budget: '+Rk(S.fin.rec));
+  h+=kpi('LB Realizado',Rk(lr),'Budget: '+Rk(S.fin.lb));
+  h+=kpi('Bonus Medio',n?R(pu/n):'—',n+' elegiveis');
+  h+='</div>';
+  h+='<div class="card mb4"><div class="ch"><span class="ct">Pool por Cargo</span></div><div class="cb"><div class="cbox"><canvas id="ch-atu"></canvas></div></div></div>';
+  h+='<div class="card mb4"><div class="ch"><span class="ct">Por Cargo</span></div><div class="cb twrap"><table class="tbl">';
+  h+='<thead><tr><th>Cargo</th><th class="num">N</th><th class="num">Pool</th><th class="num">% Pool</th><th class="num">% Rec Real</th><th class="num">% LB Real</th></tr></thead><tbody>';
+  cgsAct.forEach(cg=>{
+    const es=S.employees.filter(e=>e.cg===cg);
     const p=es.reduce((s,e)=>s+bonAtu(e,at),0);
-    return'<tr><td>'+cgTag(cg)+'</td><td class="num">'+es.length+'</td>'+
-      '<td class="num" style="font-weight:600">'+R(p)+'</td>'+
-      '<td class="num">'+P1(p/pu)+'</td><td class="num">'+P2(p/rec)+'</td>'+
-      '<td class="num" style="font-weight:600;color:'+(p/lb>.15?'#DC2626':p/lb>.07?'#D97706':'#059669')+'">'+P2(p/lb)+'</td></tr>';}).join('')+
-  '<tr class="tr-tot"><td>TOTAL</td><td class="num">'+n+'</td><td class="num">'+R(pu)+'</td>'+
-  '<td class="num">100%</td><td class="num">'+P2(pu/rec)+'</td><td class="num" style="font-weight:700">'+P2(pu/lb)+'</td></tr>'+
-  '</tbody></table></div></div>'+
-  '<div class="card"><div class="ch"><span class="ct">Por Pessoa</span></div><div class="cb twrap">'+
-  '<table class="tbl"><thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th>Tipo</th><th class="num">Salário</th><th class="num">Mult.</th><th class="num">Bônus</th></tr></thead><tbody>'+
-  [...S.employees].sort((a,b)=>(COR[a.cg]??9)-(COR[b.cg]??9)).map(e=>{
-    const bv=bonAtu(e,at),m=S.atu.mult[e.cg]||{F:2,M:1},mult=e.ta==='Fim'?m.F:m.M;
-    return'<tr><td style="font-weight:500">'+e.n+'</td><td>'+e.bu+'</td><td>'+cgTag(e.cg)+'</td>'+
-      '<td><span style="font-size:11px;padding:2px 7px;border-radius:10px;background:'+(e.ta==='Fim'?'#ede9fe':'#f3f4f6')+';color:'+(e.ta==='Fim'?'#6D28D9':'#6b7280')+'">'+e.ta+'</span></td>'+
-      '<td class="num">'+R(e.sal)+'</td><td class="num">'+mult+'×</td>'+
-      '<td class="num" style="font-weight:700;color:#059669">'+R(bv)+'</td></tr>';}).join('')+
-  '</tbody></table></div></div>';
+    const c=p/lr>.15?'#DC2626':p/lr>.07?'#D97706':'#059669';
+    h+='<tr><td>'+cgLbl(cg)+'</td><td class="num">'+es.length+'</td><td class="num" style="font-weight:600">'+R(p)+'</td>';
+    h+='<td class="num">'+P1(p/pu)+'</td><td class="num">'+P2(p/rr)+'</td><td class="num" style="font-weight:600;color:'+c+'">'+P2(p/lr)+'</td></tr>';
+  });
+  h+='<tr class="tr-tot"><td>TOTAL</td><td class="num">'+n+'</td><td class="num">'+R(pu)+'</td><td class="num">100%</td><td class="num">'+P2(pu/rr)+'</td><td class="num" style="font-weight:700">'+P2(pu/lr)+'</td></tr>';
+  h+='</tbody></table></div></div>';
+  h+='<div class="card"><div class="ch"><span class="ct">Por Pessoa</span></div><div class="cb twrap"><table class="tbl">';
+  h+='<thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th>Tipo</th><th class="num">Salario</th><th class="num">Mult</th><th class="num">Bonus</th></tr></thead><tbody>';
+  [...S.employees].sort((a,b)=>(COR_CG[a.cg]||9)-(COR_CG[b.cg]||9)).forEach(e=>{
+    const m=S.atu.mult[e.cg]||{F:2,M:1},mult=e.ta==='Fim'?m.F:m.M;
+    h+='<tr><td style="font-weight:500">'+e.n+'</td><td>'+e.bu+'</td><td>'+cgLbl(e.cg)+'</td><td>'+pill(e.ta)+'</td>';
+    h+='<td class="num">'+R(e.sal)+'</td><td class="num">'+mult+'x</td>';
+    h+='<td class="num" style="font-weight:700;color:#059669">'+R(bonAtu(e,at))+'</td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  return h;
 }
 
 function tCmp(){
   const aa=S.ating.ant,au=S.ating.atu;
   const pa=poolAnt(aa),pu=poolAtu(au),bla=blAnt(aa),vra=vrAnt(aa);
-  const rra=recReal(aa),lba=lbReal(aa),rru=recReal(au),lbu=lbReal(au);
+  const rra=recR(aa),lra=lbR(aa),rru=recR(au),lru=lbR(au);
   const diff=pu-pa,n=S.employees.length;
-  const cgs=CARGOS.filter(cg=>S.employees.some(e=>e.cg===cg));
-  return'<div class="ptitle mb3">Comparação de Modelos</div>'+
-  '<div class="g4 mb4">'+
-  kpiCard('Pool Anterior',Rk(pa),P2(pa/rra)+' rec · '+P2(pa/lba)+' LB','#7C3AED')+''+
-  kpiCard('Pool Atual',Rk(pu),P2(pu/rru)+' rec · '+P2(pu/lbu)+' LB','#059669')+''+
-  kpiCard('Diferença',Rk(Math.abs(diff)),(diff>=0?'Atual +':'Anterior +'),diff>=0?'#059669':'#7C3AED')+''+
-  kpiCard('Bônus Médio',R(Math.abs(pu-pa)/n),diff>=0?'Atual maior':'Anterior maior')+''+
-  '</div>'+
-  '<div class="g2 mb4">'+
-  '<div class="card"><div class="ch"><span class="ct">Pool Total — Anterior vs. Atual</span></div>'+
-  '<div class="cb"><div class="cbox"><canvas id="ch-cmp-donut"></canvas></div></div></div>'+
-  '<div class="card"><div class="ch"><span class="ct">Composição Modelo Anterior (BL + Var.)</span></div>'+
-  '<div class="cb"><div class="cbox"><canvas id="ch-cmp-comp"></canvas></div></div></div>'+
-  '</div>'+
-  '<div class="card mb4"><div class="ch"><span class="ct">Por Cargo — Comparação Detalhada</span></div><div class="cb twrap">'+
-  '<table class="tbl"><thead><tr>'+
-  '<th>Cargo</th><th class="num">N</th>'+
-  '<th class="num" style="color:#7C3AED">Ant. BL</th><th class="num" style="color:#A78BFA">Ant. Var.</th><th class="num" style="color:#7C3AED">Ant. Total</th>'+
-  '<th class="num" style="color:#059669">Atual</th>'+
-  '<th class="num">Δ</th><th class="num">Ant. %Rec</th><th class="num">Atu. %Rec</th><th class="num">Ant. %LB</th><th class="num">Atu. %LB</th>'+
-  '</tr></thead><tbody>'+
-  cgs.map(cg=>{const es=S.employees.filter(e=>e.cg===cg);
+  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
+  let h='<div class="ptitle mb3">Comparacao de Modelos</div>';
+  h+='<div class="g4 mb4">';
+  h+=kpi('Pool Anterior',Rk(pa),P2(pa/rra)+' rec | '+P2(pa/lra)+' LB','#7C3AED');
+  h+=kpi('Pool Atual',Rk(pu),P2(pu/rru)+' rec | '+P2(pu/lru)+' LB','#059669');
+  h+=kpi('Diferenca (Atu-Ant)',Rk(Math.abs(diff)),(diff>=0?'Atual maior':'Anterior maior'),diff>=0?'#059669':'#7C3AED');
+  h+=kpi('Impacto por Pessoa',R(Math.abs(diff)/n),'media','#EA580C');
+  h+='</div>';
+  h+='<div class="card mb4"><div class="ch"><span class="ct">Pool Total — Anterior vs Atual</span></div><div class="cb"><div class="cbox" style="height:260px"><canvas id="ch-cmp"></canvas></div></div></div>';
+  h+='<div class="card mb4"><div class="ch"><span class="ct">Por Cargo — Comparacao Detalhada</span></div><div class="cb twrap"><table class="tbl">';
+  h+='<thead><tr><th>Cargo</th><th class="num">N</th>';
+  h+='<th class="num" style="color:#7C3AED">Ant BL</th><th class="num" style="color:#A78BFA">Ant Var</th><th class="num" style="color:#7C3AED">Ant Total</th>';
+  h+='<th class="num" style="color:#059669">Atual</th><th class="num">Delta</th>';
+  h+='<th class="num">Ant %Rec</th><th class="num">Atu %Rec</th><th class="num">Ant %LB</th><th class="num">Atu %LB</th></tr></thead><tbody>';
+  cgsAct.forEach(cg=>{
+    const es=S.employees.filter(e=>e.cg===cg);
     const bl=es.reduce((s,e)=>s+bonAnt(e,aa).bl,0);
     const vr=es.reduce((s,e)=>s+bonAnt(e,aa).vr,0);
-    const ta=bl+vr;const tu=es.reduce((s,e)=>s+bonAtu(e,au),0);
-    const d=tu-ta;
-    return'<tr><td>'+cgTag(cg)+'</td><td class="num">'+es.length+'</td>'+
-      '<td class="num" style="color:#7C3AED">'+R(bl)+'</td><td class="num" style="color:#A78BFA">'+R(vr)+'</td>'+
-      '<td class="num" style="font-weight:600;color:#7C3AED">'+R(ta)+'</td>'+
-      '<td class="num" style="font-weight:600;color:#059669">'+R(tu)+'</td>'+
-      '<td class="num" style="font-weight:700;color:'+(d>=0?'#059669':'#DC2626')">'+(d>=0?'+':'')+R(d)+'</td>'+
-      '<td class="num">'+P2(ta/rra)+'</td><td class="num">'+P2(tu/rru)+'</td>'+
-      '<td class="num">'+P2(ta/lba)+'</td><td class="num">'+P2(tu/lbu)+'</td></tr>';}).join('')+
-  '<tr class="tr-tot"><td>TOTAL</td><td class="num">'+n+'</td>'+
-  '<td class="num" style="color:#7C3AED">'+R(bla)+'</td><td class="num" style="color:#A78BFA">'+R(vra)+'</td>'+
-  '<td class="num" style="font-weight:700;color:#7C3AED">'+R(pa)+'</td>'+
-  '<td class="num" style="font-weight:700;color:#059669">'+R(pu)+'</td>'+
-  '<td class="num" style="font-weight:700;color:'+(diff>=0?'#059669':'#DC2626')">'+(diff>=0?'+':'')+R(diff)+'</td>'+
-  '<td class="num">'+P2(pa/rra)+'</td><td class="num">'+P2(pu/rru)+'</td>'+
-  '<td class="num">'+P2(pa/lba)+'</td><td class="num">'+P2(pu/lbu)+'</td></tr>'+
-  '</tbody></table></div></div>'+
-  '<div class="card"><div class="ch"><span class="ct">Por Pessoa — Bônus Comparado</span></div><div class="cb twrap">'+
-  '<table class="tbl"><thead><tr><th>Nome</th><th>Cargo</th><th class="num" style="color:#7C3AED">Ant. BL</th><th class="num" style="color:#A78BFA">Ant. Var.</th><th class="num" style="color:#7C3AED">Ant. Total</th><th class="num" style="color:#059669">Atual</th><th class="num">Δ</th></tr></thead><tbody>'+
-  [...S.employees].sort((a,b)=>(COR[a.cg]??9)-(COR[b.cg]??9)).map(e=>{
+    const ta=bl+vr,tu=es.reduce((s,e)=>s+bonAtu(e,au),0),d=tu-ta;
+    h+='<tr><td>'+cgLbl(cg)+'</td><td class="num">'+es.length+'</td>';
+    h+='<td class="num" style="color:#7C3AED">'+R(bl)+'</td><td class="num" style="color:#A78BFA">'+R(vr)+'</td>';
+    h+='<td class="num" style="font-weight:600;color:#7C3AED">'+R(ta)+'</td>';
+    h+='<td class="num" style="font-weight:600;color:#059669">'+R(tu)+'</td>';
+    h+='<td class="num" style="font-weight:700;color:'+(d>=0?'#059669':'#DC2626')+'">'+(d>=0?'+':'')+R(d)+'</td>';
+    h+='<td class="num">'+P2(ta/rra)+'</td><td class="num">'+P2(tu/rru)+'</td>';
+    h+='<td class="num">'+P2(ta/lra)+'</td><td class="num">'+P2(tu/lru)+'</td></tr>';
+  });
+  h+='<tr class="tr-tot"><td>TOTAL</td><td class="num">'+n+'</td>';
+  h+='<td class="num" style="color:#7C3AED">'+R(bla)+'</td><td class="num" style="color:#A78BFA">'+R(vra)+'</td>';
+  h+='<td class="num" style="font-weight:700;color:#7C3AED">'+R(pa)+'</td>';
+  h+='<td class="num" style="font-weight:700;color:#059669">'+R(pu)+'</td>';
+  h+='<td class="num" style="font-weight:700;color:'+(diff>=0?'#059669':'#DC2626')+'">'+(diff>=0?'+':'')+R(diff)+'</td>';
+  h+='<td class="num">'+P2(pa/rra)+'</td><td class="num">'+P2(pu/rru)+'</td>';
+  h+='<td class="num">'+P2(pa/lra)+'</td><td class="num">'+P2(pu/lru)+'</td></tr>';
+  h+='</tbody></table></div></div>';
+  h+='<div class="card"><div class="ch"><span class="ct">Por Pessoa — Comparativo Individual</span></div><div class="cb twrap"><table class="tbl">';
+  h+='<thead><tr><th>Nome</th><th>Cargo</th><th class="num" style="color:#7C3AED">Ant BL</th><th class="num" style="color:#A78BFA">Ant Var</th><th class="num" style="color:#7C3AED">Ant Total</th><th class="num" style="color:#059669">Atual</th><th class="num">Delta</th></tr></thead><tbody>';
+  [...S.employees].sort((a,b)=>(COR_CG[a.cg]||9)-(COR_CG[b.cg]||9)).forEach(e=>{
     const ba=bonAnt(e,aa),bu2=bonAtu(e,au),d=bu2-ba.tot;
-    return'<tr><td style="font-weight:500">'+e.n+'</td><td>'+cgTag(e.cg)+'</td>'+
-      '<td class="num" style="color:#7C3AED">'+R(ba.bl)+'</td>'+
-      '<td class="num" style="color:#A78BFA">'+R(ba.vr)+'</td>'+
-      '<td class="num" style="font-weight:600;color:#7C3AED">'+R(ba.tot)+'</td>'+
-      '<td class="num" style="font-weight:600;color:#059669">'+R(bu2)+'</td>'+
-      '<td class="num" style="font-weight:700;color:'+(d>=0?'#059669':'#DC2626')">'+(d>=0?'+':'')+R(d)+'</td></tr>';}).join('')+
-  '</tbody></table></div></div>';
+    h+='<tr><td style="font-weight:500">'+e.n+'</td><td>'+cgLbl(e.cg)+'</td>';
+    h+='<td class="num" style="color:#7C3AED">'+R(ba.bl)+'</td><td class="num" style="color:#A78BFA">'+R(ba.vr)+'</td>';
+    h+='<td class="num" style="font-weight:600;color:#7C3AED">'+R(ba.tot)+'</td>';
+    h+='<td class="num" style="font-weight:600;color:#059669">'+R(bu2)+'</td>';
+    h+='<td class="num" style="font-weight:700;color:'+(d>=0?'#059669':'#DC2626')+'">'+(d>=0?'+':'')+R(d)+'</td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  return h;
 }
 
 function tSen(){
-  const rec=S.fin.rec,lb=S.fin.lb;
-  return'<div class="ptitle mb3">Sensibilidade — Ambos os Modelos</div>'+
-  '<div class="card mb4"><div class="ch"><span class="ct">Pool × Atingimento — Modelo Anterior vs. Atual</span></div>'+
-  '<div class="cb"><div class="cbox" style="height:320px"><canvas id="ch-sen"></canvas></div></div></div>'+
-  '<div class="card"><div class="ch"><span class="ct">Tabela de Sensibilidade</span></div><div class="cb twrap">'+
-  '<table class="tbl"><thead><tr><th>Ating.</th>'+
-  '<th class="num" style="color:#7C3AED">Ant. Total</th>'+
-  '<th class="num" style="color:#7C3AED">Ant. Baseline</th>'+
-  '<th class="num" style="color:#A78BFA">Ant. Variável</th>'+
-  '<th class="num" style="color:#059669">Atual</th>'+
-  '<th class="num">Δ (Atu-Ant)</th>'+
-  '<th class="num">Ant. %Rec</th><th class="num">Atu. %Rec</th>'+
-  '<th class="num">Ant. %LB</th><th class="num">Atu. %LB</th>'+
-  '</tr></thead><tbody>'+
-  SENS.map(sc=>{
+  let h='<div class="ptitle mb3">Sensibilidade — Ambos os Modelos</div>';
+  h+='<div class="card mb4"><div class="ch"><span class="ct">Pool x Atingimento</span></div><div class="cb"><div class="cbox" style="height:320px"><canvas id="ch-sen"></canvas></div></div></div>';
+  h+='<div class="card"><div class="ch"><span class="ct">Tabela de Sensibilidade</span></div><div class="cb twrap"><table class="tbl">';
+  h+='<thead><tr><th>Ating</th>';
+  h+='<th class="num" style="color:#7C3AED">Ant Total</th><th class="num" style="color:#7C3AED">Ant BL</th><th class="num" style="color:#A78BFA">Ant Var</th>';
+  h+='<th class="num" style="color:#059669">Atual</th><th class="num">Delta</th>';
+  h+='<th class="num">Ant %Rec</th><th class="num">Atu %Rec</th><th class="num">Ant %LB</th><th class="num">Atu %LB</th></tr></thead><tbody>';
+  SENS.forEach(sc=>{
     const pa=poolAnt(sc),bla2=blAnt(sc),vra2=vrAnt(sc),pu=poolAtu(sc);
-    const rr=recReal(sc),lr=lbReal(sc),d=pu-pa;
-    return'<tr'+(sc===100?' style="background:#faf5ff"':'')+'>'+
+    const rr=recR(sc),lr=lbR(sc),d=pu-pa;
+    h+='<tr'+(sc===100?' class="hi"':'')+'>'+
       '<td><strong>'+sc+'%</strong></td>'+
       '<td class="num" style="font-weight:700;color:#7C3AED">'+R(pa)+'</td>'+
       '<td class="num" style="color:#7C3AED">'+R(bla2)+'</td>'+
       '<td class="num" style="color:#A78BFA">'+R(vra2)+'</td>'+
       '<td class="num" style="font-weight:700;color:#059669">'+R(pu)+'</td>'+
-      '<td class="num" style="font-weight:700;color:'+(d>=0?'#059669':'#DC2626')">'+(d>=0?'+':'')+R(d)+'</td>'+
+      '<td class="num" style="font-weight:700;color:'+(d>=0?'#059669':'#DC2626')+'">'+(d>=0?'+':'')+R(d)+'</td>'+
       '<td class="num">'+P2(pa/rr)+'</td><td class="num">'+P2(pu/rr)+'</td>'+
-      '<td class="num">'+P2(pa/lr)+'</td><td class="num">'+P2(pu/lr)+'</td>'+
-      '</tr>';}).join('')+
-  '</tbody></table></div></div>';
+      '<td class="num">'+P2(pa/lr)+'</td><td class="num">'+P2(pu/lr)+'</td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  return h;
 }
 
-function kpiCard(label,val,sub,color){
-  return'<div class="kpi"><div class="kl">'+label+'</div>'+
-    '<div class="kv"'+(color?' style="color:'+color+'"':'')+'>'+val+'</div>'+
-    (sub?'<div class="ks">'+sub+'</div>':'')+
-    '</div>';
+// Deep set via path
+function setPath(obj,path,val){
+  const parts=path.split('.');
+  let cur=obj;
+  for(let i=0;i<parts.length-1;i++){
+    if(!cur[parts[i]])cur[parts[i]]={};
+    cur=cur[parts[i]];
+  }
+  cur[parts[parts.length-1]]=val;
 }
 
 function render(){
-  document.getElementById('tabs').innerHTML=TABS.map(t=>'<button class="tb '+(t.cl||'')+' '+(S.tab===t.id?'on':'')+'" data-tab="'+t.id+'">'+t.lb+'</button>').join('');
+  document.getElementById('tabs').innerHTML=TABS.map(t=>'<button class="tb '+(t.c||'')+' '+(S.tab===t.id?'on':'')+'" data-tab="'+t.id+'">'+t.l+'</button>').join('');
   const pg=document.getElementById('pg');
   if(S.tab==='cfg')pg.innerHTML=tCfg();
   else if(S.tab==='ant')pg.innerHTML=tAnt();
   else if(S.tab==='atu')pg.innerHTML=tAtu();
   else if(S.tab==='cmp')pg.innerHTML=tCmp();
   else if(S.tab==='sen')pg.innerHTML=tSen();
-  document.getElementById('hinfo').textContent=S.employees.length+' elegíveis';
+  document.getElementById('hinfo').textContent=S.employees.length+' elegiveis';
   bindEvt();
   setTimeout(drawAll,80);
   saveAll(false);
@@ -593,10 +562,22 @@ function render(){
 
 function bindEvt(){
   document.querySelectorAll('.tb').forEach(b=>b.addEventListener('click',()=>{S.tab=b.dataset.tab;render();}));
-  document.querySelectorAll('.ei').forEach(inp=>inp.addEventListener('change',()=>{
-    const id=+inp.dataset.id,f=inp.dataset.f,e=S.employees.find(x=>x.id===id);
-    if(e)e[f]=(f==='sal')?+inp.value:inp.value;
-    if(S.tab!=='cfg')render();
+  // Config inputs
+  document.querySelectorAll('.cfg-inp').forEach(inp=>inp.addEventListener('change',()=>{
+    let v=+inp.value;
+    setPath(S,inp.dataset.path,v);
+    render();
+  }));
+  // Config checkboxes
+  document.querySelectorAll('.cfg-chk').forEach(cb=>cb.addEventListener('change',()=>{
+    setPath(S,cb.dataset.path,cb.checked);
+    render();
+  }));
+  // Salary inputs
+  document.querySelectorAll('.sal-inp').forEach(inp=>inp.addEventListener('change',()=>{
+    const e=S.employees.find(x=>x.id===+inp.dataset.id);
+    if(e)e.sal=+inp.value;
+    render();
   }));
 }
 
