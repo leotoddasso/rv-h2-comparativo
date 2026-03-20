@@ -660,13 +660,13 @@ async function loadState(){
   try{
     const [rN,rA,rM]=await Promise.all([supaFetch('novo'),supaFetch('antigo'),supaFetch('main')]);
     // Novo
-    if(rN&&rN.data){const d=rN.data;if(d.employees)S.novo.employees=d.employees;if(d.multCfg)S.novo.multCfg=d.multCfg;if(d.cfg)S.novo.cfg=d.cfg;if(d.nid)S.novo.nid=d.nid;}
+    if(rN&&rN.data){const d=rN.data;if(d.employees)S.novo.employees=d.employees;if(d.multCfg)Object.assign(S.novo.multCfg,d.multCfg);if(d.cfg)Object.assign(S.novo.cfg,d.cfg);if(d.nid)S.novo.nid=d.nid;}
     else if(rM&&rM.data){// seed do main
       const d=rM.data;if(d.employees)S.novo.employees=dc(d.employees);
       if(d.cfg)BUS.forEach(bu=>{if(d.cfg[bu]){S.novo.cfg[bu].rec=d.cfg[bu].rec;S.novo.cfg[bu].lb=d.cfg[bu].lb;}});
     }
     // Antigo
-    if(rA&&rA.data){const d=rA.data;if(d.employees)S.antigo.employees=d.employees;if(d.multCfg)S.antigo.multCfg=d.multCfg;if(d.cfg)S.antigo.cfg=d.cfg;if(d.nid)S.antigo.nid=d.nid;}
+    if(rA&&rA.data){const d=rA.data;if(d.employees)S.antigo.employees=d.employees;if(d.multCfg)Object.assign(S.antigo.multCfg,d.multCfg);if(d.cfg)Object.assign(S.antigo.cfg,d.cfg);if(d.nid)S.antigo.nid=d.nid;}
     else if(rM&&rM.data){// seed do main
       const d=rM.data;if(d.employees)S.antigo.employees=dc(d.employees);
       if(d.cfg)BUS.forEach(bu=>{if(d.cfg[bu]){S.antigo.cfg[bu].rec=d.cfg[bu].rec;S.antigo.cfg[bu].lb=d.cfg[bu].lb;}});
