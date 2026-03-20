@@ -645,15 +645,33 @@ async function supaFetch(id){
   const rows=await r.json();return rows&&rows.length?rows[0]:null;
 }
 
-async function saveState(manual){
-  let ok=false;
+let _saveTimer=null,_saving=false;
+function saveState(manual){
+  // Debounce: cancela save anterior pendente, espera 800ms de silencio
+  if(!manual){
+    clearTimeout(_saveTimer);
+    _saveTimer=setTimeout(()=>_doSave(false),800);
+  } else {
+    clearTimeout(_saveTimer);
+    _doSave(true);
+  }
+}
+async function _doSave(manual){
+  if(_saving){_saveTimer=setTimeout(()=>_doSave(manual),500);return;}
+  _saving=true;
+  let okN=false,okA=false;
   try{
     await supaUpsert('novo',{employees:S.novo.employees,multCfg:S.novo.multCfg,cfg:S.novo.cfg,nid:S.novo.nid});
+    okN=true;
+  }catch(e){console.warn('save novo err',e);}
+  try{
     await supaUpsert('antigo',{employees:S.antigo.employees,multCfg:S.antigo.multCfg,cfg:S.antigo.cfg,nid:S.antigo.nid});
-    ok=true;
-  }catch(e){console.warn('save err',e);}
+    okA=true;
+  }catch(e){console.warn('save antigo err',e);}
+  _saving=false;
+  const ok=okN&&okA;
   const el=document.getElementById('save-status');
-  if(el){el.textContent=ok?`✓ Salvo ${new Date().toLocaleTimeString('pt-BR')}`:'⚠ Erro';el.style.color=ok?'#4ade80':'#f87171';el.style.opacity='1';if(!manual)setTimeout(()=>{el.style.opacity='0';},2500);}
+  if(el){el.textContent=ok?`✓ Salvo ${new Date().toLocaleTimeString('pt-BR')}`:(okN?'⚠ Erro antigo':'⚠ Erro novo');el.style.color=ok?'#4ade80':'#f87171';el.style.opacity='1';if(!manual)setTimeout(()=>{el.style.opacity='0';},3000);}
 }
 
 async function loadState(){
