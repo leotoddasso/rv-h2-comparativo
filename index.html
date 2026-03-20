@@ -297,7 +297,7 @@ function drawCmp(){
 function tMt(){
   const d=D(),lbl=MDL==='novo'?'Novo':'Antigo';
   return`<div class="ptitle mb3">Metas & Matriz — Modelo ${lbl}</div>
-  <div class="g2">${BUS.map(bu=>{
+  <div style="display:flex;flex-direction:column;gap:14px">${BUS.map(bu=>{
     const c=d.cfg[bu],at=atFor(bu,d),col=BUC[bu],es=bbu(bu,d),pool=poolBuAt(bu,at,d);
     const cgsLocal=[...new Set(es.map(e=>e.cg))].sort((a,b)=>(COR[a]??9)-(COR[b]??9));
     const lb=lbReal(bu,d),rec=recReal(bu,d);
