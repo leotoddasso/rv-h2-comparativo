@@ -62,6 +62,32 @@ input:focus,select:focus{outline:none;border-color:#7C3AED}
 .pbar{height:5px;border-radius:3px;background:#e5e5e0;margin-top:3px;overflow:hidden}
 .pfill{height:100%;border-radius:3px}
 .ac{color:#64748b;font-weight:600}.nc{color:#7C3AED;font-weight:600}
+body.dark-mode{background:#111}
+body.dark-mode .card{background:#1e1e1e;border-color:#333}
+body.dark-mode .ch{border-color:#2a2a2a}
+body.dark-mode .ct,.dark-mode .ptitle,.dark-mode .kv,.dark-mode .kl,.dark-mode .ks{color:#e5e5e0}
+body.dark-mode .kpi{background:#1e1e1e;border-color:#333}
+body.dark-mode .kl{color:#888}
+body.dark-mode .ks{color:#666}
+body.dark-mode .tabs{background:#1e1e1e;border-color:#333}
+body.dark-mode .tb{color:#666}
+body.dark-mode .tb:hover{color:#e5e5e0}
+body.dark-mode .tb.on{color:#e5e5e0;border-bottom-color:#e5e5e0}
+body.dark-mode .tb.h2b.on{color:#7C3AED;border-bottom-color:#7C3AED}
+body.dark-mode .tb.liv.on{color:#2563EB;border-bottom-color:#2563EB}
+body.dark-mode .tb.seu.on{color:#EA580C;border-bottom-color:#EA580C}
+body.dark-mode .tb.pok.on{color:#059669;border-bottom-color:#059669}
+body.dark-mode .tb.cmp.on{color:#DB2777;border-bottom-color:#DB2777}
+body.dark-mode .tbl th{background:#2a2a2a;color:#888;border-color:#333}
+body.dark-mode .tbl td{border-color:#2a2a2a;color:#d4d4d0}
+body.dark-mode .tbl tr:hover td{background:#252525}
+body.dark-mode .tbl .tr-tot td{background:#2a2a2a;border-color:#444}
+body.dark-mode input,body.dark-mode select{background:#2a2a2a;border-color:#444;color:#e5e5e0}
+body.dark-mode .btn-ot{background:#2a2a2a;border-color:#444;color:#ccc}
+body.dark-mode .tip{color:#666}
+body.dark-mode .sec{color:#666}
+body.dark-mode .sens-hl{background:#1a1030!important}
+body.dark-mode .pbar{background:#333}
 .dp{color:#059669;font-weight:700}.dn{color:#DC2626;font-weight:700}
 @media(max-width:900px){.g4{grid-template-columns:1fr 1fr}.g5{grid-template-columns:1fr 1fr}.g6{grid-template-columns:1fr 1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
 </style>
@@ -668,6 +694,7 @@ async function loadState(){
 
 // ─── RENDER ───
 function render(){
+  document.body.classList.toggle('dark-mode',MDL==='antigo');
   document.getElementById('tabs').innerHTML=TABS.map(t=>`<button class="tb ${t.cl||''} ${S.tab===t.id?'on':''}" data-tab="${t.id}">${t.lb}</button>`).join('');
   const pg=document.getElementById('pg');
   if(S.tab==='mt')pg.innerHTML=tMt();
