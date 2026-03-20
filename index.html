@@ -1,27 +1,36 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><title>RV H2 — Comparativo</title>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>H2 — RV Comparativo 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;color:#1a1a1a;font-size:13px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,sans-serif;background:#f5f5f0;color:#1a1a1a;font-size:13px}
 input,select,button{font-family:inherit;font-size:inherit}
-.hdr{background:#1a1a1a;color:#f5f5f0;padding:13px 24px;display:flex;align-items:center}
-.hdr h1{font-size:13px;font-weight:700}
-.tabs{background:#fff;border-bottom:1px solid #e5e5e0;padding:0 20px;display:flex;overflow-x:auto}
-.tb{padding:11px 14px;font-size:12px;font-weight:500;color:#999;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.app{display:flex;flex-direction:column;min-height:100vh}
+.hdr{background:#1a1a1a;color:#f5f5f0;padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hdr h1{font-size:13px;font-weight:700;white-space:nowrap}
+.mdl-toggle{display:flex;gap:3px;background:#ffffff18;border-radius:7px;padding:3px;flex-shrink:0}
+.mdl-btn{padding:4px 14px;border-radius:5px;border:none;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .15s;color:#f5f5f0;background:transparent}
+.mdl-btn.on{background:#fff;color:#1a1a1a}
+.tabs{background:#fff;border-bottom:1px solid #e5e5e0;padding:0 20px;display:flex;overflow-x:auto;flex-shrink:0}
+.tb{padding:11px 14px;font-size:12px;font-weight:500;color:#999;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s}
 .tb:hover{color:#1a1a1a}.tb.on{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:700}
-.tb.ant.on{color:#7C3AED;border-bottom-color:#7C3AED}
-.tb.atu.on{color:#059669;border-bottom-color:#059669}
-.tb.cmp.on{color:#EA580C;border-bottom-color:#EA580C}
+.tb.h2b.on{color:#7C3AED;border-bottom-color:#7C3AED}.tb.liv.on{color:#2563EB;border-bottom-color:#2563EB}
+.tb.seu.on{color:#EA580C;border-bottom-color:#EA580C}.tb.pok.on{color:#059669;border-bottom-color:#059669}
+.tb.cmp.on{color:#DB2777;border-bottom-color:#DB2777}
 .pg{padding:20px 24px;max-width:1440px;margin:0 auto;width:100%}
 .card{background:#fff;border-radius:10px;border:1px solid #e5e5e0;margin-bottom:16px;overflow:hidden}
 .ch{padding:11px 16px;border-bottom:1px solid #f0f0eb;display:flex;align-items:center;justify-content:space-between}
 .ct{font-size:12px;font-weight:600}.cb{padding:14px 16px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.g6{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
 .kpi{background:#fff;border-radius:8px;border:1px solid #e5e5e0;padding:13px 14px}
 .kl{font-size:11px;color:#999;font-weight:500;margin-bottom:3px}
 .kv{font-size:18px;font-weight:700;letter-spacing:-.5px;line-height:1.1}
@@ -31,597 +40,663 @@ input,select,button{font-family:inherit;font-size:inherit}
 .tbl td{padding:7px 10px;border-bottom:1px solid #f0f0eb;vertical-align:middle}
 .tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:#fafaf7}
 .tbl .tr-tot td{font-weight:700;background:#f9f9f6;border-top:2px solid #e5e5e0}
-.tbl .tr-sub td{font-style:italic;color:#888;font-size:11px}
 .num{text-align:right;font-variant-numeric:tabular-nums}
-input[type=text],input[type=number],select{border:1px solid #e5e5e0;border-radius:5px;padding:5px 8px;background:#fff;color:#1a1a1a;width:100%}
+input[type=text],input[type=number],select{border:1px solid #e5e5e0;border-radius:5px;padding:5px 8px;background:#fff;color:#1a1a1a;width:100%;transition:border-color .15s}
 input[type=number]{text-align:right}
 input:focus,select:focus{outline:none;border-color:#7C3AED}
-input[type=checkbox]{width:auto;cursor:pointer}
+.btn{padding:6px 13px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
+.btn-dk{background:#1a1a1a;color:#fff}.btn-dk:hover{background:#333}
+.btn-ot{background:#fff;border:1px solid #e5e5e0;color:#444}.btn-ot:hover{background:#f5f5f0}
+.btn-sm{padding:4px 9px;font-size:11px}
+.btn-x{padding:2px 7px;border-radius:4px;border:1px solid #fee2e2;background:#fff;color:#dc2626;cursor:pointer;font-size:12px}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.pf{background:#ede9fe;color:#6D28D9}.pm{background:#f3f4f6;color:#6b7280}
 .sec{font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px}
 .tip{font-size:11px;color:#aaa;font-style:italic}
 .twrap{overflow-x:auto}.ptitle{font-size:15px;font-weight:700;letter-spacing:-.3px}
 .flex{display:flex}.fac{align-items:center}.fjb{justify-content:space-between}
 .gap2{gap:8px}.gap3{gap:12px}
 .mt2{margin-top:8px}.mt3{margin-top:12px}.mb2{margin-bottom:8px}.mb3{margin-bottom:12px}.mb4{margin-bottom:18px}
-.cbox{position:relative;height:280px}
-.smsg{font-size:11px;color:#4ade80;opacity:0;transition:opacity .4s;white-space:nowrap}
-.pill-f{background:#ede9fe;color:#6D28D9;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
-.pill-m{background:#f3f4f6;color:#6b7280;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
-.hi{background:#faf5ff!important}
-.bu-h2b{color:#7C3AED}.bu-liv{color:#2563EB}.bu-seu{color:#EA580C}.bu-pok{color:#059669}
-</style></head>
+.cbox{position:relative;height:280px}.cbox-sm{position:relative;height:210px}
+.sens-hl{background:#faf5ff!important}
+.pbar{height:5px;border-radius:3px;background:#e5e5e0;margin-top:3px;overflow:hidden}
+.pfill{height:100%;border-radius:3px}
+.ac{color:#64748b;font-weight:600}.nc{color:#7C3AED;font-weight:600}
+.dp{color:#059669;font-weight:700}.dn{color:#DC2626;font-weight:700}
+@media(max-width:900px){.g4{grid-template-columns:1fr 1fr}.g5{grid-template-columns:1fr 1fr}.g6{grid-template-columns:1fr 1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
+</style>
+</head>
 <body>
-<div class="hdr">
-  <h1>Comparativo de Modelos RV — Grupo H2 · 2026</h1>
-  <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
-    <button onclick="saveAll(true)" style="padding:5px 12px;border-radius:6px;border:none;background:#4ade80;color:#1a1a1a;font-size:11px;font-weight:700;cursor:pointer">● Salvar</button>
-    <span class="smsg" id="smsg"></span>
-    <span style="font-size:11px;opacity:.4" id="hinfo"></span>
+<div class="app">
+  <div class="hdr">
+    <h1>RV Comparativo — Grupo H2 · 2026</h1>
+    <div class="mdl-toggle">
+      <button class="mdl-btn on" id="btn-novo" onclick="switchMdl('novo')">Modelo Novo</button>
+      <button class="mdl-btn" id="btn-ant" onclick="switchMdl('antigo')">Modelo Antigo</button>
+    </div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+      <span id="save-status" style="font-size:11px;color:#4ade80;opacity:0;transition:opacity .4s;white-space:nowrap"></span>
+      <span style="font-size:11px;opacity:.45;white-space:nowrap" id="hdr-info"></span>
+    </div>
   </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="pg" id="pg"></div>
 </div>
-<div class="tabs" id="tabs"></div>
-<div class="pg" id="pg"></div>
 <script>
 Chart.register(ChartDataLabels);
-const SU='https://yalkxizeieqiuqekwzlr.supabase.co';
-const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhbGt4aXplaWVxaXVxZWt3emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NjY0MjIsImV4cCI6MjA4OTM0MjQyMn0.klPiWay1tme0v3DbsU6_mpWkwrYv_7hjeqYN3_26waw';
-
 const BUS=['H2Bet','Live','SeuBet','Poker Online'];
 const BUC={'H2Bet':'#7C3AED','Live':'#2563EB','SeuBet':'#EA580C','Poker Online':'#059669'};
-const CG=['C-level','Head','Gerente','Especialista','Principal','Tech Lead','Coord','Baseline'];
-const COR_CG={'C-level':0,'Head':1,'Gerente':2,'Especialista':3,'Principal':4,'Tech Lead':5,'Coord':6,'Baseline':7};
-const CC={'C-level':'#059669','Head':'#2563EB','Gerente':'#EA580C','Especialista':'#EA580C','Principal':'#EA580C','Tech Lead':'#EA580C','Coord':'#9CA3AF','Baseline':'#6b7280'};
-const TABS=[{id:'cfg',l:'⚙️ Config'},{id:'ant',l:'📋 Modelo Anterior',c:'ant'},{id:'atu',l:'🟢 Modelo Atual',c:'atu'},{id:'cmp',l:'⚖️ Comparacao',c:'cmp'},{id:'sen',l:'📈 Sensibilidade'}];
-const SENS=[50,60,70,80,90,100,110,120,130];
+const CARGOS=['C-level','Head','Gerente','Especialista','Principal','Tech Lead','Coord'];
+const COR={'C-level':0,'Head':1,'Gerente':2,'Especialista':3,'Principal':4,'Tech Lead':5,'Coord':6};
+const CARGO_CLR={'C-level':'#059669','Head':'#2563EB','Gerente':'#EA580C','Especialista':'#EA580C','Principal':'#EA580C','Tech Lead':'#EA580C','Coord':'#9CA3AF'};
+const SENS=[70,80,90,100,110,120,130];
+const TABS=[
+  {id:'mt',lb:'🎯 Metas & Matriz'},{id:'gr',lb:'📊 Grupo'},
+  {id:'H2Bet',lb:'H2Bet',cl:'h2b'},{id:'Live',lb:'Live',cl:'liv'},
+  {id:'SeuBet',lb:'SeuBet',cl:'seu'},{id:'Poker Online',lb:'Poker Online',cl:'pok'},
+  {id:'pl',lb:'📋 Planilha'},{id:'cmp',lb:'⚖️ Comparativo',cl:'cmp'},
+];
 
+const DEMP=[
+  {id:1,n:'Altair Arantes',bu:'H2Bet',ar:'Performance',cg:'C-level',ta:'Fim',sal:50000},
+  {id:2,n:'Igor Trafane',bu:'H2Bet',ar:'Liderança',cg:'C-level',ta:'Fim',sal:50000},
+  {id:3,n:'Ueltom Lima',bu:'H2Bet',ar:'Liderança',cg:'C-level',ta:'Fim',sal:50000},
+  {id:4,n:'Fabiana Miranda',bu:'H2Bet',ar:'RH',cg:'C-level',ta:'Meio',sal:45000},
+  {id:5,n:'Jorge Breda',bu:'H2Bet',ar:'Operações',cg:'C-level',ta:'Meio',sal:50000},
+  {id:6,n:'Juliano Dutra',bu:'H2Bet',ar:'Financeiro',cg:'C-level',ta:'Meio',sal:45000},
+  {id:7,n:'Leonardo Cavarge Martins',bu:'H2Bet',ar:'Operações',cg:'Head',ta:'Meio',sal:22000},
+  {id:8,n:'Rafael Rebelo',bu:'H2Bet',ar:'Compliance',cg:'Head',ta:'Fim',sal:22000},
+  {id:9,n:'Alex Scarelli',bu:'H2Bet',ar:'Tech',cg:'Head',ta:'Meio',sal:22000},
+  {id:10,n:'William Westrup',bu:'H2Bet',ar:'Tech - Dados',cg:'Head',ta:'Meio',sal:22000},
+  {id:11,n:'Rafael Amaral Dias Alves',bu:'H2Bet',ar:'Produto',cg:'Head',ta:'Meio',sal:22000},
+  {id:12,n:'Marcelo Pavan',bu:'H2Bet',ar:'Performance',cg:'Head',ta:'Fim',sal:22000},
+  {id:13,n:'Henrique Yamagutt dos Anjos',bu:'H2Bet',ar:'Marketing',cg:'Head',ta:'Fim',sal:22000},
+  {id:14,n:'Felipe Camara Mendina',bu:'H2Bet',ar:'Marketing',cg:'Head',ta:'Fim',sal:22000},
+  {id:15,n:'Vilmar Alves Toledo Junior',bu:'H2Bet',ar:'Tech',cg:'Head',ta:'Fim',sal:22000},
+  {id:16,n:'Rayssa Brazão',bu:'H2Bet',ar:'Financeiro',cg:'Gerente',ta:'Meio',sal:15000},
+  {id:17,n:'Ana Paula Sanchez',bu:'H2Bet',ar:'Operações',cg:'Gerente',ta:'Meio',sal:13000},
+  {id:18,n:'Diogo Breda',bu:'H2Bet',ar:'Operações',cg:'Gerente',ta:'Meio',sal:13000},
+  {id:19,n:'Luã Figueiredo',bu:'H2Bet',ar:'Operações',cg:'Gerente',ta:'Fim',sal:13000},
+  {id:20,n:'Marcel Queiroz',bu:'H2Bet',ar:'Financeiro',cg:'Gerente',ta:'Fim',sal:13000},
+  {id:21,n:'Flávio Benedetti',bu:'H2Bet',ar:'Financeiro',cg:'Gerente',ta:'Fim',sal:13000},
+  {id:22,n:'Adriano Mendes',bu:'H2Bet',ar:'Performance',cg:'Gerente',ta:'Fim',sal:10000},
+  {id:23,n:'Ana Barros',bu:'H2Bet',ar:'Tech - Dados',cg:'Gerente',ta:'Fim',sal:10000},
+  {id:24,n:'Danilo Lacerda',bu:'H2Bet',ar:'Tech - Dados',cg:'Gerente',ta:'Fim',sal:10000},
+  {id:25,n:'Estevão Moreno',bu:'H2Bet',ar:'Tech - Dados',cg:'Gerente',ta:'Meio',sal:10000},
+  {id:26,n:'Gabriel Delfino',bu:'H2Bet',ar:'Performance',cg:'Gerente',ta:'Fim',sal:10000},
+  {id:27,n:'Rafael Santana',bu:'H2Bet',ar:'Tech - Dados',cg:'Gerente',ta:'Meio',sal:10000},
+  {id:28,n:'Kadu Herrera',bu:'H2Bet',ar:'Performance',cg:'Gerente',ta:'Fim',sal:9000},
+  {id:29,n:'Fernando Castellon',bu:'H2Bet',ar:'Marketing',cg:'Gerente',ta:'Fim',sal:9000},
+  {id:30,n:'Rafaela Perticarrari',bu:'H2Bet',ar:'Marketing',cg:'Gerente',ta:'Fim',sal:9000},
+  {id:31,n:'Raphael Burger',bu:'H2Bet',ar:'Marketing',cg:'Gerente',ta:'Fim',sal:9000},
+  {id:32,n:'Rodrigo Gonçalves',bu:'H2Bet',ar:'Financeiro',cg:'Gerente',ta:'Fim',sal:9000},
+  {id:33,n:'Diego Macedo',bu:'H2Bet',ar:'Produto',cg:'Especialista',ta:'Fim',sal:13000},
+  {id:34,n:'Diego Marino Malacarne',bu:'H2Bet',ar:'Compliance',cg:'Especialista',ta:'Fim',sal:13000},
+  {id:35,n:'Isabela Rabello Martins Gallina',bu:'H2Bet',ar:'Produto',cg:'Especialista',ta:'Fim',sal:10000},
+  {id:36,n:'Douglas de Siqueira Silva',bu:'H2Bet',ar:'Produto',cg:'Principal',ta:'Meio',sal:10000},
+  {id:37,n:'Felipe Ruiz Cavalcanti de Carvalho',bu:'H2Bet',ar:'Produto',cg:'Principal',ta:'Meio',sal:10000},
+  {id:38,n:'Renata Bassi',bu:'H2Bet',ar:'Produto',cg:'Principal',ta:'Meio',sal:9000},
+  {id:39,n:'Rodrigo dos Santos Cruz',bu:'H2Bet',ar:'Tech',cg:'Tech Lead',ta:'Meio',sal:10000},
+  {id:40,n:'Augusto Rabelo',bu:'H2Bet',ar:'Tech',cg:'Tech Lead',ta:'Fim',sal:9000},
+  {id:41,n:'Daniel Nakagawa',bu:'H2Bet',ar:'Tech',cg:'Tech Lead',ta:'Meio',sal:9000},
+  {id:42,n:'Eric Magalhães',bu:'H2Bet',ar:'Tech',cg:'Tech Lead',ta:'Fim',sal:9000},
+  {id:43,n:'Felipe Raimo',bu:'H2Bet',ar:'Tech',cg:'Tech Lead',ta:'Meio',sal:9000},
+  {id:44,n:'Tamires Nascimento',bu:'H2Bet',ar:'Compliance',cg:'Coord',ta:'Fim',sal:10000},
+  {id:45,n:'João Marcelo',bu:'Live',ar:'Liderança',cg:'C-level',ta:'Fim',sal:45000},
+  {id:46,n:'Robinson Quiroga',bu:'Live',ar:'Live',cg:'Head',ta:'Fim',sal:20000},
+  {id:47,n:'Pedro Soares de Meirelles',bu:'Live',ar:'Live',cg:'Head',ta:'Meio',sal:20000},
+  {id:48,n:'Aldo Dias',bu:'Live',ar:'Live',cg:'Gerente',ta:'Fim',sal:18000},
+  {id:49,n:'Fernando Brunca',bu:'Live',ar:'Live',cg:'Gerente',ta:'Fim',sal:18000},
+  {id:50,n:'Eveline Marques',bu:'Live',ar:'Live',cg:'Gerente',ta:'Fim',sal:13000},
+  {id:51,n:'Leandro Bran',bu:'Live',ar:'Live',cg:'Gerente',ta:'Fim',sal:13000},
+  {id:52,n:'Luana Alves',bu:'Live',ar:'Live',cg:'Gerente',ta:'Fim',sal:13000},
+  {id:53,n:'Ederson Contini',bu:'Live',ar:'Financeiro',cg:'Gerente',ta:'Fim',sal:9000},
+  {id:54,n:'Henrique Ferrari',bu:'Live',ar:'Live',cg:'Gerente',ta:'Fim',sal:9000},
+  {id:55,n:'Eduardo Sequela',bu:'Live',ar:'Financeiro',cg:'Coord',ta:'Meio',sal:9000},
+  {id:56,n:'Isabela Santos',bu:'Live',ar:'Live',cg:'Coord',ta:'Fim',sal:9000},
+  {id:57,n:'Paula Porto',bu:'Live',ar:'Live',cg:'Coord',ta:'Fim',sal:9000},
+  {id:58,n:'Vinicius Telles',bu:'SeuBet',ar:'SeuBet',cg:'Head',ta:'Fim',sal:20000},
+  {id:59,n:'Gabriel Silva',bu:'SeuBet',ar:'SeuBet',cg:'Gerente',ta:'Fim',sal:13000},
+  {id:60,n:'Rafael Parreira Soares',bu:'SeuBet',ar:'SeuBet',cg:'Gerente',ta:'Meio',sal:13000},
+  {id:61,n:'Silvio Cardoso',bu:'SeuBet',ar:'SeuBet',cg:'Gerente',ta:'Fim',sal:9000},
+  {id:62,n:'Bruno Kawauti',bu:'Poker Online',ar:'Poker Online',cg:'Head',ta:'Fim',sal:20000},
+  {id:63,n:'Carolina Mendes Bueno Selmi',bu:'Poker Online',ar:'Poker Online',cg:'Coord',ta:'Meio',sal:9000},
+  {id:64,n:'George Matoso',bu:'Poker Online',ar:'Poker Online',cg:'Coord',ta:'Meio',sal:7000},
+  {id:65,n:'Wagner Almeida',bu:'Poker Online',ar:'Tech',cg:'Tech Lead',ta:'Fim',sal:9000},
+];
+
+// multCfg: bl_F,bl_M=baseline mult Fim/Meio | v_F,v_M=variavel mult | el_F,el_M=elegivel variavel
+const DMULT={
+  'H2Bet'       :{'C-level':{bl_F:4,bl_M:4,v_F:4,v_M:4,el_F:true,el_M:true},'Head':{bl_F:2,bl_M:2,v_F:3,v_M:2,el_F:true,el_M:true},'Gerente':{bl_F:1,bl_M:1,v_F:2,v_M:1,el_F:true,el_M:false},'Especialista':{bl_F:1,bl_M:1,v_F:2,v_M:1,el_F:true,el_M:false},'Principal':{bl_F:1,bl_M:1,v_F:1,v_M:1,el_F:true,el_M:true},'Tech Lead':{bl_F:1,bl_M:1,v_F:1,v_M:1,el_F:true,el_M:true},'Coord':{bl_F:1,bl_M:1,v_F:1,v_M:0,el_F:true,el_M:false}},
+  'Live'        :{'C-level':{bl_F:3,bl_M:3,v_F:4,v_M:4,el_F:true,el_M:true},'Head':{bl_F:2,bl_M:2,v_F:3,v_M:2,el_F:true,el_M:true},'Gerente':{bl_F:1,bl_M:1,v_F:2,v_M:1,el_F:true,el_M:false},'Especialista':{bl_F:1,bl_M:1,v_F:2,v_M:1,el_F:true,el_M:false},'Principal':{bl_F:1,bl_M:1,v_F:1,v_M:1,el_F:true,el_M:true},'Tech Lead':{bl_F:1,bl_M:1,v_F:1,v_M:1,el_F:true,el_M:true},'Coord':{bl_F:1,bl_M:1,v_F:1,v_M:0,el_F:true,el_M:false}},
+  'SeuBet'      :{'C-level':{bl_F:3,bl_M:3,v_F:3,v_M:3,el_F:true,el_M:true},'Head':{bl_F:2,bl_M:2,v_F:2,v_M:2,el_F:true,el_M:true},'Gerente':{bl_F:1,bl_M:1,v_F:2,v_M:1,el_F:true,el_M:false},'Especialista':{bl_F:1,bl_M:1,v_F:2,v_M:1,el_F:true,el_M:false},'Principal':{bl_F:1,bl_M:1,v_F:1,v_M:1,el_F:true,el_M:true},'Tech Lead':{bl_F:1,bl_M:1,v_F:1,v_M:1,el_F:true,el_M:true},'Coord':{bl_F:1,bl_M:1,v_F:1,v_M:0,el_F:true,el_M:false}},
+  'Poker Online':{'C-level':{bl_F:3,bl_M:3,v_F:3,v_M:3,el_F:true,el_M:true},'Head':{bl_F:2,bl_M:2,v_F:2,v_M:2,el_F:true,el_M:true},'Gerente':{bl_F:1,bl_M:1,v_F:2,v_M:1,el_F:true,el_M:false},'Especialista':{bl_F:1,bl_M:1,v_F:2,v_M:1,el_F:true,el_M:false},'Principal':{bl_F:1,bl_M:1,v_F:1,v_M:1,el_F:true,el_M:true},'Tech Lead':{bl_F:1,bl_M:1,v_F:1,v_M:1,el_F:true,el_M:true},'Coord':{bl_F:1,bl_M:1,v_F:1,v_M:0,el_F:true,el_M:false}},
+};
+const DCFG={
+  'H2Bet'       :{rec:917000000,lb:80000000,piso:100,teto:120,meta:{emp:{p:30,a:100},bu:{p:50,a:100},ar:{p:20,a:100}}},
+  'Live'        :{rec:100000000,lb:8000000, piso:100,teto:120,meta:{emp:{p:30,a:100},bu:{p:50,a:100},ar:{p:20,a:100}}},
+  'SeuBet'      :{rec:131000000,lb:12000000,piso:100,teto:120,meta:{emp:{p:30,a:100},bu:{p:40,a:100},ar:{p:30,a:100}}},
+  'Poker Online':{rec:32000000, lb:6000000, piso:100,teto:120,meta:{emp:{p:30,a:100},bu:{p:50,a:100},ar:{p:20,a:100}}},
+};
+
+function dc(o){return JSON.parse(JSON.stringify(o));}
+let MDL='novo',srt={col:null,dir:1};
+let S={
+  tab:'mt',
+  novo:  {nid:66,employees:dc(DEMP),multCfg:dc(DMULT),cfg:dc(DCFG)},
+  antigo:{nid:66,employees:dc(DEMP),multCfg:dc(DMULT),cfg:dc(DCFG)},
+};
+function D(){return S[MDL];}
+function switchMdl(m){MDL=m;document.getElementById('btn-novo').className='mdl-btn'+(m==='novo'?' on':'');document.getElementById('btn-ant').className='mdl-btn'+(m==='antigo'?' on':'');render();}
+
+// Formatters
 const R=n=>'R$ '+Math.round(n).toLocaleString('pt-BR');
 const Rk=n=>Math.abs(n)>=1e6?'R$ '+(n/1e6).toFixed(1)+'M':Math.abs(n)>=1e3?'R$ '+(n/1e3).toFixed(0)+'k':R(n);
 const Pp=n=>(+n).toFixed(1);
 const P2=n=>(+n*100).toFixed(2)+'%';
 const P1=n=>(+n*100).toFixed(1)+'%';
-const gc='rgba(0,0,0,.05)';
+function dR(d){return`<span class="${d>=0?'dp':'dn'}">${d>=0?'+':''}${R(d)}</span>`;}
+function dP(d){return`<span class="${d>=0?'dp':'dn'}">${d>=0?'+':''}${(d*100).toFixed(1)}%</span>`;}
 
-// Estado — params agora por BU
-let S={
-  tab:'cfg',
-  fin:{rec:962805000,lb:106000000},
-  ating:{ant:100,atu:100},
-  ant:{
-    gatilho:100,piso:80,teto:120,
-    params:{"H2Bet":{"C-level":{"bl":4,"v":8,"el":true},"Head":{"bl":2,"v":4,"el":true},"Gerente":{"bl":1,"v":2,"el":true},"Especialista":{"bl":1,"v":2,"el":true},"Principal":{"bl":1,"v":1,"el":true},"Tech Lead":{"bl":1,"v":2,"el":true},"Coord":{"bl":1,"v":1,"el":false},"Baseline":{"bl":1,"v":1,"el":false}},"Live":{"C-level":{"bl":4,"v":8,"el":true},"Head":{"bl":2,"v":4,"el":true},"Gerente":{"bl":1,"v":2,"el":true},"Especialista":{"bl":1,"v":2,"el":true},"Principal":{"bl":1,"v":1,"el":true},"Tech Lead":{"bl":1,"v":2,"el":true},"Coord":{"bl":1,"v":1,"el":false},"Baseline":{"bl":1,"v":1,"el":false}},"SeuBet":{"C-level":{"bl":4,"v":8,"el":true},"Head":{"bl":2,"v":4,"el":true},"Gerente":{"bl":1,"v":2,"el":true},"Especialista":{"bl":1,"v":2,"el":true},"Principal":{"bl":1,"v":1,"el":true},"Tech Lead":{"bl":1,"v":2,"el":true},"Coord":{"bl":1,"v":1,"el":false},"Baseline":{"bl":1,"v":1,"el":false}},"Poker Online":{"C-level":{"bl":4,"v":8,"el":true},"Head":{"bl":2,"v":4,"el":true},"Gerente":{"bl":1,"v":2,"el":true},"Especialista":{"bl":1,"v":2,"el":true},"Principal":{"bl":1,"v":1,"el":true},"Tech Lead":{"bl":1,"v":2,"el":true},"Coord":{"bl":1,"v":1,"el":false},"Baseline":{"bl":1,"v":1,"el":false}}}
-  },
-  atu:{
-    piso:100,teto:120,
-    mult:{"H2Bet":{"C-level":{"F":8,"M":8},"Head":{"F":5,"M":4},"Gerente":{"F":3,"M":2},"Especialista":{"F":3,"M":2},"Principal":{"F":2,"M":2},"Tech Lead":{"F":2,"M":2},"Coord":{"F":1,"M":1},"Baseline":{"F":1,"M":1}},"Live":{"C-level":{"F":8,"M":8},"Head":{"F":5,"M":4},"Gerente":{"F":3,"M":2},"Especialista":{"F":3,"M":2},"Principal":{"F":2,"M":2},"Tech Lead":{"F":2,"M":2},"Coord":{"F":1,"M":1},"Baseline":{"F":1,"M":1}},"SeuBet":{"C-level":{"F":8,"M":8},"Head":{"F":5,"M":4},"Gerente":{"F":3,"M":2},"Especialista":{"F":3,"M":2},"Principal":{"F":2,"M":2},"Tech Lead":{"F":2,"M":2},"Coord":{"F":1,"M":1},"Baseline":{"F":1,"M":1}},"Poker Online":{"C-level":{"F":8,"M":8},"Head":{"F":5,"M":4},"Gerente":{"F":3,"M":2},"Especialista":{"F":3,"M":2},"Principal":{"F":2,"M":2},"Tech Lead":{"F":2,"M":2},"Coord":{"F":1,"M":1},"Baseline":{"F":1,"M":1}}}
-  },
-  employees:[
-    {id:1,n:'Altair Arantes',bu:'H2Bet',cg:'C-level',ta:'Fim',sal:50000},
-    {id:2,n:'Igor Trafane',bu:'H2Bet',cg:'C-level',ta:'Fim',sal:50000},
-    {id:3,n:'Ueltom Lima',bu:'H2Bet',cg:'C-level',ta:'Fim',sal:50000},
-    {id:4,n:'Fabiana Miranda',bu:'H2Bet',cg:'C-level',ta:'Meio',sal:45000},
-    {id:5,n:'Jorge Breda',bu:'H2Bet',cg:'C-level',ta:'Meio',sal:50000},
-    {id:6,n:'Juliano Dutra',bu:'H2Bet',cg:'C-level',ta:'Meio',sal:45000},
-    {id:7,n:'Leonardo Cavarge Martins',bu:'H2Bet',cg:'Head',ta:'Meio',sal:22000},
-    {id:8,n:'Rafael Rebelo',bu:'H2Bet',cg:'Head',ta:'Fim',sal:22000},
-    {id:9,n:'Alex Scarelli',bu:'H2Bet',cg:'Head',ta:'Meio',sal:22000},
-    {id:10,n:'William Westrup',bu:'H2Bet',cg:'Head',ta:'Meio',sal:22000},
-    {id:11,n:'Rafael Amaral Dias Alves',bu:'H2Bet',cg:'Head',ta:'Meio',sal:22000},
-    {id:12,n:'Marcelo Pavan',bu:'H2Bet',cg:'Head',ta:'Fim',sal:22000},
-    {id:13,n:'Henrique Yamagutt dos Anjos',bu:'H2Bet',cg:'Head',ta:'Fim',sal:22000},
-    {id:14,n:'Felipe Camara Mendina',bu:'H2Bet',cg:'Head',ta:'Fim',sal:22000},
-    {id:15,n:'Vilmar Alves Toledo Junior',bu:'H2Bet',cg:'Head',ta:'Fim',sal:22000},
-    {id:16,n:'Rayssa Brazao',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:15000},
-    {id:17,n:'Ana Paula Sanchez',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:13000},
-    {id:18,n:'Diogo Breda',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:13000},
-    {id:19,n:'Lua Figueiredo',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:13000},
-    {id:20,n:'Marcel Queiroz',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:13000},
-    {id:21,n:'Flavio Benedetti',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:13000},
-    {id:22,n:'Adriano Mendes',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:10000},
-    {id:23,n:'Ana Barros',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:10000},
-    {id:24,n:'Danilo Lacerda',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:10000},
-    {id:25,n:'Estevao Moreno',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:10000},
-    {id:26,n:'Gabriel Delfino',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:10000},
-    {id:27,n:'Rafael Santana',bu:'H2Bet',cg:'Gerente',ta:'Meio',sal:10000},
-    {id:28,n:'Kadu Herrera',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
-    {id:29,n:'Fernando Castellon',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
-    {id:30,n:'Rafaela Perticarrari',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
-    {id:31,n:'Raphael Burger',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
-    {id:32,n:'Rodrigo Goncalves',bu:'H2Bet',cg:'Gerente',ta:'Fim',sal:9000},
-    {id:33,n:'Diego Macedo',bu:'H2Bet',cg:'Especialista',ta:'Fim',sal:13000},
-    {id:34,n:'Diego Malacarne',bu:'H2Bet',cg:'Especialista',ta:'Fim',sal:13000},
-    {id:35,n:'Isabela Rabello',bu:'H2Bet',cg:'Especialista',ta:'Fim',sal:10000},
-    {id:36,n:'Douglas de Siqueira Silva',bu:'H2Bet',cg:'Principal',ta:'Meio',sal:10000},
-    {id:37,n:'Felipe Ruiz',bu:'H2Bet',cg:'Principal',ta:'Meio',sal:10000},
-    {id:38,n:'Renata Bassi',bu:'H2Bet',cg:'Principal',ta:'Meio',sal:9000},
-    {id:39,n:'Rodrigo Cruz',bu:'H2Bet',cg:'Tech Lead',ta:'Meio',sal:10000},
-    {id:40,n:'Augusto Rabelo',bu:'H2Bet',cg:'Tech Lead',ta:'Fim',sal:9000},
-    {id:41,n:'Daniel Nakagawa',bu:'H2Bet',cg:'Tech Lead',ta:'Meio',sal:9000},
-    {id:42,n:'Eric Magalhaes',bu:'H2Bet',cg:'Tech Lead',ta:'Fim',sal:9000},
-    {id:43,n:'Felipe Raimo',bu:'H2Bet',cg:'Tech Lead',ta:'Meio',sal:9000},
-    {id:44,n:'Tamires Nascimento',bu:'H2Bet',cg:'Coord',ta:'Fim',sal:10000},
-    {id:45,n:'Joao Marcelo',bu:'Live',cg:'C-level',ta:'Fim',sal:45000},
-    {id:46,n:'Robinson Quiroga',bu:'Live',cg:'Head',ta:'Fim',sal:20000},
-    {id:47,n:'Pedro Soares de Meirelles',bu:'Live',cg:'Head',ta:'Meio',sal:20000},
-    {id:48,n:'Aldo Dias',bu:'Live',cg:'Gerente',ta:'Fim',sal:18000},
-    {id:49,n:'Fernando Brunca',bu:'Live',cg:'Gerente',ta:'Fim',sal:18000},
-    {id:50,n:'Eveline Marques',bu:'Live',cg:'Gerente',ta:'Fim',sal:13000},
-    {id:51,n:'Leandro Bran',bu:'Live',cg:'Gerente',ta:'Fim',sal:13000},
-    {id:52,n:'Luana Alves',bu:'Live',cg:'Gerente',ta:'Fim',sal:13000},
-    {id:53,n:'Ederson Contini',bu:'Live',cg:'Gerente',ta:'Fim',sal:9000},
-    {id:54,n:'Henrique Ferrari',bu:'Live',cg:'Gerente',ta:'Fim',sal:9000},
-    {id:55,n:'Eduardo Sequela',bu:'Live',cg:'Coord',ta:'Meio',sal:9000},
-    {id:56,n:'Isabela Santos',bu:'Live',cg:'Coord',ta:'Fim',sal:9000},
-    {id:57,n:'Paula Porto',bu:'Live',cg:'Coord',ta:'Fim',sal:9000},
-    {id:58,n:'Vinicius Telles',bu:'SeuBet',cg:'Head',ta:'Fim',sal:20000},
-    {id:59,n:'Gabriel Silva',bu:'SeuBet',cg:'Gerente',ta:'Fim',sal:13000},
-    {id:60,n:'Rafael Parreira Soares',bu:'SeuBet',cg:'Gerente',ta:'Meio',sal:13000},
-    {id:61,n:'Silvio Cardoso',bu:'SeuBet',cg:'Gerente',ta:'Fim',sal:9000},
-    {id:62,n:'Bruno Kawauti',bu:'Poker Online',cg:'Head',ta:'Fim',sal:20000},
-    {id:63,n:'Carolina Mendes',bu:'Poker Online',cg:'Coord',ta:'Meio',sal:9000},
-    {id:64,n:'George Matoso',bu:'Poker Online',cg:'Coord',ta:'Meio',sal:7000},
-    {id:65,n:'Wagner Almeida',bu:'Poker Online',cg:'Tech Lead',ta:'Fim',sal:9000}
-  ]
-};
-
-// Supabase
-async function supaSet(d){
-  const r=await fetch(SU+'/rest/v1/rv_state',{method:'POST',
-    headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},
-    body:JSON.stringify({id:'comparativo',data:d,updated_at:new Date().toISOString()})});
-  if(!r.ok)throw new Error(await r.text());
+// Calcs
+function atFor(bu,d){const m=(d||D()).cfg[bu].meta,tp=m.emp.p+m.bu.p+m.ar.p;return tp?(m.emp.p*m.emp.a+m.bu.p*m.bu.a+m.ar.p*m.ar.a)/tp:0;}
+function bonFor(e,at,d){
+  const dd=d||D(),cfg=dd.cfg[e.bu];
+  const mc=(dd.multCfg[e.bu]?.[e.cg])||{bl_F:1,bl_M:1,v_F:0,v_M:0,el_F:false,el_M:false};
+  const fim=e.ta==='Fim';
+  const bl=at>=100?e.sal*(fim?mc.bl_F:mc.bl_M):0;
+  const el=fim?mc.el_F:mc.el_M;
+  const f=at<cfg.piso?0:Math.min((at-cfg.piso)/(cfg.teto-cfg.piso),1);
+  const v=el?e.sal*(fim?mc.v_F:mc.v_M)*f:0;
+  return{bl,v,tot:bl+v};
 }
-async function supaGet(){
-  const r=await fetch(SU+'/rest/v1/rv_state?id=eq.comparativo&select=data,updated_at',
-    {headers:{'apikey':SK,'Authorization':'Bearer '+SK}});
-  const rows=await r.json();return rows&&rows.length?rows[0]:null;
-}
-function snap(){return{v:2,ts:new Date().toISOString(),fin:S.fin,ating:S.ating,ant:S.ant,atu:S.atu,employees:S.employees};}
-async function saveAll(manual){
-  if(!S.employees||!S.employees.length)return;
-  let ok=false;try{await supaSet(snap());ok=true;}catch(e){console.warn(e);}
-  const el=document.getElementById('smsg');
-  if(el){el.textContent=ok?'✓ Salvo '+new Date().toLocaleTimeString('pt-BR'):'⚠ Erro';
-    el.style.color=ok?'#4ade80':'#f87171';el.style.opacity='1';
-    if(!manual)setTimeout(()=>{el.style.opacity='0';},2500);}
-}
-async function loadAll(){
-try{
-// Busca employees e multCfg do rv-h2 principal (id='main')
-const rMain=await fetch(SU+'/rest/v1/rv_state?id=eq.main&select=data',
-  {headers:{'apikey':SK,'Authorization':'Bearer '+SK}});
-const rowsMain=await rMain.json();
-if(rowsMain&&rowsMain.length&&rowsMain[0].data){
-  const dm=rowsMain[0].data;
-  if(dm.employees&&dm.employees.length>0)S.employees=dm.employees;
-  if(dm.multCfg)S.atu.mult=dm.multCfg;
-  if(dm.cfg){
-    const buList=Object.keys(dm.cfg);
-    buList.forEach(bu=>{
-      if(!S.atu.mult[bu])S.atu.mult[bu]={};
-    });
-  }
-}
-// Busca config própria do comparativo (ating, ant, fin)
-const row=await supaGet();
-if(row&&row.data){
-const d=row.data;
-if(d.fin)S.fin=d.fin;if(d.ating)S.ating=d.ating;
-if(d.ant)S.ant=d.ant;if(d.atu&&d.atu.piso)S.atu.piso=d.atu.piso;
-if(d.atu&&d.atu.teto)S.atu.teto=d.atu.teto;
-const el=document.getElementById('smsg');
-if(el){el.textContent='✓ Dados carregados';
-el.style.color='#4ade80';el.style.opacity='1';setTimeout(()=>{el.style.opacity='0';},4000);}
-}
-return true;}catch(e){console.warn('loadAll err:',e);}return false;
-}
-setInterval(()=>saveAll(false),60000);
-
-// Calcs — agora lê por BU
-function cgLbl(cg){return '<span style="color:'+CC[cg]+';font-weight:600">'+cg+'</span>';}
-function buLbl(bu){return '<span style="color:'+BUC[bu]+';font-weight:700">'+bu+'</span>';}
-function fator(at,piso,teto){if(at<piso)return 0;if(teto===piso)return 1;return Math.min((at-piso)/(teto-piso),1);}
-
-function bonAnt(e,at){
-  const par=(S.ant.params[e.bu]||{})[e.cg]||{bl:1,v:0,el:false};
-  const bl=at>=S.ant.gatilho?e.sal*par.bl:0;
-  const vr=par.el?e.sal*par.v*fator(at,S.ant.piso,S.ant.teto):0;
-  return{bl,vr,tot:bl+vr};
-}
-function bonAtu(e,at){
-  const m=((S.atu.mult[e.bu]||{})[e.cg])||{F:2,M:1};
-  return e.sal*(e.ta==='Fim'?m.F:m.M)*fator(at,S.atu.piso,S.atu.teto);
-}
-function poolAnt(at){return S.employees.reduce((s,e)=>s+bonAnt(e,at).tot,0);}
-function blAnt(at){return S.employees.reduce((s,e)=>s+bonAnt(e,at).bl,0);}
-function vrAnt(at){return S.employees.reduce((s,e)=>s+bonAnt(e,at).vr,0);}
-function poolAtu(at){return S.employees.reduce((s,e)=>s+bonAtu(e,at),0);}
-function poolAntBu(bu,at){return S.employees.filter(e=>e.bu===bu).reduce((s,e)=>s+bonAnt(e,at).tot,0);}
-function poolAtuBu(bu,at){return S.employees.filter(e=>e.bu===bu).reduce((s,e)=>s+bonAtu(e,at),0);}
-function recR(at){return S.fin.rec*at/100;}
-function lbR(at){return S.fin.lb*at/100;}
+function bon(e){return bonFor(e,atFor(e.bu,D()),D());}
+function poolBuAt(bu,at,d){return(d||D()).employees.filter(e=>e.bu===bu).reduce((s,e)=>s+bonFor(e,at,d||D()).tot,0);}
+function poolBu(bu,at){return poolBuAt(bu,at!==undefined?at:atFor(bu,D()),D());}
+function poolAll(at,d){const dd=d||D();return dd.employees.reduce((s,e)=>s+bonFor(e,at!==undefined?at:atFor(e.bu,dd),dd).tot,0);}
+function recReal(bu,d){const dd=d||D();return dd.cfg[bu].rec*(atFor(bu,dd)/100);}
+function lbReal(bu,d){const dd=d||D();return dd.cfg[bu].lb*(atFor(bu,dd)/100);}
+function totRecReal(d){return BUS.reduce((s,bu)=>s+recReal(bu,d),0);}
+function totLbReal(d){return BUS.reduce((s,bu)=>s+lbReal(bu,d),0);}
+function bbu(bu,d){return(d||D()).employees.filter(e=>e.bu===bu);}
+function grpByCg(es){const g={};es.forEach(e=>{if(!g[e.cg])g[e.cg]=[];g[e.cg].push(e);});return Object.entries(g).sort((a,b)=>(COR[a[0]]??9)-(COR[b[0]]??9));}
+function cgTag(cg){return`<span style="color:${CARGO_CLR[cg]||'#999'};font-weight:600">${cg}</span>`;}
+function buT(bu){const c=BUC[bu]||'#666';return`<span style="background:${c}15;color:${c};padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600">${bu}</span>`;}
+function bid(bu){return bu.replace(/[\s\/]/g,'-');}
+function sem(v){return v>.15?'#DC2626':v>.07?'#D97706':'#059669';}
 
 // Charts
 const _ch={};
 function mkChart(id,cfg){try{if(_ch[id]){_ch[id].destroy();delete _ch[id];}const el=document.getElementById(id);if(!el)return;_ch[id]=new Chart(el,cfg);}catch(e){}}
+const gc='rgba(0,0,0,.05)';
+const dlFmt=v=>Rk(Array.isArray(v)?v[1]-v[0]:v);
+const dlShow=ctx=>{const v=ctx.dataset.data[ctx.dataIndex];return(Array.isArray(v)?v[1]-v[0]:v)>8000;};
+function mkWF(id,groups,color){
+  if(!groups.length)return;
+  const labels=[...groups.map(g=>g.l),'TOTAL'],fd=[];let cum=0;
+  groups.forEach(g=>{fd.push([cum,cum+g.v]);cum+=g.v;});fd.push([0,cum]);
+  const bgs=[...groups.map((_,i)=>CARGO_CLR[groups[i].l]||color),'#1a1a1a'];
+  mkChart(id,{type:'bar',data:{labels,datasets:[{data:fd,backgroundColor:bgs,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>` ${Rk(Array.isArray(i.raw)?i.raw[1]-i.raw[0]:i.raw)}`}},datalabels:{color:'#fff',anchor:'center',align:'center',font:{family:'Inter',size:10,weight:'700'},formatter:dlFmt,display:dlShow}},scales:{x:{grid:{color:gc},ticks:{font:{family:'Inter',size:10}}},y:{grid:{color:gc},ticks:{font:{family:'Inter',size:10},callback:v=>Rk(v)}}}}});
+}
+function mkDonut(id,labels,values,colors,total){
+  mkChart(id,{type:'doughnut',data:{labels,datasets:[{data:values,backgroundColor:colors,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{font:{family:'Inter',size:11},boxWidth:10,padding:8}},tooltip:{callbacks:{label:i=>` ${Rk(i.raw)} — ${P1(i.raw/(total||1))}`}},datalabels:{color:'#fff',font:{family:'Inter',size:11,weight:'700'},formatter:v=>P1(v/(total||1)),display:ctx=>ctx.dataset.data[ctx.dataIndex]/(total||1)>.08}}}});
+}
+function mkLine(id,labels,datasets){
+  mkChart(id,{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{family:'Inter',size:11},boxWidth:10}},tooltip:{callbacks:{label:i=>` ${Rk(i.raw)}`}},datalabels:{color:'#fff',backgroundColor:ctx=>ctx.dataset.borderColor,borderRadius:3,padding:{top:2,bottom:2,left:4,right:4},font:{family:'Inter',size:9,weight:'700'},formatter:v=>Rk(v),display:ctx=>ctx.dataIndex%2===0}},scales:{x:{grid:{color:gc},ticks:{font:{family:'Inter',size:10}}},y:{grid:{color:gc},ticks:{font:{family:'Inter',size:10},callback:v=>Rk(v)}}}}});
+}
+function mkBar2(id,labels,d1,d2,l1,l2,c1,c2){
+  mkChart(id,{type:'bar',data:{labels,datasets:[{label:l1,data:d1,backgroundColor:c1+'90',borderColor:c1,borderWidth:2,borderRadius:4},{label:l2,data:d2,backgroundColor:c2+'90',borderColor:c2,borderWidth:2,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{family:'Inter',size:11},boxWidth:10}},tooltip:{callbacks:{label:i=>` ${Rk(i.raw)}`}},datalabels:{display:false}},scales:{x:{grid:{color:gc},ticks:{font:{family:'Inter',size:10}}},y:{grid:{color:gc},ticks:{font:{family:'Inter',size:10},callback:v=>Rk(v)}}}}});
+}
+function mkStackedBar(id,labels,blData,vData,c1,c2){
+  mkChart(id,{type:'bar',data:{labels,datasets:[{label:'Baseline',data:blData,backgroundColor:c1,borderRadius:4},{label:'Variável',data:vData,backgroundColor:c2,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{family:'Inter',size:11},boxWidth:10}},datalabels:{display:false}},scales:{x:{grid:{color:gc},ticks:{font:{family:'Inter',size:10}}},y:{stacked:true,grid:{color:gc},ticks:{font:{family:'Inter',size:10},callback:v=>Rk(v)}}}}});
+}
 
-function drawAll(){
+function drawCharts(){
   const t=S.tab;
-  if(t==='ant')drawAnt();
-  else if(t==='atu')drawAtu();
+  if(t==='gr')drawGrp();
+  else if(BUS.includes(t))drawBU(t);
   else if(t==='cmp')drawCmp();
-  else if(t==='sen')drawSen();
 }
-function drawAnt(){
-  const at=S.ating.ant;
-  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
-  const bls=cgsAct.map(cg=>S.employees.filter(e=>e.cg===cg).reduce((s,e)=>s+bonAnt(e,at).bl,0));
-  const vrs=cgsAct.map(cg=>S.employees.filter(e=>e.cg===cg).reduce((s,e)=>s+bonAnt(e,at).vr,0));
-  mkChart('ch-ant',{type:'bar',data:{labels:cgsAct,datasets:[
-    {label:'Baseline',data:bls,backgroundColor:'#7C3AED',borderRadius:3},
-    {label:'Variavel',data:vrs,backgroundColor:'#A78BFA',borderRadius:3}
-  ]},options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{labels:{font:{size:11},boxWidth:10}},datalabels:{display:false},
-      tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}},
-    scales:{x:{grid:{color:gc},stacked:true,ticks:{font:{size:10}}},
-            y:{grid:{color:gc},stacked:true,ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
-  // Por BU bar
-  const buBL=BUS.map(bu=>S.employees.filter(e=>e.bu===bu).reduce((s,e)=>s+bonAnt(e,at).bl,0));
-  const buVR=BUS.map(bu=>S.employees.filter(e=>e.bu===bu).reduce((s,e)=>s+bonAnt(e,at).vr,0));
-  mkChart('ch-ant-bu',{type:'bar',data:{labels:BUS,datasets:[
-    {label:'Baseline',data:buBL,backgroundColor:'#7C3AED',borderRadius:3},
-    {label:'Variavel',data:buVR,backgroundColor:'#A78BFA',borderRadius:3}
-  ]},options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{labels:{font:{size:11},boxWidth:10}},datalabels:{display:false},
-      tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}},
-    scales:{x:{grid:{color:gc},stacked:true,ticks:{font:{size:11,weight:'600'}}},
-            y:{grid:{color:gc},stacked:true,ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
+function drawGrp(){
+  const d=D();
+  mkWF('ch-wf-grp',grpByCg(d.employees).map(([l,es])=>({l,v:es.reduce((s,e)=>s+bon(e).tot,0)})),'#7C3AED');
+  const fim=d.employees.filter(e=>e.ta==='Fim').reduce((s,e)=>s+bon(e).tot,0);
+  const meio=d.employees.filter(e=>e.ta==='Meio').reduce((s,e)=>s+bon(e).tot,0);
+  mkDonut('ch-fm-grp',['Área Fim','Área Meio'],[fim,meio],['#7C3AED','#D1D5DB'],fim+meio);
+  const cgs=grpByCg(d.employees);
+  mkStackedBar('ch-bl-v',cgs.map(([l])=>l),cgs.map(([,es])=>es.reduce((s,e)=>s+bon(e).bl,0)),cgs.map(([,es])=>es.reduce((s,e)=>s+bon(e).v,0)),'#94a3b8','#7C3AED');
+  const ds=BUS.map(bu=>({label:bu,data:SENS.map(s=>poolBuAt(bu,s,d)),borderColor:BUC[bu],backgroundColor:BUC[bu]+'15',fill:false,tension:.3,pointRadius:3,borderWidth:2}));
+  ds.push({label:'Grupo Total',data:SENS.map(s=>poolAll(s,d)),borderColor:'#1a1a1a',backgroundColor:'#1a1a1a10',fill:true,tension:.3,pointRadius:4,borderWidth:3});
+  mkLine('ch-sens-grp',SENS.map(s=>s+'%'),ds);
 }
-function drawAtu(){
-  const at=S.ating.atu;
-  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
-  mkChart('ch-atu',{type:'bar',data:{labels:cgsAct,
-    datasets:[{data:cgsAct.map(cg=>S.employees.filter(e=>e.cg===cg).reduce((s,e)=>s+bonAtu(e,at),0)),
-      backgroundColor:cgsAct.map(cg=>CC[cg]),borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},datalabels:{display:false},tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}},
-      scales:{x:{grid:{color:gc},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
-  mkChart('ch-atu-bu',{type:'bar',data:{labels:BUS,
-    datasets:[{data:BUS.map(bu=>poolAtuBu(bu,at)),backgroundColor:BUS.map(bu=>BUC[bu]),borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},datalabels:{display:false},tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}},
-      scales:{x:{grid:{color:gc},ticks:{font:{size:11,weight:'600'}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
+function drawBU(bu){
+  const d=D(),col=BUC[bu],es=bbu(bu,d),at=atFor(bu,d);
+  const cgs=grpByCg(es);
+  mkWF(`ch-wf-${bid(bu)}`,cgs.map(([l,ne])=>({l,v:ne.reduce((s,e)=>s+bonFor(e,at,d).tot,0)})),col);
+  const fim=es.filter(e=>e.ta==='Fim').reduce((s,e)=>s+bonFor(e,at,d).tot,0);
+  const meio=es.filter(e=>e.ta==='Meio').reduce((s,e)=>s+bonFor(e,at,d).tot,0);
+  mkDonut(`ch-fm-${bid(bu)}`,['Área Fim','Área Meio'],[fim,meio],[col,col+'55'],fim+meio);
+  mkLine(`ch-sens-${bid(bu)}`,SENS.map(s=>s+'%'),[{label:bu,data:SENS.map(s=>poolBuAt(bu,s,d)),borderColor:col,backgroundColor:col+'25',fill:true,tension:.3,pointRadius:4,borderWidth:2,pointBackgroundColor:col}]);
 }
 function drawCmp(){
-  const aa=S.ating.ant,au=S.ating.atu;
-  mkChart('ch-cmp',{type:'bar',data:{labels:BUS,datasets:[
-    {label:'Anterior',data:BUS.map(bu=>poolAntBu(bu,aa)),backgroundColor:'#7C3AED99',borderRadius:3},
-    {label:'Atual',data:BUS.map(bu=>poolAtuBu(bu,au)),backgroundColor:'#05966999',borderRadius:3}
-  ]},options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{labels:{font:{size:11},boxWidth:10}},datalabels:{display:false},
-      tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}},
-    scales:{x:{grid:{color:gc},ticks:{font:{size:11,weight:'600'}}},
-            y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
-}
-function drawSen(){
-  mkChart('ch-sen',{type:'line',data:{labels:SENS.map(s=>s+'%'),datasets:[
-    {label:'Anterior Total',data:SENS.map(s=>poolAnt(s)),borderColor:'#7C3AED',fill:false,tension:.3,pointRadius:3,borderWidth:2},
-    {label:'Anterior Baseline',data:SENS.map(s=>blAnt(s)),borderColor:'#A78BFA',fill:false,tension:.3,pointRadius:2,borderWidth:2,borderDash:[4,4]},
-    {label:'Atual',data:SENS.map(s=>poolAtu(s)),borderColor:'#059669',fill:false,tension:.3,pointRadius:3,borderWidth:2}
-  ]},options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{labels:{font:{size:11},boxWidth:10}},datalabels:{display:false},
-      tooltip:{callbacks:{label:i=>' '+Rk(i.raw)}}},
-    scales:{x:{grid:{color:gc},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>Rk(v)}}}}});
+  const dn=S.novo,da=S.antigo,scens=[80,90,100,110,120];
+  mkLine('ch-cmp-sens',scens.map(s=>s+'%'),[
+    {label:'Modelo Antigo',data:scens.map(s=>poolAll(s,da)),borderColor:'#64748b',backgroundColor:'#64748b15',fill:false,tension:.3,pointRadius:4,borderWidth:2,pointBackgroundColor:'#64748b'},
+    {label:'Modelo Novo',  data:scens.map(s=>poolAll(s,dn)),borderColor:'#7C3AED',backgroundColor:'#7C3AED15',fill:false,tension:.3,pointRadius:4,borderWidth:2,pointBackgroundColor:'#7C3AED'},
+  ]);
+  mkBar2('ch-cmp-bu',BUS,BUS.map(bu=>poolBuAt(bu,atFor(bu,da),da)),BUS.map(bu=>poolBuAt(bu,atFor(bu,dn),dn)),'Modelo Antigo','Modelo Novo','#64748b','#7C3AED');
+  const dn2=S.novo,da2=S.antigo;
+  const blN=dn2.employees.reduce((s,e)=>s+bonFor(e,atFor(e.bu,dn2),dn2).bl,0);
+  const vN=dn2.employees.reduce((s,e)=>s+bonFor(e,atFor(e.bu,dn2),dn2).v,0);
+  const blA=da2.employees.reduce((s,e)=>s+bonFor(e,atFor(e.bu,da2),da2).bl,0);
+  const vA=da2.employees.reduce((s,e)=>s+bonFor(e,atFor(e.bu,da2),da2).v,0);
+  mkBar2('ch-cmp-blv',['Baseline','Variável'],[blA,vA],[blN,vN],'Modelo Antigo','Modelo Novo','#64748b','#7C3AED');
 }
 
-// UI
-function kpi(lbl,val,sub,color){
-  return '<div class="kpi"><div class="kl">'+lbl+'</div><div class="kv"'+(color?' style="color:'+color+'"':'')+'>'+val+'</div>'+(sub?'<div class="ks">'+sub+'</div>':'')+'</div>';
-}
-function pill(ta){return '<span class="pill-'+(ta==='Fim'?'f':'m')+'">'+ta+'</span>';}
-
-// Deep set
-function setPath(obj,path,val){
-  const p=path.split('.');let c=obj;
-  for(let i=0;i<p.length-1;i++){if(c[p[i]]===undefined)c[p[i]]={};c=c[p[i]];}
-  c[p[p.length-1]]=val;
-}
-
-// ---- TABS ----
-function tCfg(){
-  let h='<div class="ptitle mb3">Configuracao Geral</div>';
-  // Financeiro + atingimento
-  h+='<div class="g2 mb4">';
-  h+='<div class="card"><div class="ch"><span class="ct">Financeiro (Grupo)</span></div><div class="cb">';
-  h+='<div class="sec">Receita / Budget Total</div><input type="number" class="cfg-inp mb3" data-path="fin.rec" value="'+S.fin.rec+'"><br>';
-  h+='<div class="sec">Lucro Bruto Total</div><input type="number" class="cfg-inp" data-path="fin.lb" value="'+S.fin.lb+'">';
-  h+='</div></div>';
-  h+='<div class="card"><div class="ch"><span class="ct">Atingimento e Gatilhos</span></div><div class="cb">';
-  h+='<div class="sec">Atingimento — Modelo Anterior (%)</div><input type="number" class="cfg-inp mb3" data-path="ating.ant" value="'+S.ating.ant+'" style="max-width:100px"><br>';
-  h+='<div class="sec">Atingimento — Modelo Atual (%)</div><input type="number" class="cfg-inp mb3" data-path="ating.atu" value="'+S.ating.atu+'" style="max-width:100px"><br>';
-  h+='<div class="sec">Gatilho Baseline — Ant. (%)</div><input type="number" class="cfg-inp mb3" data-path="ant.gatilho" value="'+S.ant.gatilho+'" style="max-width:100px"><br>';
-  h+='<div class="flex gap3">';
-  h+='<div><div class="sec">Piso Var. Ant. (%)</div><input type="number" class="cfg-inp" data-path="ant.piso" value="'+S.ant.piso+'" style="max-width:80px"></div>';
-  h+='<div><div class="sec">Teto Var. Ant. (%)</div><input type="number" class="cfg-inp" data-path="ant.teto" value="'+S.ant.teto+'" style="max-width:80px"></div>';
-  h+='<div><div class="sec">Piso Atual (%)</div><input type="number" class="cfg-inp" data-path="atu.piso" value="'+S.atu.piso+'" style="max-width:80px"></div>';
-  h+='<div><div class="sec">Teto Atual (%)</div><input type="number" class="cfg-inp" data-path="atu.teto" value="'+S.atu.teto+'" style="max-width:80px"></div>';
-  h+='</div></div></div></div>';
-  // Matrizes por BU
-  h+='<div class="g2 mb4">';
-  BUS.forEach(bu=>{
-    const col=BUC[bu];
-    const ant=S.ant.params[bu]||{};
-    const atu=S.atu.mult[bu]||{};
-    const esLocal=S.employees.filter(e=>e.bu===bu);
-    const cgsLocal=[...new Set(esLocal.map(e=>e.cg))].sort((a,b)=>(COR_CG[a]||9)-(COR_CG[b]||9));
-    h+='<div class="card">';
-    h+='<div class="ch"><div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:'+col+'"></div><span class="ct">'+bu+'</span></div>';
-    h+='<span style="font-size:11px;color:#999">'+esLocal.length+' pessoas</span></div>';
-    h+='<div class="cb">';
-    // Anterior
-    h+='<div class="sec mb2">Modelo Anterior — BL x Sal / Var x Sal / Elegivel</div>';
-    h+='<table class="tbl mb3"><thead><tr><th>Cargo</th><th class="num" style="color:#7C3AED">BL x</th><th class="num" style="color:#A78BFA">Var x</th><th style="text-align:center">Eleg.</th></tr></thead><tbody>';
-    cgsLocal.forEach(cg=>{
-      const p=ant[cg]||{bl:1,v:0,el:false};
-      const path='ant.params.'+bu+'.'+cg;
-      h+='<tr><td>'+cgLbl(cg)+'</td>';
-      h+='<td class="num"><input type="number" class="cfg-inp" data-path="'+path+'.bl" value="'+p.bl+'" step="0.5" min="0" style="width:65px"></td>';
-      h+='<td class="num"><input type="number" class="cfg-inp" data-path="'+path+'.v" value="'+p.v+'" step="0.5" min="0" style="width:65px"></td>';
-      h+='<td style="text-align:center"><input type="checkbox" class="cfg-chk" data-path="'+path+'.el"'+(p.el?' checked':'')+'></td></tr>';
-    });
-    h+='</tbody></table>';
-    // Atual
-    h+='<div class="sec mb2">Modelo Atual — Multiplicador (Fim / Meio)</div>';
-    h+='<table class="tbl"><thead><tr><th>Cargo</th><th style="text-align:center">⚡ Fim</th><th style="text-align:center">⚙️ Meio</th></tr></thead><tbody>';
-    cgsLocal.forEach(cg=>{
-      const m=atu[cg]||{F:2,M:1};
-      const path='atu.mult.'+bu+'.'+cg;
-      h+='<tr><td>'+cgLbl(cg)+'</td>';
-      h+='<td style="text-align:center"><input type="number" class="cfg-inp" data-path="'+path+'.F" value="'+m.F+'" step="0.5" min="0" style="width:60px;text-align:center"></td>';
-      h+='<td style="text-align:center"><input type="number" class="cfg-inp" data-path="'+path+'.M" value="'+m.M+'" step="0.5" min="0" style="width:60px;text-align:center"></td></tr>';
-    });
-    h+='</tbody></table></div></div>';
-  });
-  h+='</div>';
-  // Salarios
-  h+='<div class="card"><div class="ch"><span class="ct">Salarios dos Elegiveis</span></div><div class="cb twrap">';
-  h+='<table class="tbl"><thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th>Tipo</th><th class="num">Salario</th></tr></thead><tbody>';
-  S.employees.forEach(e=>{
-    h+='<tr><td style="font-weight:500">'+e.n+'</td><td style="color:'+BUC[e.bu]+';font-weight:600">'+e.bu+'</td><td>'+cgLbl(e.cg)+'</td><td>'+pill(e.ta)+'</td>';
-    h+='<td class="num"><input type="number" class="sal-inp" data-id="'+e.id+'" value="'+e.sal+'" style="width:100px"></td></tr>';
-  });
-  h+='</tbody></table></div></div>';
-  return h;
+// ─── METAS ───
+function tMt(){
+  const d=D(),lbl=MDL==='novo'?'Novo':'Antigo';
+  return`<div class="ptitle mb3">Metas & Matriz — Modelo ${lbl}</div>
+  <div class="g2">${BUS.map(bu=>{
+    const c=d.cfg[bu],at=atFor(bu,d),col=BUC[bu],es=bbu(bu,d),pool=poolBuAt(bu,at,d);
+    const cgsLocal=[...new Set(es.map(e=>e.cg))].sort((a,b)=>(COR[a]??9)-(COR[b]??9));
+    const lb=lbReal(bu,d),rec=recReal(bu,d);
+    return`<div class="card">
+      <div class="ch"><div class="flex fac gap2"><div style="width:8px;height:8px;border-radius:50%;background:${col}"></div><span class="ct">${bu}</span></div>
+        <span style="font-weight:700;font-size:13px;color:${col}">${Pp(at)}% ating.</span></div>
+      <div class="cb"><div class="g2">
+        <div>
+          <div class="sec">Receita Budget</div>
+          <input type="number" value="${c.rec}" onchange="D().cfg['${bu}'].rec=+this.value;render()" class="mb2">
+          <div class="sec">Lucro Bruto</div>
+          <input type="number" value="${c.lb}" onchange="D().cfg['${bu}'].lb=+this.value;render()" class="mb3">
+          <div class="sec">Piso / Teto variável</div>
+          <div class="flex gap2 fac mb3">
+            <span class="tip">Piso</span><input type="number" value="${c.piso}" style="width:60px" onchange="D().cfg['${bu}'].piso=+this.value;render()">
+            <span class="tip">Teto</span><input type="number" value="${c.teto}" style="width:60px" onchange="D().cfg['${bu}'].teto=+this.value;render()">
+            <span class="tip">%</span></div>
+          <div class="sec">Camadas</div>
+          <table class="tbl mb3" style="font-size:12px"><thead><tr><th>Camada</th><th>Peso</th><th>Ating.</th></tr></thead><tbody>
+            ${[{k:'emp',l:'🌐 Empresa'},{k:'bu',l:'🏢 BU'},{k:'ar',l:'🎯 Área'}].map(({k,l})=>{const m=c.meta[k];return`<tr><td>${l}</td>
+              <td><input type="number" value="${m.p}" style="width:55px" onchange="D().cfg['${bu}'].meta.${k}.p=+this.value;render()"></td>
+              <td><div class="flex fac gap2"><input type="number" value="${m.a}" style="width:60px" onchange="D().cfg['${bu}'].meta.${k}.a=+this.value;render()"><span class="tip">%</span></div></td></tr>`;}).join('')}
+          </tbody></table>
+          <div style="padding:10px;background:#f9f9f6;border-radius:7px;border:1px solid #f0f0eb">
+            <div class="flex fjb fac"><span class="tip">Pool (${Pp(at)}%)</span><span style="font-weight:700;color:${col}">${R(pool)}</span></div>
+            <div class="flex fjb fac mt2"><span class="tip">% Receita real</span><span style="font-weight:600">${rec?P2(pool/rec):'—'}</span></div>
+            <div class="flex fjb fac mt2"><span class="tip">% Lucro Bruto real</span><span style="font-weight:600;color:${sem(lb?pool/lb:0)}">${lb?P2(pool/lb):'—'}</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="sec mb2">Matriz Baseline + Variável</div>
+          <p class="tip mb2">Baseline pago a todos (BU ≥ 100%) · Variável proporcional ${Pp(c.piso)}%→${Pp(c.teto)}%</p>
+          <table class="tbl" style="font-size:11px">
+            <thead>
+              <tr><th rowspan="2">Cargo</th><th colspan="2" class="num" style="color:#64748b;border-bottom:none">Baseline ×</th><th colspan="2" class="num" style="color:#7C3AED;border-bottom:none">Variável ×</th><th colspan="2" class="num" style="border-bottom:none">Elegível Var.</th></tr>
+              <tr><th class="num" style="font-size:10px;color:#64748b">Fim</th><th class="num" style="font-size:10px;color:#64748b">Meio</th><th class="num" style="font-size:10px;color:#7C3AED">Fim</th><th class="num" style="font-size:10px;color:#7C3AED">Meio</th><th class="num" style="font-size:10px">Fim</th><th class="num" style="font-size:10px">Meio</th></tr>
+            </thead>
+            <tbody>${cgsLocal.map(cg=>{
+              const m=d.multCfg[bu][cg]||{bl_F:1,bl_M:1,v_F:0,v_M:0,el_F:false,el_M:false};
+              const pfx=`if(!D().multCfg['${bu}']['${cg}'])D().multCfg['${bu}']['${cg}']={bl_F:1,bl_M:1,v_F:0,v_M:0,el_F:false,el_M:false};`;
+              return`<tr><td>${cgTag(cg)}</td>
+                <td class="num"><input type="number" value="${m.bl_F}" step=".5" min="0" style="width:46px" onchange="${pfx}D().multCfg['${bu}']['${cg}'].bl_F=+this.value;render()"></td>
+                <td class="num"><input type="number" value="${m.bl_M}" step=".5" min="0" style="width:46px" onchange="${pfx}D().multCfg['${bu}']['${cg}'].bl_M=+this.value;render()"></td>
+                <td class="num"><input type="number" value="${m.v_F}" step=".5" min="0" style="width:46px" onchange="${pfx}D().multCfg['${bu}']['${cg}'].v_F=+this.value;render()"></td>
+                <td class="num"><input type="number" value="${m.v_M}" step=".5" min="0" style="width:46px" onchange="${pfx}D().multCfg['${bu}']['${cg}'].v_M=+this.value;render()"></td>
+                <td style="text-align:center"><input type="checkbox" ${m.el_F?'checked':''} onchange="${pfx}D().multCfg['${bu}']['${cg}'].el_F=this.checked;render()"></td>
+                <td style="text-align:center"><input type="checkbox" ${m.el_M?'checked':''} onchange="${pfx}D().multCfg['${bu}']['${cg}'].el_M=this.checked;render()"></td>
+              </tr>`;}).join('')}
+            </tbody></table>
+        </div>
+      </div></div></div>`;}).join('')}</div>
+  <div class="card"><div class="ch"><span class="ct">Resumo — Grupo · Modelo ${lbl}</span></div>
+    <div class="cb twrap"><table class="tbl">
+      <thead><tr><th>BU</th><th class="num">Receita</th><th class="num">LB</th><th class="num">Ating.</th><th class="num" style="color:#64748b">Baseline</th><th class="num" style="color:#7C3AED">Variável</th><th class="num">Pool Total</th><th class="num">Pool/LB</th></tr></thead>
+      <tbody>${BUS.map(bu=>{const at=atFor(bu,d),es=bbu(bu,d),bl=es.reduce((s,e)=>s+bonFor(e,at,d).bl,0),v=es.reduce((s,e)=>s+bonFor(e,at,d).v,0),p=bl+v,lb2=lbReal(bu,d);return`<tr>
+        <td>${buT(bu)}</td><td class="num">${R(d.cfg[bu].rec)}</td><td class="num">${R(d.cfg[bu].lb)}</td>
+        <td class="num" style="color:${BUC[bu]};font-weight:700">${Pp(at)}%</td>
+        <td class="num">${R(bl)}</td><td class="num" style="color:#7C3AED">${R(v)}</td>
+        <td class="num" style="font-weight:700">${R(p)}</td>
+        <td class="num" style="color:${sem(lb2?p/lb2:0)};font-weight:600">${lb2?P2(p/lb2):'—'}</td></tr>`;}).join('')}
+        <tr class="tr-tot"><td>GRUPO</td><td class="num">${R(BUS.reduce((s,bu)=>s+d.cfg[bu].rec,0))}</td><td class="num">${R(BUS.reduce((s,bu)=>s+d.cfg[bu].lb,0))}</td><td></td>
+          <td class="num">${R(d.employees.reduce((s,e)=>s+bonFor(e,atFor(e.bu,d),d).bl,0))}</td>
+          <td class="num" style="color:#7C3AED">${R(d.employees.reduce((s,e)=>s+bonFor(e,atFor(e.bu,d),d).v,0))}</td>
+          <td class="num">${R(poolAll(undefined,d))}</td>
+          <td class="num" style="font-weight:700">${P2(totLbReal(d)?poolAll(undefined,d)/totLbReal(d):0)}</td></tr>
+      </tbody></table></div></div>`;
 }
 
-function tAnt(){
-  const at=S.ating.ant,rr=recR(at),lr=lbR(at);
-  const pa=poolAnt(at),bla=blAnt(at),vra=vrAnt(at),n=S.employees.length;
-  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
-  let h='<div class="ptitle mb3">Modelo Anterior — Atingimento: '+Pp(at)+'%</div>';
-  h+='<div class="g5 mb4">';
-  h+=kpi('Pool Total',Rk(pa),P2(pa/rr)+' rec real');
-  h+=kpi('Baseline',Rk(bla),P1(bla/pa)+' do pool','#7C3AED');
-  h+=kpi('Variavel',Rk(vra),P1(vra/pa)+' do pool','#A78BFA');
-  h+=kpi('Pool / LB Real',P2(pa/lr),'LB: '+Rk(lr),'#059669');
-  h+=kpi('Bonus Medio',n?R(pa/n):'—',n+' elegiveis');
-  h+='</div>';
-  h+='<div class="g2 mb4">';
-  h+='<div class="card"><div class="ch"><span class="ct">Por Cargo — BL + Var (empilhado)</span></div><div class="cb"><div class="cbox"><canvas id="ch-ant"></canvas></div></div></div>';
-  h+='<div class="card"><div class="ch"><span class="ct">Por BU — BL + Var (empilhado)</span></div><div class="cb"><div class="cbox"><canvas id="ch-ant-bu"></canvas></div></div></div>';
-  h+='</div>';
-  // Tabela por BU
-  h+='<div class="card mb4"><div class="ch"><span class="ct">Por BU e Cargo — Detalhamento</span></div><div class="cb twrap"><table class="tbl">';
-  h+='<thead><tr><th>BU / Cargo</th><th class="num">N</th><th class="num" style="color:#7C3AED">Baseline</th><th class="num" style="color:#A78BFA">Variavel</th><th class="num">Total</th><th class="num">% Pool</th><th class="num">% Rec Real</th><th class="num">% LB Real</th></tr></thead><tbody>';
-  BUS.forEach(bu=>{
-    const esbu=S.employees.filter(e=>e.bu===bu);
-    const cgsbu=[...new Set(esbu.map(e=>e.cg))].sort((a,b)=>(COR_CG[a]||9)-(COR_CG[b]||9));
-    const buBL=esbu.reduce((s,e)=>s+bonAnt(e,at).bl,0);
-    const buVR=esbu.reduce((s,e)=>s+bonAnt(e,at).vr,0);
-    const buTot=buBL+buVR;
-    const col=BUC[bu];
-    h+='<tr style="background:#f9f9f6"><td style="font-weight:700;color:'+col+'">'+bu+'</td><td class="num">'+esbu.length+'</td>';
-    h+='<td class="num" style="font-weight:700;color:#7C3AED">'+R(buBL)+'</td><td class="num" style="font-weight:700;color:#A78BFA">'+R(buVR)+'</td>';
-    h+='<td class="num" style="font-weight:700">'+R(buTot)+'</td><td class="num">'+P1(buTot/pa)+'</td>';
-    h+='<td class="num">'+P2(buTot/rr)+'</td><td class="num" style="font-weight:700">'+P2(buTot/lr)+'</td></tr>';
-    cgsbu.forEach(cg=>{
-      const es=esbu.filter(e=>e.cg===cg);
-      const bl=es.reduce((s,e)=>s+bonAnt(e,at).bl,0);
-      const vr=es.reduce((s,e)=>s+bonAnt(e,at).vr,0);
-      const tot=bl+vr;
-      if(!tot&&!bl)return;
-      h+='<tr class="tr-sub"><td style="padding-left:20px">'+cgLbl(cg)+'</td><td class="num">'+es.length+'</td>';
-      h+='<td class="num">'+R(bl)+'</td><td class="num">'+R(vr)+'</td><td class="num">'+R(tot)+'</td>';
-      h+='<td class="num">'+P1(tot/pa)+'</td><td class="num">'+P2(tot/rr)+'</td><td class="num">'+P2(tot/lr)+'</td></tr>';
-    });
-  });
-  h+='<tr class="tr-tot"><td>TOTAL</td><td class="num">'+n+'</td><td class="num" style="color:#7C3AED">'+R(bla)+'</td><td class="num" style="color:#A78BFA">'+R(vra)+'</td>';
-  h+='<td class="num">'+R(pa)+'</td><td class="num">100%</td><td class="num">'+P2(pa/rr)+'</td><td class="num" style="font-weight:700">'+P2(pa/lr)+'</td></tr>';
-  h+='</tbody></table></div></div>';
-  // Por pessoa
-  h+='<div class="card"><div class="ch"><span class="ct">Por Pessoa</span></div><div class="cb twrap"><table class="tbl">';
-  h+='<thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th class="num">Salario</th><th class="num" style="color:#7C3AED">Baseline</th><th class="num" style="color:#A78BFA">Variavel</th><th class="num">Total</th></tr></thead><tbody>';
-  [...S.employees].sort((a,b)=>(COR_CG[a.cg]||9)-(COR_CG[b.cg]||9)).forEach(e=>{
-    const b=bonAnt(e,at);
-    h+='<tr><td style="font-weight:500">'+e.n+'</td><td style="color:'+BUC[e.bu]+';font-weight:600">'+e.bu+'</td><td>'+cgLbl(e.cg)+'</td>';
-    h+='<td class="num">'+R(e.sal)+'</td><td class="num" style="color:#7C3AED">'+R(b.bl)+'</td><td class="num" style="color:#A78BFA">'+R(b.vr)+'</td>';
-    h+='<td class="num" style="font-weight:700;color:#7C3AED">'+R(b.tot)+'</td></tr>';
-  });
-  h+='</tbody></table></div></div>';
-  return h;
+// ─── GRUPO ───
+function tGr(){
+  const d=D(),lbl=MDL==='novo'?'Novo':'Antigo';
+  const tot=poolAll(undefined,d),rec=totRecReal(d),lb=totLbReal(d),n=d.employees.length;
+  const totBl=d.employees.reduce((s,e)=>s+bon(e).bl,0),totV=d.employees.reduce((s,e)=>s+bon(e).v,0);
+  const cgs=grpByCg(d.employees);
+  return`<div class="ptitle mb3">Grupo H2 — Modelo ${lbl}</div>
+  <div class="g6 mb4">
+    <div class="kpi"><div class="kl">Pool Total</div><div class="kv">${Rk(tot)}</div><div class="ks">${P2(lb?tot/lb:0)} do LB</div></div>
+    <div class="kpi"><div class="kl">Baseline Pool</div><div class="kv ac">${Rk(totBl)}</div><div class="ks">${P1(tot?totBl/tot:0)} do pool</div></div>
+    <div class="kpi"><div class="kl">Variável Pool</div><div class="kv nc">${Rk(totV)}</div><div class="ks">${P1(tot?totV/tot:0)} do pool</div></div>
+    <div class="kpi"><div class="kl">Pool / Receita</div><div class="kv">${P2(rec?tot/rec:0)}</div><div class="ks">realizado</div></div>
+    <div class="kpi"><div class="kl">Pool / LB</div><div class="kv" style="color:${sem(lb?tot/lb:0)}">${P2(lb?tot/lb:0)}</div><div class="ks">realizado</div></div>
+    <div class="kpi"><div class="kl">Bônus Médio</div><div class="kv">${n?R(tot/n):'—'}</div><div class="ks">${n} elegíveis</div></div>
+  </div>
+  <div class="g2 mb4">
+    <div class="card"><div class="ch"><span class="ct">Por Cargo</span></div><div class="cb twrap"><table class="tbl">
+      <thead><tr><th>Cargo</th><th class="num">N</th><th class="num ac">Baseline</th><th class="num nc">Variável</th><th class="num">Total</th><th class="num">% Pool</th><th class="num">% LB</th></tr></thead>
+      <tbody>${cgs.map(([l,es])=>{const bl=es.reduce((s,e)=>s+bon(e).bl,0),v=es.reduce((s,e)=>s+bon(e).v,0),p=bl+v;return`<tr><td>${cgTag(l)}</td><td class="num">${es.length}</td>
+        <td class="num">${R(bl)}</td><td class="num nc">${R(v)}</td><td class="num" style="font-weight:700">${R(p)}</td>
+        <td class="num">${P1(tot?p/tot:0)}</td><td class="num" style="color:${sem(lb?p/lb:0)}">${P2(lb?p/lb:0)}</td></tr>`;}).join('')}
+        <tr class="tr-tot"><td>TOTAL</td><td class="num">${n}</td><td class="num">${R(totBl)}</td><td class="num nc">${R(totV)}</td><td class="num">${R(tot)}</td><td class="num">100%</td><td class="num">${P2(lb?tot/lb:0)}</td></tr>
+      </tbody></table></div></div>
+    <div class="card"><div class="ch"><span class="ct">Por BU</span></div><div class="cb twrap"><table class="tbl">
+      <thead><tr><th>BU</th><th class="num">N</th><th class="num ac">Baseline</th><th class="num nc">Variável</th><th class="num">Total</th><th class="num">% Pool</th><th class="num">% LB</th></tr></thead>
+      <tbody>${BUS.map(bu=>{const es=bbu(bu,d),at=atFor(bu,d),bl=es.reduce((s,e)=>s+bonFor(e,at,d).bl,0),v=es.reduce((s,e)=>s+bonFor(e,at,d).v,0),p=bl+v,lb2=lbReal(bu,d);return`<tr>
+        <td>${buT(bu)}</td><td class="num">${es.length}</td>
+        <td class="num">${R(bl)}</td><td class="num nc">${R(v)}</td><td class="num" style="font-weight:700;color:${BUC[bu]}">${R(p)}</td>
+        <td class="num">${P1(tot?p/tot:0)}</td><td class="num" style="color:${sem(lb2?p/lb2:0)}">${P2(lb2?p/lb2:0)}</td></tr>`;}).join('')}
+        <tr class="tr-tot"><td>GRUPO</td><td class="num">${n}</td><td class="num">${R(totBl)}</td><td class="num nc">${R(totV)}</td><td class="num">${R(tot)}</td><td class="num">100%</td><td class="num">${P2(lb?tot/lb:0)}</td></tr>
+      </tbody></table></div></div>
+  </div>
+  <div class="g3 mb4">
+    <div class="card"><div class="ch"><span class="ct">Cascata por Cargo</span></div><div class="cb"><div class="cbox"><canvas id="ch-wf-grp"></canvas></div></div></div>
+    <div class="card"><div class="ch"><span class="ct">Baseline vs Variável por Cargo</span></div><div class="cb"><div class="cbox"><canvas id="ch-bl-v"></canvas></div></div></div>
+    <div class="card"><div class="ch"><span class="ct">Fim vs Meio</span></div><div class="cb"><div class="cbox"><canvas id="ch-fm-grp"></canvas></div></div></div>
+  </div>
+  <div class="card"><div class="ch"><span class="ct">Sensibilidade — Pool × Atingimento</span></div><div class="cb"><div class="cbox"><canvas id="ch-sens-grp"></canvas></div></div></div>
+  <div class="card mt3"><div class="ch"><span class="ct">Sensibilidade (tabela)</span></div><div class="cb twrap"><table class="tbl">
+    <thead><tr><th>Ating.</th>${BUS.map(bu=>`<th class="num">${bu}</th>`).join('')}<th class="num">Grupo</th><th class="num">Pool/Rec</th><th class="num">Pool/LB</th><th class="num">Bônus Médio</th></tr></thead>
+    <tbody>${SENS.map(sc=>{const ps=BUS.map(bu=>poolBuAt(bu,sc,d)),tp=ps.reduce((s,p)=>s+p,0);return`<tr${sc===100?' class="sens-hl"':''}><td><strong>${sc}%</strong>${sc===100?' <span class="tip">(base)</span>':''}</td>
+      ${ps.map(p=>`<td class="num">${R(p)}</td>`).join('')}
+      <td class="num" style="font-weight:700">${R(tp)}</td><td class="num">${P2(rec?tp/rec:0)}</td><td class="num">${P2(lb?tp/lb:0)}</td><td class="num">${n?R(tp/n):'—'}</td></tr>`;}).join('')}
+    </tbody></table></div></div>`;
 }
 
-function tAtu(){
-  const at=S.ating.atu,rr=recR(at),lr=lbR(at);
-  const pu=poolAtu(at),n=S.employees.length;
-  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
-  let h='<div class="ptitle mb3">Modelo Atual — Atingimento: '+Pp(at)+'%</div>';
-  h+='<div class="g5 mb4">';
-  h+=kpi('Pool Total',Rk(pu),P2(pu/rr)+' rec real','#059669');
-  h+=kpi('Pool / LB Real',P2(pu/lr),'LB: '+Rk(lr),'#059669');
-  h+=kpi('Rec Realizada',Rk(rr),'Budget: '+Rk(S.fin.rec));
-  h+=kpi('LB Realizado',Rk(lr),'Budget: '+Rk(S.fin.lb));
-  h+=kpi('Bonus Medio',n?R(pu/n):'—',n+' elegiveis');
-  h+='</div>';
-  h+='<div class="g2 mb4">';
-  h+='<div class="card"><div class="ch"><span class="ct">Por Cargo</span></div><div class="cb"><div class="cbox"><canvas id="ch-atu"></canvas></div></div></div>';
-  h+='<div class="card"><div class="ch"><span class="ct">Por BU</span></div><div class="cb"><div class="cbox"><canvas id="ch-atu-bu"></canvas></div></div></div>';
-  h+='</div>';
-  h+='<div class="card mb4"><div class="ch"><span class="ct">Por BU e Cargo</span></div><div class="cb twrap"><table class="tbl">';
-  h+='<thead><tr><th>BU / Cargo</th><th class="num">N</th><th class="num">Pool</th><th class="num">% Pool</th><th class="num">% Rec Real</th><th class="num">% LB Real</th></tr></thead><tbody>';
-  BUS.forEach(bu=>{
-    const esbu=S.employees.filter(e=>e.bu===bu);
-    const cgsbu=[...new Set(esbu.map(e=>e.cg))].sort((a,b)=>(COR_CG[a]||9)-(COR_CG[b]||9));
-    const buP=esbu.reduce((s,e)=>s+bonAtu(e,at),0);
-    const col=BUC[bu];
-    h+='<tr style="background:#f9f9f6"><td style="font-weight:700;color:'+col+'">'+bu+'</td><td class="num">'+esbu.length+'</td>';
-    h+='<td class="num" style="font-weight:700;color:'+col+'">'+R(buP)+'</td><td class="num">'+P1(buP/pu)+'</td>';
-    h+='<td class="num">'+P2(buP/rr)+'</td><td class="num" style="font-weight:700">'+P2(buP/lr)+'</td></tr>';
-    cgsbu.forEach(cg=>{
-      const es=esbu.filter(e=>e.cg===cg);
-      const p=es.reduce((s,e)=>s+bonAtu(e,at),0);
-      if(!p)return;
-      h+='<tr class="tr-sub"><td style="padding-left:20px">'+cgLbl(cg)+'</td><td class="num">'+es.length+'</td>';
-      h+='<td class="num">'+R(p)+'</td><td class="num">'+P1(p/pu)+'</td><td class="num">'+P2(p/rr)+'</td><td class="num">'+P2(p/lr)+'</td></tr>';
-    });
-  });
-  h+='<tr class="tr-tot"><td>TOTAL</td><td class="num">'+n+'</td><td class="num">'+R(pu)+'</td><td class="num">100%</td><td class="num">'+P2(pu/rr)+'</td><td class="num" style="font-weight:700">'+P2(pu/lr)+'</td></tr>';
-  h+='</tbody></table></div></div>';
-  h+='<div class="card"><div class="ch"><span class="ct">Por Pessoa</span></div><div class="cb twrap"><table class="tbl">';
-  h+='<thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th>Tipo</th><th class="num">Salario</th><th class="num">Mult</th><th class="num">Bonus</th></tr></thead><tbody>';
-  [...S.employees].sort((a,b)=>(COR_CG[a.cg]||9)-(COR_CG[b.cg]||9)).forEach(e=>{
-    const m=(S.atu.mult[e.bu]||{})[e.cg]||{F:2,M:1},mult=e.ta==='Fim'?m.F:m.M;
-    h+='<tr><td style="font-weight:500">'+e.n+'</td><td style="color:'+BUC[e.bu]+';font-weight:600">'+e.bu+'</td><td>'+cgLbl(e.cg)+'</td><td>'+pill(e.ta)+'</td>';
-    h+='<td class="num">'+R(e.sal)+'</td><td class="num">'+mult+'x</td>';
-    h+='<td class="num" style="font-weight:700;color:#059669">'+R(bonAtu(e,at))+'</td></tr>';
-  });
-  h+='</tbody></table></div></div>';
-  return h;
+// ─── BU ───
+function tBU(bu){
+  const d=D(),c=d.cfg[bu],at=atFor(bu,d),col=BUC[bu],es=bbu(bu,d),lbl=MDL==='novo'?'Novo':'Antigo';
+  const totBl=es.reduce((s,e)=>s+bonFor(e,at,d).bl,0),totV=es.reduce((s,e)=>s+bonFor(e,at,d).v,0),pool=totBl+totV;
+  const nb=es.length,rec=recReal(bu,d),lb=lbReal(bu,d);
+  const fim=es.filter(e=>e.ta==='Fim').reduce((s,e)=>s+bonFor(e,at,d).tot,0);
+  const meio=es.filter(e=>e.ta==='Meio').reduce((s,e)=>s+bonFor(e,at,d).tot,0);
+  const cgs=grpByCg(es),id=bid(bu);
+  return`<div class="flex fac gap3 mb4"><div style="width:4px;height:40px;border-radius:2px;background:${col}"></div>
+    <div><div class="ptitle">${bu} · Modelo ${lbl}</div><div class="tip mt2">${nb} elegíveis · Ating.: <strong style="color:${col}">${Pp(at)}%</strong></div></div></div>
+  <div class="g6 mb4">
+    <div class="kpi"><div class="kl">Pool Total</div><div class="kv" style="color:${col}">${R(pool)}</div><div class="ks">${rec?P2(pool/rec):'-'} receita</div></div>
+    <div class="kpi"><div class="kl">Baseline Pool</div><div class="kv ac">${R(totBl)}</div><div class="ks">${P1(pool?totBl/pool:0)} do pool</div></div>
+    <div class="kpi"><div class="kl">Variável Pool</div><div class="kv nc">${R(totV)}</div><div class="ks">${P1(pool?totV/pool:0)} do pool</div></div>
+    <div class="kpi"><div class="kl">Bônus Médio</div><div class="kv">${nb?R(pool/nb):'—'}</div><div class="ks">${nb} elegíveis</div></div>
+    <div class="kpi"><div class="kl">Lucro Bruto</div><div class="kv">${Rk(lb)}</div><div class="ks">realizado</div></div>
+    <div class="kpi"><div class="kl">Pool / LB</div><div class="kv" style="color:${sem(lb?pool/lb:0)}">${lb?P2(pool/lb):'—'}</div><div class="pbar"><div class="pfill" style="width:${Math.min(100,(pool/(lb||1))*500)}%;background:${sem(lb?pool/lb:0)}"></div></div></div>
+  </div>
+  <div class="g2 mb4">
+    <div class="card"><div class="ch"><span class="ct">Por Cargo</span></div><div class="cb twrap"><table class="tbl">
+      <thead><tr><th>Cargo</th><th class="num">N</th><th class="num ac">Baseline</th><th class="num nc">Variável</th><th class="num">Total</th><th class="num">% Pool</th><th class="num">% LB</th></tr></thead>
+      <tbody>${cgs.map(([l,ne])=>{const bl=ne.reduce((s,e)=>s+bonFor(e,at,d).bl,0),v=ne.reduce((s,e)=>s+bonFor(e,at,d).v,0),p=bl+v,plb=lb?p/lb:0;return`<tr>
+        <td>${cgTag(l)}</td><td class="num">${ne.length}</td>
+        <td class="num">${R(bl)}</td><td class="num nc">${R(v)}</td><td class="num" style="font-weight:700">${R(p)}</td>
+        <td class="num">${P1(pool?p/pool:0)}</td><td class="num" style="color:${sem(plb)}">${P2(plb)}</td></tr>`;}).join('')}
+        <tr class="tr-tot"><td>TOTAL</td><td class="num">${nb}</td><td class="num">${R(totBl)}</td><td class="num nc">${R(totV)}</td><td class="num">${R(pool)}</td><td class="num">100%</td><td class="num">${P2(lb?pool/lb:0)}</td></tr>
+      </tbody></table></div></div>
+    <div class="card"><div class="ch"><span class="ct">Sensibilidade</span></div><div class="cb twrap"><table class="tbl">
+      <thead><tr><th>Ating.</th><th class="num">Pool</th><th class="num ac">Baseline</th><th class="num nc">Variável</th><th class="num">Pool/LB</th><th class="num">Bônus Médio</th></tr></thead>
+      <tbody>${SENS.map(sc=>{const bl2=es.reduce((s,e)=>s+bonFor(e,sc,d).bl,0),v2=es.reduce((s,e)=>s+bonFor(e,sc,d).v,0),p2=bl2+v2;return`<tr${sc===100?' class="sens-hl"':''}><td><strong>${sc}%</strong></td>
+        <td class="num" style="font-weight:700">${R(p2)}</td><td class="num">${R(bl2)}</td><td class="num nc">${R(v2)}</td>
+        <td class="num">${P2(lb?p2/lb:0)}</td><td class="num">${nb?R(p2/nb):'—'}</td></tr>`;}).join('')}
+      </tbody></table></div></div>
+  </div>
+  <div class="g3 mb4">
+    <div class="card" style="grid-column:span 2"><div class="ch"><span class="ct">Cascata por Cargo</span></div><div class="cb"><div class="cbox"><canvas id="ch-wf-${id}"></canvas></div></div></div>
+    <div class="card"><div class="ch"><span class="ct">Fim vs Meio</span></div><div class="cb"><div class="cbox"><canvas id="ch-fm-${id}"></canvas></div></div></div>
+  </div>
+  <div class="card mb4"><div class="ch"><span class="ct">Sensibilidade — gráfico</span></div><div class="cb"><div class="cbox"><canvas id="ch-sens-${id}"></canvas></div></div></div>
+  <div class="card"><div class="ch"><span class="ct">Pessoas — ${bu}</span></div><div class="cb twrap"><table class="tbl">
+    <thead><tr><th>Nome</th><th>Cargo</th><th>Tipo</th><th class="num">Salário</th><th class="num ac">Baseline</th><th class="num nc">Variável</th><th class="num">Total</th><th class="num">Máximo</th></tr></thead>
+    <tbody>${[...es].sort((a,b)=>(COR[a.cg]??9)-(COR[b.cg]??9)).map(e=>{const b=bonFor(e,at,d),bm=bonFor(e,c.teto,d);return`<tr>
+      <td style="font-weight:500;white-space:nowrap">${e.n}</td><td>${cgTag(e.cg)}</td>
+      <td><span class="pill p${e.ta==='Fim'?'f':'m'}">${e.ta}</span></td>
+      <td class="num">${R(e.sal)}</td><td class="num">${R(b.bl)}</td><td class="num nc">${R(b.v)}</td>
+      <td class="num" style="font-weight:700;color:${col}">${R(b.tot)}</td>
+      <td class="num tip">${R(bm.tot)}</td></tr>`;}).join('')}
+    </tbody></table></div></div>`;
 }
 
+// ─── PLANILHA ───
+function tPl(){
+  const d=D(),lbl=MDL==='novo'?'Novo':'Antigo';
+  let es=[...d.employees];
+  if(srt.col){es.sort((a,b)=>{let va=a[srt.col],vb=b[srt.col];return typeof va==='number'?(va-vb)*srt.dir:String(va).localeCompare(String(vb))*srt.dir;});}
+  const fl=d.employees.reduce((s,e)=>s+e.sal,0);
+  const atM={};BUS.forEach(bu=>atM[bu]=atFor(bu,d));
+  const cols=[{k:'n',l:'Nome'},{k:'bu',l:'BU'},{k:'ar',l:'Área'},{k:'cg',l:'Cargo'},{k:'ta',l:'Tipo'},{k:'sal',l:'Salário'}];
+  return`<div class="flex fac fjb mb3">
+    <div><div class="ptitle">Planilha — Modelo ${lbl}</div><div class="tip mt2">${d.employees.length} pessoas · Folha: ${R(fl)}/mês</div></div>
+    <button class="btn btn-dk" id="add-e">+ Pessoa</button>
+  </div>
+  <div class="card"><div class="twrap"><table class="tbl"><thead><tr>
+    ${cols.map(c=>`<th data-sort="${c.k}" class="${srt.col===c.k?'srt':''}">${c.l}${srt.col===c.k?(srt.dir===1?' ↑':' ↓'):''}</th>`).join('')}
+    <th class="num ac">Baseline</th><th class="num nc">Variável</th><th class="num">Total</th><th></th>
+  </tr></thead><tbody>
+    ${es.map(e=>{const b=bonFor(e,atM[e.bu],d);return`<tr>
+      <td><input type="text" value="${e.n.replace(/"/g,'&quot;')}" data-id="${e.id}" data-f="n" class="ei" style="min-width:150px"></td>
+      <td><select data-id="${e.id}" data-f="bu" class="ei">${BUS.map(b2=>`<option${e.bu===b2?' selected':''}>${b2}</option>`).join('')}</select></td>
+      <td><input type="text" value="${e.ar}" data-id="${e.id}" data-f="ar" class="ei" style="min-width:90px"></td>
+      <td><select data-id="${e.id}" data-f="cg" class="ei">${CARGOS.map(c2=>`<option${e.cg===c2?' selected':''}>${c2}</option>`).join('')}</select></td>
+      <td><select data-id="${e.id}" data-f="ta" class="ei" style="width:65px"><option${e.ta==='Fim'?' selected':''}>Fim</option><option${e.ta==='Meio'?' selected':''}>Meio</option></select></td>
+      <td><input type="number" value="${e.sal}" data-id="${e.id}" data-f="sal" class="ei" style="width:90px"></td>
+      <td class="num">${R(b.bl)}</td><td class="num nc">${R(b.v)}</td><td class="num" style="font-weight:700">${R(b.tot)}</td>
+      <td><button class="btn-x dx" data-id="${e.id}">✕</button></td></tr>`;}).join('')}
+  </tbody></table></div></div>
+  <div class="g4">
+    ${BUS.map(bu=>{const be=bbu(bu,d),sl=be.reduce((s,e)=>s+e.sal,0);return`<div class="kpi">
+      <div class="kl">${bu}</div><div class="kv" style="color:${BUC[bu]}">${be.length} pessoas</div>
+      <div class="ks">Folha: ${R(sl)}/mês</div></div>`;}).join('')}
+  </div>`;
+}
+
+// ─── COMPARATIVO ───
 function tCmp(){
-  const aa=S.ating.ant,au=S.ating.atu;
-  const pa=poolAnt(aa),pu=poolAtu(au),bla=blAnt(aa),vra=vrAnt(aa);
-  const rra=recR(aa),lra=lbR(aa),rru=recR(au),lru=lbR(au);
-  const diff=pu-pa,n=S.employees.length;
-  const cgsAct=CG.filter(cg=>S.employees.some(e=>e.cg===cg));
-  let h='<div class="ptitle mb3">Comparacao de Modelos</div>';
-  h+='<div class="g4 mb4">';
-  h+=kpi('Pool Anterior',Rk(pa),P2(pa/rra)+' rec | '+P2(pa/lra)+' LB','#7C3AED');
-  h+=kpi('Pool Atual',Rk(pu),P2(pu/rru)+' rec | '+P2(pu/lru)+' LB','#059669');
-  h+=kpi('Diferenca (Atu-Ant)',Rk(Math.abs(diff)),(diff>=0?'Atual maior':'Anterior maior'),diff>=0?'#059669':'#7C3AED');
-  h+=kpi('Impacto Medio por Pessoa',R(Math.abs(diff)/n),'','#EA580C');
-  h+='</div>';
-  h+='<div class="card mb4"><div class="ch"><span class="ct">Pool por BU — Anterior vs Atual</span></div><div class="cb"><div class="cbox"><canvas id="ch-cmp"></canvas></div></div></div>';
-  // Tabela por BU
-  h+='<div class="card mb4"><div class="ch"><span class="ct">Por BU e Cargo — Comparacao Completa</span></div><div class="cb twrap"><table class="tbl">';
-  h+='<thead><tr><th>BU / Cargo</th><th class="num">N</th>';
-  h+='<th class="num" style="color:#7C3AED">Ant BL</th><th class="num" style="color:#A78BFA">Ant Var</th><th class="num" style="color:#7C3AED">Ant Total</th>';
-  h+='<th class="num" style="color:#059669">Atual</th><th class="num">Delta</th>';
-  h+='<th class="num">Ant %Rec</th><th class="num">Atu %Rec</th><th class="num">Ant %LB</th><th class="num">Atu %LB</th></tr></thead><tbody>';
-  BUS.forEach(bu=>{
-    const esbu=S.employees.filter(e=>e.bu===bu);
-    const cgsbu=[...new Set(esbu.map(e=>e.cg))].sort((a,b)=>(COR_CG[a]||9)-(COR_CG[b]||9));
-    const bBL=esbu.reduce((s,e)=>s+bonAnt(e,aa).bl,0);
-    const bVR=esbu.reduce((s,e)=>s+bonAnt(e,aa).vr,0);
-    const bTA=bBL+bVR,bTU=esbu.reduce((s,e)=>s+bonAtu(e,au),0),bD=bTU-bTA;
-    const col=BUC[bu];
-    h+='<tr style="background:#f9f9f6"><td style="font-weight:700;color:'+col+'">'+bu+'</td><td class="num">'+esbu.length+'</td>';
-    h+='<td class="num" style="font-weight:700;color:#7C3AED">'+R(bBL)+'</td><td class="num" style="font-weight:700;color:#A78BFA">'+R(bVR)+'</td>';
-    h+='<td class="num" style="font-weight:700;color:#7C3AED">'+R(bTA)+'</td>';
-    h+='<td class="num" style="font-weight:700;color:#059669">'+R(bTU)+'</td>';
-    h+='<td class="num" style="font-weight:700;color:'+(bD>=0?'#059669':'#DC2626')+'">'+(bD>=0?'+':'')+R(bD)+'</td>';
-    h+='<td class="num">'+P2(bTA/rra)+'</td><td class="num">'+P2(bTU/rru)+'</td>';
-    h+='<td class="num">'+P2(bTA/lra)+'</td><td class="num">'+P2(bTU/lru)+'</td></tr>';
-    cgsbu.forEach(cg=>{
-      const es=esbu.filter(e=>e.cg===cg);
-      const bl=es.reduce((s,e)=>s+bonAnt(e,aa).bl,0);
-      const vr=es.reduce((s,e)=>s+bonAnt(e,aa).vr,0);
-      const ta=bl+vr,tu=es.reduce((s,e)=>s+bonAtu(e,au),0),d=tu-ta;
-      h+='<tr class="tr-sub"><td style="padding-left:20px">'+cgLbl(cg)+'</td><td class="num">'+es.length+'</td>';
-      h+='<td class="num">'+R(bl)+'</td><td class="num">'+R(vr)+'</td><td class="num">'+R(ta)+'</td>';
-      h+='<td class="num">'+R(tu)+'</td>';
-      h+='<td class="num" style="color:'+(d>=0?'#059669':'#DC2626')+'">'+(d>=0?'+':'')+R(d)+'</td>';
-      h+='<td class="num">'+P2(ta/rra)+'</td><td class="num">'+P2(tu/rru)+'</td>';
-      h+='<td class="num">'+P2(ta/lra)+'</td><td class="num">'+P2(tu/lru)+'</td></tr>';
-    });
-  });
-  h+='<tr class="tr-tot"><td>TOTAL</td><td class="num">'+n+'</td>';
-  h+='<td class="num" style="color:#7C3AED">'+R(bla)+'</td><td class="num" style="color:#A78BFA">'+R(vra)+'</td>';
-  h+='<td class="num" style="font-weight:700;color:#7C3AED">'+R(pa)+'</td>';
-  h+='<td class="num" style="font-weight:700;color:#059669">'+R(pu)+'</td>';
-  h+='<td class="num" style="font-weight:700;color:'+(diff>=0?'#059669':'#DC2626')+'">'+(diff>=0?'+':'')+R(diff)+'</td>';
-  h+='<td class="num">'+P2(pa/rra)+'</td><td class="num">'+P2(pu/rru)+'</td>';
-  h+='<td class="num">'+P2(pa/lra)+'</td><td class="num">'+P2(pu/lru)+'</td></tr>';
-  h+='</tbody></table></div></div>';
-  // Por pessoa
-  h+='<div class="card"><div class="ch"><span class="ct">Por Pessoa — Comparativo Individual</span></div><div class="cb twrap"><table class="tbl">';
-  h+='<thead><tr><th>Nome</th><th>BU</th><th>Cargo</th>';
-  h+='<th class="num" style="color:#7C3AED">Ant BL</th><th class="num" style="color:#A78BFA">Ant Var</th><th class="num" style="color:#7C3AED">Ant Total</th>';
-  h+='<th class="num" style="color:#059669">Atual</th><th class="num">Delta</th></tr></thead><tbody>';
-  [...S.employees].sort((a,b)=>(COR_CG[a.cg]||9)-(COR_CG[b.cg]||9)).forEach(e=>{
-    const ba=bonAnt(e,aa),bu2=bonAtu(e,au),d=bu2-ba.tot;
-    h+='<tr><td style="font-weight:500">'+e.n+'</td><td style="color:'+BUC[e.bu]+';font-weight:600">'+e.bu+'</td><td>'+cgLbl(e.cg)+'</td>';
-    h+='<td class="num" style="color:#7C3AED">'+R(ba.bl)+'</td><td class="num" style="color:#A78BFA">'+R(ba.vr)+'</td>';
-    h+='<td class="num" style="font-weight:600;color:#7C3AED">'+R(ba.tot)+'</td>';
-    h+='<td class="num" style="font-weight:600;color:#059669">'+R(bu2)+'</td>';
-    h+='<td class="num" style="font-weight:700;color:'+(d>=0?'#059669':'#DC2626')+'">'+(d>=0?'+':'')+R(d)+'</td></tr>';
-  });
-  h+='</tbody></table></div></div>';
-  return h;
+  const dn=S.novo,da=S.antigo;
+  const atN={},atA={};
+  BUS.forEach(bu=>{atN[bu]=atFor(bu,dn);atA[bu]=atFor(bu,da);});
+  const poolN=poolAll(undefined,dn),poolA=poolAll(undefined,da),dPool=poolN-poolA,dPct=poolA?dPool/poolA:0;
+  const blN=dn.employees.reduce((s,e)=>s+bonFor(e,atN[e.bu],dn).bl,0),vN=dn.employees.reduce((s,e)=>s+bonFor(e,atN[e.bu],dn).v,0);
+  const blA=da.employees.reduce((s,e)=>s+bonFor(e,atA[e.bu],da).bl,0),vA=da.employees.reduce((s,e)=>s+bonFor(e,atA[e.bu],da).v,0);
+  const lbN=totLbReal(dn),lbA=totLbReal(da),recN=totRecReal(dn),recA=totRecReal(da);
+  const nN=dn.employees.length,nA=da.employees.length;
+  // Match por id
+  const empA={};da.employees.forEach(e=>empA[e.id]=e);
+  const paired=dn.employees.map(e=>{const ea=empA[e.id];if(!ea)return null;return{...e,bn:bonFor(e,atN[e.bu],dn),ba:bonFor(ea,atA[ea.bu],da),delta:bonFor(e,atN[e.bu],dn).tot-bonFor(ea,atA[ea.bu],da).tot};}).filter(Boolean);
+
+  return`<div class="ptitle mb4">⚖️ Comparativo — Modelo Antigo × Modelo Novo</div>
+
+  <!-- KPIs -->
+  <div class="g6 mb4">
+    <div class="kpi"><div class="kl">Pool — Antigo</div><div class="kv ac">${Rk(poolA)}</div><div class="ks">${P2(lbA?poolA/lbA:0)} do LB</div></div>
+    <div class="kpi"><div class="kl">Pool — Novo</div><div class="kv nc">${Rk(poolN)}</div><div class="ks">${P2(lbN?poolN/lbN:0)} do LB</div></div>
+    <div class="kpi"><div class="kl">Δ Pool Total</div><div class="kv ${dPool>=0?'dp':'dn'}">${dPool>=0?'+':''}${Rk(dPool)}</div><div class="ks">${dP(dPct)} variação</div></div>
+    <div class="kpi"><div class="kl">Baseline Ant. / Nov.</div><div class="kv">${Rk(blA)}</div><div class="ks">${Rk(blN)} novo</div></div>
+    <div class="kpi"><div class="kl">Variável Ant. / Nov.</div><div class="kv nc">${Rk(vA)}</div><div class="ks">${Rk(vN)} novo</div></div>
+    <div class="kpi"><div class="kl">Δ Bônus Médio</div><div class="kv ${dPool>=0?'dp':'dn'}">${nN&&nA?dR((poolN/nN)-(poolA/nA)):'-'}</div><div class="ks">por elegível</div></div>
+  </div>
+
+  <!-- Charts -->
+  <div class="g3 mb4">
+    <div class="card" style="grid-column:span 2"><div class="ch"><span class="ct">Sensibilidade — Pool × Atingimento</span></div><div class="cb"><div class="cbox"><canvas id="ch-cmp-sens"></canvas></div></div></div>
+    <div class="card"><div class="ch"><span class="ct">Baseline vs Variável</span></div><div class="cb"><div class="cbox"><canvas id="ch-cmp-blv"></canvas></div></div></div>
+  </div>
+
+  <!-- Por BU -->
+  <div class="card mb4"><div class="ch"><span class="ct">Por BU — Antigo vs Novo</span></div>
+    <div class="cb"><div class="cbox-sm mb3"><canvas id="ch-cmp-bu"></canvas></div>
+    <div class="twrap"><table class="tbl">
+      <thead><tr><th>BU</th><th class="num">N</th>
+        <th class="num ac">Bl. Ant.</th><th class="num ac">Var. Ant.</th><th class="num ac">Pool Ant.</th>
+        <th class="num nc">Bl. Nov.</th><th class="num nc">Var. Nov.</th><th class="num nc">Pool Nov.</th>
+        <th class="num">Δ Pool</th><th class="num">Δ %</th><th class="num">Pool/LB Ant.</th><th class="num">Pool/LB Nov.</th></tr></thead>
+      <tbody>${BUS.map(bu=>{
+        const eA=da.employees.filter(e=>e.bu===bu),eN=dn.employees.filter(e=>e.bu===bu);
+        const bA2=eA.reduce((s,e)=>s+bonFor(e,atA[bu],da).bl,0),vA2=eA.reduce((s,e)=>s+bonFor(e,atA[bu],da).v,0),pA2=bA2+vA2;
+        const bN2=eN.reduce((s,e)=>s+bonFor(e,atN[bu],dn).bl,0),vN2=eN.reduce((s,e)=>s+bonFor(e,atN[bu],dn).v,0),pN2=bN2+vN2;
+        const d2=pN2-pA2,dp2=pA2?d2/pA2:0,lbA2=lbReal(bu,da),lbN2=lbReal(bu,dn);
+        return`<tr><td>${buT(bu)}</td><td class="num">${eN.length}</td>
+          <td class="num">${R(bA2)}</td><td class="num">${R(vA2)}</td><td class="num ac">${R(pA2)}</td>
+          <td class="num">${R(bN2)}</td><td class="num">${R(vN2)}</td><td class="num nc">${R(pN2)}</td>
+          <td class="num">${dR(d2)}</td><td class="num">${dP(dp2)}</td>
+          <td class="num">${lbA2?P2(pA2/lbA2):'—'}</td><td class="num">${lbN2?P2(pN2/lbN2):'—'}</td></tr>`;}).join('')}
+        <tr class="tr-tot"><td>GRUPO</td><td class="num">${nN}</td>
+          <td class="num">${R(blA)}</td><td class="num">${R(vA)}</td><td class="num ac">${R(poolA)}</td>
+          <td class="num">${R(blN)}</td><td class="num">${R(vN)}</td><td class="num nc">${R(poolN)}</td>
+          <td class="num">${dR(dPool)}</td><td class="num">${dP(dPct)}</td>
+          <td class="num">${lbA?P2(poolA/lbA):'—'}</td><td class="num">${lbN?P2(poolN/lbN):'—'}</td></tr>
+      </tbody></table></div></div></div>
+
+  <!-- Por Cargo global -->
+  <div class="card mb4"><div class="ch"><span class="ct">Por Cargo — Grupo Total</span></div><div class="cb twrap"><table class="tbl">
+    <thead><tr><th>Cargo</th><th class="num">N</th>
+      <th class="num ac">Bl. Ant.</th><th class="num ac">Var. Ant.</th><th class="num ac">Pool Ant.</th>
+      <th class="num nc">Bl. Nov.</th><th class="num nc">Var. Nov.</th><th class="num nc">Pool Nov.</th>
+      <th class="num">Δ Pool</th><th class="num">Méd. Ant.</th><th class="num">Méd. Nov.</th><th class="num">Δ Méd.</th></tr></thead>
+    <tbody>${CARGOS.map(cg=>{
+      const eA=da.employees.filter(e=>e.cg===cg),eN=dn.employees.filter(e=>e.cg===cg);
+      if(!eN.length&&!eA.length)return'';
+      const bA2=eA.reduce((s,e)=>s+bonFor(e,atA[e.bu],da).bl,0),vA2=eA.reduce((s,e)=>s+bonFor(e,atA[e.bu],da).v,0),pA2=bA2+vA2;
+      const bN2=eN.reduce((s,e)=>s+bonFor(e,atN[e.bu],dn).bl,0),vN2=eN.reduce((s,e)=>s+bonFor(e,atN[e.bu],dn).v,0),pN2=bN2+vN2;
+      const mA=eA.length?pA2/eA.length:0,mN=eN.length?pN2/eN.length:0;
+      return`<tr><td>${cgTag(cg)}</td><td class="num">${eN.length}</td>
+        <td class="num">${R(bA2)}</td><td class="num">${R(vA2)}</td><td class="num ac">${R(pA2)}</td>
+        <td class="num">${R(bN2)}</td><td class="num">${R(vN2)}</td><td class="num nc">${R(pN2)}</td>
+        <td class="num">${dR(pN2-pA2)}</td><td class="num">${R(mA)}</td><td class="num">${R(mN)}</td><td class="num">${dR(mN-mA)}</td></tr>`;}).join('')}
+      <tr class="tr-tot"><td>TOTAL</td><td class="num">${nN}</td>
+        <td class="num">${R(blA)}</td><td class="num">${R(vA)}</td><td class="num ac">${R(poolA)}</td>
+        <td class="num">${R(blN)}</td><td class="num">${R(vN)}</td><td class="num nc">${R(poolN)}</td>
+        <td class="num">${dR(dPool)}</td><td class="num">${nA?R(poolA/nA):'—'}</td><td class="num">${nN?R(poolN/nN):'—'}</td><td class="num">${nN&&nA?dR((poolN/nN)-(poolA/nA)):'-'}</td></tr>
+    </tbody></table></div></div>
+
+  <!-- Por Cargo x BU -->
+  <div class="card mb4"><div class="ch"><span class="ct">Cargo × BU — Delta Antigo → Novo (Pool total)</span></div><div class="cb twrap"><table class="tbl">
+    <thead><tr><th>Cargo</th>${BUS.map(bu=>`<th class="num" style="color:${BUC[bu]}">${bu}</th>`).join('')}</tr></thead>
+    <tbody>${CARGOS.map(cg=>{
+      const cells=BUS.map(bu=>{
+        const eA=da.employees.filter(e=>e.bu===bu&&e.cg===cg),eN=dn.employees.filter(e=>e.bu===bu&&e.cg===cg);
+        if(!eN.length&&!eA.length)return'<td class="num tip">—</td>';
+        const pA2=eA.reduce((s,e)=>s+bonFor(e,atA[bu],da).tot,0),pN2=eN.reduce((s,e)=>s+bonFor(e,atN[bu],dn).tot,0);
+        return`<td class="num" style="font-size:11px"><span class="ac">${R(pA2)}</span><br><span class="nc">${R(pN2)}</span><br>${dR(pN2-pA2)}</td>`;
+      });
+      if(cells.every(c=>c.includes('tip')))return'';
+      return`<tr><td>${cgTag(cg)}</td>${cells.join('')}</tr>`;}).join('')}
+    </tbody></table></div></div>
+
+  <!-- Fim vs Meio -->
+  <div class="card mb4"><div class="ch"><span class="ct">Fim vs Meio — Antigo vs Novo</span></div><div class="cb twrap"><table class="tbl">
+    <thead><tr><th>Tipo</th><th class="num">N</th><th class="num ac">Pool Ant.</th><th class="num nc">Pool Nov.</th><th class="num">Δ Pool</th><th class="num">Méd. Ant.</th><th class="num">Méd. Nov.</th><th class="num">Δ Méd.</th></tr></thead>
+    <tbody>${['Fim','Meio'].map(ta=>{
+      const eA=da.employees.filter(e=>e.ta===ta),eN=dn.employees.filter(e=>e.ta===ta);
+      const pA2=eA.reduce((s,e)=>s+bonFor(e,atA[e.bu],da).tot,0),pN2=eN.reduce((s,e)=>s+bonFor(e,atN[e.bu],dn).tot,0);
+      const mA=eA.length?pA2/eA.length:0,mN=eN.length?pN2/eN.length:0;
+      return`<tr><td><span class="pill p${ta==='Fim'?'f':'m'}">${ta}</span></td>
+        <td class="num">${eN.length}</td><td class="num ac">${R(pA2)}</td><td class="num nc">${R(pN2)}</td>
+        <td class="num">${dR(pN2-pA2)}</td><td class="num">${R(mA)}</td><td class="num">${R(mN)}</td><td class="num">${dR(mN-mA)}</td></tr>`;}).join('')}
+    </tbody></table></div></div>
+
+  <!-- Pessoa a Pessoa -->
+  <div class="card"><div class="ch"><span class="ct">Pessoa a Pessoa — ${paired.length} elegíveis em ambos</span>
+    <span class="tip">Ordenado por maior impacto absoluto</span></div>
+    <div class="cb twrap"><table class="tbl">
+      <thead><tr><th>Nome</th><th>BU</th><th>Cargo</th><th>Tipo</th><th class="num">Salário</th>
+        <th class="num ac">Bl. Ant.</th><th class="num ac">Var. Ant.</th><th class="num ac">Total Ant.</th>
+        <th class="num nc">Bl. Nov.</th><th class="num nc">Var. Nov.</th><th class="num nc">Total Nov.</th>
+        <th class="num">Δ R$</th><th class="num">Δ %</th></tr></thead>
+      <tbody>${[...paired].sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).map(e=>{const dp=e.ba.tot?e.delta/e.ba.tot:0;return`<tr>
+        <td style="white-space:nowrap;font-weight:500">${e.n}</td>
+        <td>${buT(e.bu)}</td><td>${cgTag(e.cg)}</td>
+        <td><span class="pill p${e.ta==='Fim'?'f':'m'}">${e.ta}</span></td>
+        <td class="num">${R(e.sal)}</td>
+        <td class="num">${R(e.ba.bl)}</td><td class="num">${R(e.ba.v)}</td><td class="num ac">${R(e.ba.tot)}</td>
+        <td class="num">${R(e.bn.bl)}</td><td class="num">${R(e.bn.v)}</td><td class="num nc">${R(e.bn.tot)}</td>
+        <td class="num">${dR(e.delta)}</td><td class="num">${dP(dp)}</td></tr>`;}).join('')}
+      </tbody></table></div></div>`;
 }
 
-function tSen(){
-  let h='<div class="ptitle mb3">Sensibilidade — Ambos os Modelos</div>';
-  h+='<div class="card mb4"><div class="ch"><span class="ct">Pool x Atingimento</span></div><div class="cb"><div class="cbox" style="height:320px"><canvas id="ch-sen"></canvas></div></div></div>';
-  h+='<div class="card"><div class="ch"><span class="ct">Tabela de Sensibilidade</span></div><div class="cb twrap"><table class="tbl">';
-  h+='<thead><tr><th>Ating</th>';
-  h+='<th class="num" style="color:#7C3AED">Ant Total</th><th class="num" style="color:#7C3AED">Ant BL</th><th class="num" style="color:#A78BFA">Ant Var</th>';
-  h+='<th class="num" style="color:#059669">Atual</th><th class="num">Delta</th>';
-  h+='<th class="num">Ant %Rec</th><th class="num">Atu %Rec</th><th class="num">Ant %LB</th><th class="num">Atu %LB</th></tr></thead><tbody>';
-  SENS.forEach(sc=>{
-    const pa2=poolAnt(sc),bl2=blAnt(sc),vr2=vrAnt(sc),pu2=poolAtu(sc);
-    const rr=recR(sc),lr=lbR(sc),d=pu2-pa2;
-    h+='<tr'+(sc===100?' class="hi"':'')+'>'+
-      '<td><strong>'+sc+'%</strong></td>'+
-      '<td class="num" style="font-weight:700;color:#7C3AED">'+R(pa2)+'</td>'+
-      '<td class="num" style="color:#7C3AED">'+R(bl2)+'</td>'+
-      '<td class="num" style="color:#A78BFA">'+R(vr2)+'</td>'+
-      '<td class="num" style="font-weight:700;color:#059669">'+R(pu2)+'</td>'+
-      '<td class="num" style="font-weight:700;color:'+(d>=0?'#059669':'#DC2626')+'">'+(d>=0?'+':'')+R(d)+'</td>'+
-      '<td class="num">'+P2(pa2/rr)+'</td><td class="num">'+P2(pu2/rr)+'</td>'+
-      '<td class="num">'+P2(pa2/lr)+'</td><td class="num">'+P2(pu2/lr)+'</td></tr>';
-  });
-  h+='</tbody></table></div></div>';
-  return h;
+// ─── SUPABASE ───
+const SU='https://yalkxizeieqiuqekwzlr.supabase.co';
+const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhbGt4aXplaWVxaXVxZWt3emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NjY0MjIsImV4cCI6MjA4OTM0MjQyMn0.klPiWay1tme0v3DbsU6_mpWkwrYv_7hjeqYN3_26waw';
+
+async function supaUpsert(id,data){
+  const r=await fetch(`${SU}/rest/v1/rv_state`,{method:'POST',
+    headers:{'apikey':SK,'Authorization':`Bearer ${SK}`,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},
+    body:JSON.stringify({id,data,updated_at:new Date().toISOString()})});
+  if(!r.ok)throw new Error(await r.text());
+}
+async function supaFetch(id){
+  const r=await fetch(`${SU}/rest/v1/rv_state?id=eq.${id}&select=data,updated_at`,{headers:{'apikey':SK,'Authorization':`Bearer ${SK}`}});
+  const rows=await r.json();return rows&&rows.length?rows[0]:null;
 }
 
+async function saveState(manual){
+  let ok=false;
+  try{
+    await supaUpsert('novo',{employees:S.novo.employees,multCfg:S.novo.multCfg,cfg:S.novo.cfg,nid:S.novo.nid});
+    await supaUpsert('antigo',{employees:S.antigo.employees,multCfg:S.antigo.multCfg,cfg:S.antigo.cfg,nid:S.antigo.nid});
+    ok=true;
+  }catch(e){console.warn('save err',e);}
+  const el=document.getElementById('save-status');
+  if(el){el.textContent=ok?`✓ Salvo ${new Date().toLocaleTimeString('pt-BR')}`:'⚠ Erro';el.style.color=ok?'#4ade80':'#f87171';el.style.opacity='1';if(!manual)setTimeout(()=>{el.style.opacity='0';},2500);}
+}
+
+async function loadState(){
+  try{
+    const [rN,rA,rM]=await Promise.all([supaFetch('novo'),supaFetch('antigo'),supaFetch('main')]);
+    // Novo
+    if(rN&&rN.data){const d=rN.data;if(d.employees)S.novo.employees=d.employees;if(d.multCfg)S.novo.multCfg=d.multCfg;if(d.cfg)S.novo.cfg=d.cfg;if(d.nid)S.novo.nid=d.nid;}
+    else if(rM&&rM.data){// seed do main
+      const d=rM.data;if(d.employees)S.novo.employees=dc(d.employees);
+      if(d.cfg)BUS.forEach(bu=>{if(d.cfg[bu]){S.novo.cfg[bu].rec=d.cfg[bu].rec;S.novo.cfg[bu].lb=d.cfg[bu].lb;}});
+    }
+    // Antigo
+    if(rA&&rA.data){const d=rA.data;if(d.employees)S.antigo.employees=d.employees;if(d.multCfg)S.antigo.multCfg=d.multCfg;if(d.cfg)S.antigo.cfg=d.cfg;if(d.nid)S.antigo.nid=d.nid;}
+    else if(rM&&rM.data){// seed do main
+      const d=rM.data;if(d.employees)S.antigo.employees=dc(d.employees);
+      if(d.cfg)BUS.forEach(bu=>{if(d.cfg[bu]){S.antigo.cfg[bu].rec=d.cfg[bu].rec;S.antigo.cfg[bu].lb=d.cfg[bu].lb;}});
+    }
+    const el=document.getElementById('save-status');if(el){el.textContent='✓ Dados carregados';el.style.color='#4ade80';el.style.opacity='1';setTimeout(()=>{el.style.opacity='0';},4000);}
+    return true;
+  }catch(e){console.warn('load err',e);}
+  return false;
+}
+
+// ─── RENDER ───
 function render(){
-  document.getElementById('tabs').innerHTML=TABS.map(t=>'<button class="tb '+(t.c||'')+' '+(S.tab===t.id?'on':'')+'" data-tab="'+t.id+'">'+t.l+'</button>').join('');
+  document.getElementById('tabs').innerHTML=TABS.map(t=>`<button class="tb ${t.cl||''} ${S.tab===t.id?'on':''}" data-tab="${t.id}">${t.lb}</button>`).join('');
   const pg=document.getElementById('pg');
-  if(S.tab==='cfg')pg.innerHTML=tCfg();
-  else if(S.tab==='ant')pg.innerHTML=tAnt();
-  else if(S.tab==='atu')pg.innerHTML=tAtu();
+  if(S.tab==='mt')pg.innerHTML=tMt();
+  else if(S.tab==='gr')pg.innerHTML=tGr();
+  else if(BUS.includes(S.tab))pg.innerHTML=tBU(S.tab);
+  else if(S.tab==='pl')pg.innerHTML=tPl();
   else if(S.tab==='cmp')pg.innerHTML=tCmp();
-  else if(S.tab==='sen')pg.innerHTML=tSen();
-  document.getElementById('hinfo').textContent=S.employees.length+' elegiveis';
+  const d=D(),pool=poolAll(undefined,d),lbl=MDL==='novo'?'Novo':'Antigo';
+  document.getElementById('hdr-info').textContent=`Modelo ${lbl} · ${d.employees.length} elegíveis · Pool: ${R(pool)}`;
   bindEvt();
-  setTimeout(drawAll,80);
-  saveAll(false);
+  setTimeout(drawCharts,100);
+  saveState(false);
 }
 
 function bindEvt(){
   document.querySelectorAll('.tb').forEach(b=>b.addEventListener('click',()=>{S.tab=b.dataset.tab;render();}));
-  document.querySelectorAll('.cfg-inp').forEach(inp=>inp.addEventListener('change',()=>{
-    setPath(S,inp.dataset.path,+inp.value);render();
+  document.querySelectorAll('.ei').forEach(inp=>inp.addEventListener('change',()=>{
+    const id=+inp.dataset.id,f=inp.dataset.f,d=D(),e=d.employees.find(x=>x.id===id);
+    if(e)e[f]=(f==='sal')?+inp.value:inp.value;
+    render();
   }));
-  document.querySelectorAll('.cfg-chk').forEach(cb=>cb.addEventListener('change',()=>{
-    setPath(S,cb.dataset.path,cb.checked);render();
-  }));
-  document.querySelectorAll('.sal-inp').forEach(inp=>inp.addEventListener('change',()=>{
-    const e=S.employees.find(x=>x.id===+inp.dataset.id);
-    if(e)e.sal=+inp.value;render();
-  }));
+  document.querySelectorAll('.dx').forEach(b=>b.addEventListener('click',()=>{D().employees=D().employees.filter(e=>e.id!==+b.dataset.id);render();}));
+  document.querySelectorAll('.tbl th[data-sort]').forEach(th=>th.addEventListener('click',()=>{const k=th.dataset.sort;srt.col===k?srt.dir*=-1:(srt.col=k,srt.dir=1);render();}));
+  const ae=document.getElementById('add-e');
+  if(ae)ae.addEventListener('click',()=>{const d=D();d.employees.push({id:d.nid++,n:'Novo Elegível',bu:'H2Bet',ar:'',cg:'Gerente',ta:'Fim',sal:10000});render();});
 }
 
-loadAll().then(()=>render());
-</script></body></html>
+setInterval(()=>saveState(false),60000);
+loadState().then(()=>render());
+</script>
+</body>
+</html>
