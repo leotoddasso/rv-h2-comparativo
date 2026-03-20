@@ -699,7 +699,8 @@ function bindEvt(){
   document.querySelectorAll('.ei').forEach(inp=>inp.addEventListener('change',()=>{
     const id=+inp.dataset.id,f=inp.dataset.f,d=D(),e=d.employees.find(x=>x.id===id);
     if(e)e[f]=(f==='sal')?+inp.value:inp.value;
-    render();
+    if(['bu','cg','ta','sal'].includes(f))render();
+    else saveState(false);
   }));
   document.querySelectorAll('.dx').forEach(b=>b.addEventListener('click',()=>{D().employees=D().employees.filter(e=>e.id!==+b.dataset.id);render();}));
   document.querySelectorAll('.tbl th[data-sort]').forEach(th=>th.addEventListener('click',()=>{const k=th.dataset.sort;srt.col===k?srt.dir*=-1:(srt.col=k,srt.dir=1);render();}));
